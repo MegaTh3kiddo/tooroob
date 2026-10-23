@@ -267,7 +267,14 @@ class ShoppingAgentOrchestrator:
 
         # 6. Formulate grounded conversational reply
         reply = self._formulate_agent_reply(session, rec_result)
-        if self.llm_client is not None and llm_polish_enabled() and rec_result.top_recommendations:
+        has_complex_plan = bool(
+            rec_result.on_route_plan
+            or rec_result.basket_plan
+            or rec_result.personalized_comparison
+            or rec_result.shop_clusters
+            or rec_result.adapted_plan
+        )
+        if self.llm_client is not None and llm_polish_enabled() and rec_result.top_recommendations and not has_complex_plan:
             hist = [{"role": m.role, "content": m.content} for m in session.messages[-7:-1]]
             polished = llm_generate_chat_reply(
                 self.llm_client,

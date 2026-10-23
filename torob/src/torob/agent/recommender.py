@@ -645,7 +645,7 @@ class ShoppingRecommender:
             elif constraints.preferred_specs.get("device_type"):
                 query = constraints.preferred_specs["device_type"]
             else:
-                query = "سامسونگ"
+                query = ""
 
         # Clean query tokens
         query_norm = normalize_digits(normalize_persian_text(query)).replace("\u200c", " ").strip()
@@ -656,6 +656,10 @@ class ShoppingRecommender:
                 cat_filter = "لپ تاپ و نوت بوک"
             elif dev_type == "گوشی موبایل" or "گوشی" in query_norm:
                 cat_filter = "گوشی موبایل"
+
+        # If there is no query, no category filter, and no budget, we have no basis to search
+        if not query_norm and not cat_filter and not constraints.budget_max_toman:
+            return []
 
         # Check comparison in query string (e.g. "A یا B" or "مقایسه A با B")
         if " یا " in query_norm or " vs " in query_norm or ("مقایسه" in query_norm and " با " in query_norm):
