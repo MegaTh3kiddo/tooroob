@@ -1,0 +1,89 @@
+{
+  "ingestion": {
+    "time_seconds": 1.013,
+    "counts": {
+      "shops": 6476,
+      "products": 225903,
+      "offers": 331506
+    }
+  },
+  "query_latencies": {
+    "product_pk_lookup": {
+      "iterations": 200,
+      "mean_ms": 2.594,
+      "p50_ms": 2.587,
+      "p90_ms": 3.08,
+      "p95_ms": 3.212,
+      "p99_ms": 3.691,
+      "min_ms": 1.735,
+      "max_ms": 4.349,
+      "qps": 385.4
+    },
+    "offer_pk_lookup": {
+      "iterations": 200,
+      "mean_ms": 3.305,
+      "p50_ms": 3.261,
+      "p90_ms": 4.041,
+      "p95_ms": 4.316,
+      "p99_ms": 5.037,
+      "min_ms": 1.922,
+      "max_ms": 5.757,
+      "qps": 302.6
+    },
+    "shop_pk_lookup": {
+      "iterations": 200,
+      "mean_ms": 0.955,
+      "p50_ms": 0.909,
+      "p90_ms": 1.153,
+      "p95_ms": 1.229,
+      "p99_ms": 1.59,
+      "min_ms": 0.748,
+      "max_ms": 2.154,
+      "qps": 1046.6
+    },
+    "persian_search_multitoken": {
+      "iterations": 100,
+      "mean_ms": 87.624,
+      "p50_ms": 85.516,
+      "p90_ms": 96.1,
+      "p95_ms": 100.49,
+      "p99_ms": 110.066,
+      "min_ms": 80.9,
+      "max_ms": 113.697,
+      "qps": 11.4
+    },
+    "loso_peer_offers_fetch": {
+      "iterations": 100,
+      "mean_ms": 4.885,
+      "p50_ms": 4.69,
+      "p90_ms": 5.904,
+      "p95_ms": 6.655,
+      "p99_ms": 7.24,
+      "min_ms": 3.795,
+      "max_ms": 7.617,
+      "qps": 204.7
+    },
+    "price_anomaly_assessment": {
+      "iterations": 200,
+      "mean_ms": 0.01,
+      "p50_ms": 0.007,
+      "p90_ms": 0.014,
+      "p95_ms": 0.026,
+      "p99_ms": 0.034,
+      "min_ms": 0.007,
+      "max_ms": 0.064,
+      "qps": 103327.3
+    },
+    "visit_feasibility": {
+      "iterations": 100,
+      "mean_ms": 0.183,
+      "p50_ms": 0.175,
+      "p90_ms": 0.212,
+      "p95_ms": 0.217,
+      "p99_ms": 0.234,
+      "min_ms": 0.169,
+      "max_ms": 0.235,
+      "qps": 5460.0
+    }
+  }
+}

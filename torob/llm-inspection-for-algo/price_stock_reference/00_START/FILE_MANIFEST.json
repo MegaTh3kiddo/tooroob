@@ -1,0 +1,283 @@
+{
+  "bundle_version": "1.0",
+  "as_of": "2026-10-23",
+  "note": "Source raw files included; no independent truth labels or trained models. All ZIP contents integrity listed here except this manifest itself.",
+  "files": [
+    {
+      "file": "00_START/01_Executive_Summary.md",
+      "size_bytes": 6411,
+      "sha256": "6f427336d79d99f65487b064523e806097d61c86ec1f03f037506bb85cf0a432"
+    },
+    {
+      "file": "00_START/02_Assumptions_and_Glossary.md",
+      "size_bytes": 4816,
+      "sha256": "beba580c0f405f5755d286685cc186f2a7328930f771a94d357d6f47ffcfce57"
+    },
+    {
+      "file": "00_START/03_Conversation_Traceability.md",
+      "size_bytes": 7588,
+      "sha256": "3ce93c23242cac0cb826db75c2252064d045be986e174ab3a2d14964427b0d7e"
+    },
+    {
+      "file": "00_START/04_Pre_Zip_Review.md",
+      "size_bytes": 5188,
+      "sha256": "b9c25728596a41126fc5a4cd9aafd19a811b196fc48742d2331dcc5ce8250e74"
+    },
+    {
+      "file": "00_START/All_Documents_Readable.html",
+      "size_bytes": 205927,
+      "sha256": "3b42ea3c0156024cb36435ae4b106252f22bf137dd49dccd42a34d6eb0a958cd"
+    },
+    {
+      "file": "00_START/README.md",
+      "size_bytes": 6489,
+      "sha256": "573ea3c951e923a9d6afda328762edaad4949aae6386db010ec3f58b31d54f61"
+    },
+    {
+      "file": "01_PRODUCT/01_PRD.md",
+      "size_bytes": 5700,
+      "sha256": "35ca19c7a2112511d2dba2108ef4617e842a8220c8765e9637550acfdb38b9d7"
+    },
+    {
+      "file": "01_PRODUCT/02_User_Journeys.md",
+      "size_bytes": 4488,
+      "sha256": "402d7f35510c632725ff7c02163b2023fc93bc0d2cd17e9adea4165dba0e61e9"
+    },
+    {
+      "file": "01_PRODUCT/03_Verification_Scope_and_Fulfillment.md",
+      "size_bytes": 3155,
+      "sha256": "dcd10c64fe076e3e818d02c4fc2237dd3203061dece6b92270f4e68ba5113c6f"
+    },
+    {
+      "file": "02_DATA/01_Audit.md",
+      "size_bytes": 6759,
+      "sha256": "6bb1a6834677e09a167b90213e32dd3f5b2e5c954bf0fbc77ea42e62ece3fa2e"
+    },
+    {
+      "file": "02_DATA/02_Data_Dictionary.md",
+      "size_bytes": 4133,
+      "sha256": "568372cae284b54beec47e18c91a49ec9ced657bda670b1fe6de2f7f4ecfd0c8"
+    },
+    {
+      "file": "02_DATA/category_profile.csv",
+      "size_bytes": 189983,
+      "sha256": "429196e2a8903e97923b594d2f82a3245ef590e3751e8488117162dbc3666d28"
+    },
+    {
+      "file": "02_DATA/price_audit_candidates_review_only.csv",
+      "size_bytes": 4300526,
+      "sha256": "610d6bc4ce4ef59aea95a61875b13b305d6224407c73853e395d30a5aea3a6c0"
+    },
+    {
+      "file": "02_DATA/verified_audit.json",
+      "size_bytes": 5101,
+      "sha256": "fc51d389fa2539120342fb6de940dbcad6735423f8ccf5ac6f03ddaf518c2060"
+    },
+    {
+      "file": "02_DATA/verified_audit_recomputed.json",
+      "size_bytes": 548,
+      "sha256": "ca2370594ad9fb0fd66cba1d6362a8def970023348f11063629ade6b4d483fd3"
+    },
+    {
+      "file": "03_ALGORITHMS/01_Price_Validity.md",
+      "size_bytes": 6982,
+      "sha256": "7e7d8a2bcfdeed83997b7374484750b676b81674bdb49a247a0d5f1160431413"
+    },
+    {
+      "file": "03_ALGORITHMS/02_Stock_and_Arrival.md",
+      "size_bytes": 5215,
+      "sha256": "5391493e7bbc92e7519fab828fc40bad6f4f45bbe59031786ad71b62fe3aa995"
+    },
+    {
+      "file": "03_ALGORITHMS/03_Lifecycle_Regime_FX.md",
+      "size_bytes": 4465,
+      "sha256": "cd6337e87b20fd69dbbbdc85ce534c6c9845b8dcaa3650829e9156e06d9082b5"
+    },
+    {
+      "file": "03_ALGORITHMS/04_Shop_Trust.md",
+      "size_bytes": 4916,
+      "sha256": "5c0c6e16e4eabb6320930929a020c4170222554a7312c07f0e2d355261916da5"
+    },
+    {
+      "file": "03_ALGORITHMS/05_Inquiry_Policy.md",
+      "size_bytes": 5395,
+      "sha256": "ab3aa5480c305432b36139d406c13341a8775d2a3d04dfeb0bc8cd2fefd738df"
+    },
+    {
+      "file": "03_ALGORITHMS/06_ML_Evaluation.md",
+      "size_bytes": 4241,
+      "sha256": "9ef703a1ac98c3cc090e62595679b4590f775583daddae0ee58b7f91adf96ce4"
+    },
+    {
+      "file": "04_WORKFLOWS/01_Inquiry_State_Machine.md",
+      "size_bytes": 4929,
+      "sha256": "30b6c6462e64b453a42a39a4740aa753d8b7fd1be31e0b8f28786680d7e9c049"
+    },
+    {
+      "file": "04_WORKFLOWS/02_Customer_Feedback_and_Cases.md",
+      "size_bytes": 4930,
+      "sha256": "6a361c34954c01559e898faa9ed1f40495c22ae8b3315f62623c67021fd8c752"
+    },
+    {
+      "file": "04_WORKFLOWS/03_Seller_App_Experience.md",
+      "size_bytes": 3379,
+      "sha256": "08f0020211f09f756f3ee4f699413fbbb6a07b66491d11df1f6d51c26a224702"
+    },
+    {
+      "file": "04_WORKFLOWS/04_Diagram_Inquiry.mmd",
+      "size_bytes": 399,
+      "sha256": "d51d93acd5169476397fa790278e8f8fe0ff267f5763b59777f895c6e3f7745c"
+    },
+    {
+      "file": "04_WORKFLOWS/05_Diagram_Feedback.mmd",
+      "size_bytes": 432,
+      "sha256": "3c478a4ddc56daf09c6f932ab6f784c551d335ec349527e4241c29559ab74bce"
+    },
+    {
+      "file": "05_ARCHITECTURE/01_System_Architecture.md",
+      "size_bytes": 3549,
+      "sha256": "c5b6aaf16944f7753e948d36895e0f022d7612baedec60c50f3a55db028f8650"
+    },
+    {
+      "file": "05_ARCHITECTURE/02_API_and_Events.md",
+      "size_bytes": 3478,
+      "sha256": "c6cbc56995253a079c47e179fb1d5e6e18b400eb086bb598c33138b7bb0d0eb0"
+    },
+    {
+      "file": "05_ARCHITECTURE/03_Security_Privacy_Abuse.md",
+      "size_bytes": 3262,
+      "sha256": "18a9a57646d912e76703afec410ec38461888eb9b681088f9c220d4a1a27279e"
+    },
+    {
+      "file": "05_ARCHITECTURE/04_Diagram_System.mmd",
+      "size_bytes": 673,
+      "sha256": "f51b1e5fc6041277e232be8d76bc4eee672dabaffe7cfa55c23a6e5751a0f694"
+    },
+    {
+      "file": "06_QUALITY/01_Edge_Case_Register.md",
+      "size_bytes": 25601,
+      "sha256": "ea08380cf3f35f001c3f1fbd4a9d6a564e3897f428ec14f372e6da05981f77f3"
+    },
+    {
+      "file": "06_QUALITY/02_Test_Strategy.md",
+      "size_bytes": 5613,
+      "sha256": "f34395b06877519a5a303391b270acacc3e2a722d48802c517533e52f5dd28f3"
+    },
+    {
+      "file": "06_QUALITY/03_Failure_Review_and_Tradeoffs.md",
+      "size_bytes": 4070,
+      "sha256": "27851a973909570cbcd4100c1580f26ab406f7664cb9a8f2cad16ff7c93c98f4"
+    },
+    {
+      "file": "06_QUALITY/edge_case_register.csv",
+      "size_bytes": 94703,
+      "sha256": "4c2a39c1e531f92357e98c9821330d2d60f6fa127c1e059f1691aec5754d207f"
+    },
+    {
+      "file": "06_QUALITY/generate_register.py",
+      "size_bytes": 23480,
+      "sha256": "df3281838a1d88020403cc7369b3da515b8d213ad30dcec8cfc1c9023c968ee2"
+    },
+    {
+      "file": "06_QUALITY/pre_zip_qa_log.txt",
+      "size_bytes": 1799,
+      "sha256": "0c9a71514b0737e632d1de748fde0a8e58c776a84cc889380d27c59b53e0a2ea"
+    },
+    {
+      "file": "07_DELIVERY/01_Roadmap.md",
+      "size_bytes": 3719,
+      "sha256": "b9fcbd594fc5a435651133670cff6a8a3eaecfdb12bbeee17ce51288669ab39e"
+    },
+    {
+      "file": "07_DELIVERY/02_Metrics_and_Experiments.md",
+      "size_bytes": 3148,
+      "sha256": "7d8cf5da25f7127480ba4ae0a8f0804e3a8dbd6abd27ff9db41654494877eb7e"
+    },
+    {
+      "file": "07_DELIVERY/03_ADRs_and_Open_Decisions.md",
+      "size_bytes": 4681,
+      "sha256": "f8a9bda5f895e2365eabbd2b7e07f3f5fc32dd2042089f612eaf22c550c5601b"
+    },
+    {
+      "file": "08_REFERENCES/01_Source_Provenance.md",
+      "size_bytes": 3793,
+      "sha256": "d9b03747657df91e205da14b69f8a6199c024eddebd5d617c6d52efab1217c88"
+    },
+    {
+      "file": "09_EXAMPLES/01_Decision_Walkthroughs.md",
+      "size_bytes": 5919,
+      "sha256": "fc236d8612a3865820076e77b68da69bb5c277cac5d34e5bc26eb7c71acc24de"
+    },
+    {
+      "file": "10_SOURCE_DATA/README.txt",
+      "size_bytes": 715,
+      "sha256": "65b4be1918b526d35da5e01314647c8fe048401d6cc2fa5b673a5a7d4b36bd87"
+    },
+    {
+      "file": "10_SOURCE_DATA/README_from_export.txt",
+      "size_bytes": 715,
+      "sha256": "65b4be1918b526d35da5e01314647c8fe048401d6cc2fa5b673a5a7d4b36bd87"
+    },
+    {
+      "file": "10_SOURCE_DATA/READ_ME_FIRST.md",
+      "size_bytes": 1215,
+      "sha256": "3158f795f6950cadf0698a6e20e80d60996ba726c452b00f9ed67ddda8f50b4e"
+    },
+    {
+      "file": "10_SOURCE_DATA/offers.csv",
+      "size_bytes": 79945479,
+      "sha256": "664d256ed04b37cfb268d89eb605afda4a3b76179324b39d2dbaef21439f09b9"
+    },
+    {
+      "file": "10_SOURCE_DATA/price_audit_candidates.csv",
+      "size_bytes": 4300526,
+      "sha256": "610d6bc4ce4ef59aea95a61875b13b305d6224407c73853e395d30a5aea3a6c0"
+    },
+    {
+      "file": "10_SOURCE_DATA/products.csv",
+      "size_bytes": 196150238,
+      "sha256": "e4a9749529d1e032c1dc2c4e275a8793a1edd702a194cb8de9abafc0649cc9c9"
+    },
+    {
+      "file": "10_SOURCE_DATA/shops.csv",
+      "size_bytes": 9202900,
+      "sha256": "1a292d6180e2a28cd0bbec57b1bb575a440e5afcc3ec3f5af5b1e13172aebaa1"
+    },
+    {
+      "file": "11_CODE/baseline_reference.py",
+      "size_bytes": 3022,
+      "sha256": "67733c88219b8488b9084d9d46f39bba0e4bb156892afe5feb295ba87496a429"
+    },
+    {
+      "file": "11_CODE/evidence.schema.json",
+      "size_bytes": 1416,
+      "sha256": "28da19bfabba316ffcb9cb9ef5ca6d0fc8fc782490a9d0816ce8a9b2cc81c503"
+    },
+    {
+      "file": "11_CODE/reproduce_audit.py",
+      "size_bytes": 2090,
+      "sha256": "0e91851a5d64641a126c727ffa3e8c1756201b4dc0e715fd65146a0112d6e804"
+    },
+    {
+      "file": "11_CODE/sample_policy.yaml",
+      "size_bytes": 1892,
+      "sha256": "b6f172c70bb7b5e0150e11be348d78c718881a3013d5ba0fc5045cd53c8425d3"
+    },
+    {
+      "file": "11_CODE/schema.sql",
+      "size_bytes": 4778,
+      "sha256": "6e3383249180bad50a2133369697326f33350fc69df400ab0bcaf3decfee2b34"
+    },
+    {
+      "file": "11_CODE/test_baseline.py",
+      "size_bytes": 1754,
+      "sha256": "e00c2ba81f1863dc61ef85a8dafa6b856dc3bc0e45e069d98fc058f7d42cdf21"
+    },
+    {
+      "file": "11_CODE/verify_package.py",
+      "size_bytes": 3985,
+      "sha256": "0cd2d55dde8764663835cf10b763878355433ce7beecc6b35400e65dd1a371f5"
+    }
+  ],
+  "file_count_excluding_manifest": 55
+}

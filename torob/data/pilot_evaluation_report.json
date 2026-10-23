@@ -1,0 +1,484 @@
+{
+  "metadata": {
+    "evaluation_title": "Torob Intelligence Engine Independent Pilot Evaluation",
+    "timestamp_utc": "2026-10-23T17:41:51.647738+00:00",
+    "policy_version": "voi-adaptive-v2.1-hvpu-bayesian",
+    "total_scenarios": 10,
+    "passed_scenarios": 10,
+    "pass_rate_pct": 100.0,
+    "execution_duration_ms": 4225.27,
+    "verifiability_summary": {
+      "objectively_verifiable": 10,
+      "field_observation_required": 0
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "P1",
+      "scenario_name": "Exact vs Ambiguous SKU Variant Disambiguation",
+      "category": "Catalogue Matching & Ingestion",
+      "inputs": {
+        "title_256": "گوشی موبایل سامسونگ گلکسی S23 Ultra حافظه ۲۵۶ گیگابایت رم ۱۲ گیگابایت",
+        "title_512": "گوشی موبایل سامسونگ گلکسی S23 Ultra ظرفیت 512GB رم 12 گیگ",
+        "title_ambiguous": "گوشی موبایل سامسونگ Galaxy S23 Ultra"
+      },
+      "data_source": "Tehran Mobile Catalogue (DuckDB Ingested)",
+      "hard_constraints": [
+        "Prevent conflating 256GB and 512GB into a single median or false lowball"
+      ],
+      "candidate_options": [
+        "Evaluate cross-variant compatibility",
+        "Extract storage/RAM"
+      ],
+      "algorithm_policy_version": "normalizer-v2.1 + matcher-v2.0",
+      "decision": {
+        "is_compatible": false,
+        "compatibility_grade": "incompatible",
+        "extracted_attributes": {
+          "256GB_title": {
+            "color": null,
+            "storage": "256GB",
+            "ram": "12GB",
+            "condition": "new",
+            "warranty": null
+          },
+          "512GB_title": {
+            "color": null,
+            "storage": "512GB",
+            "ram": "12GB",
+            "condition": "new",
+            "warranty": null
+          },
+          "ambiguous_title": {
+            "color": null,
+            "storage": null,
+            "ram": null,
+            "condition": "new",
+            "warranty": null
+          }
+        }
+      },
+      "reasons": [
+        "Storage mismatch detected: عدم تطابق ظرفیت حافظه: 256GB در برابر 512GB",
+        "Ambiguous title correctly identified with storage=None"
+      ],
+      "uncertainty": "Epistemic uncertainty high for ambiguous title without capacity; low for explicit titles",
+      "alternatives_rejected": [
+        {
+          "alternative": "Merge offers into single price distribution",
+          "reason": "Destroys 9M Toman variant premium between 256GB and 512GB"
+        }
+      ],
+      "sensitivity_parameters": {
+        "attribute_keyword_dictionary": "COLOR_KEYWORDS, STORAGE_REGEX"
+      },
+      "evidence_provenance": "real_catalogue_with_controlled_titles",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P2",
+      "scenario_name": "Single-Seller Thin Market Protection (LOSO Guard)",
+      "category": "Price Intelligence",
+      "inputs": {
+        "offer_price_toman": 185000000.0,
+        "peer_count": 0
+      },
+      "data_source": "Specialized Electronics (DuckDB / Synthetic Offer)",
+      "hard_constraints": [
+        "Do not invent synthetic peer median when peer_count < 2",
+        "Do not divide by zero"
+      ],
+      "candidate_options": [
+        "Fabricate category average",
+        "Leave peer median as None"
+      ],
+      "algorithm_policy_version": "pricing-engine-v2.1",
+      "decision": {
+        "status": "valid_estimate",
+        "peer_median": null,
+        "risk_score": 35,
+        "evidence_quality": "limited"
+      },
+      "reasons": [
+        "تعداد همتایان هم‌تراز در بازار برای مقایسه مستقیم کافی نیست (تک‌فروشنده یا کم‌عرضه)",
+        "تاریخچه تغییر قیمت برای این پیشنهاد ثبت نشده است"
+      ],
+      "uncertainty": "Epistemic uncertainty elevated (+15 risk score) due to absence of competing peer anchors",
+      "alternatives_rejected": [
+        {
+          "alternative": "Fabricate arbitrary competitor median",
+          "reason": "Violates honest calibration and creates false deviation alerts"
+        }
+      ],
+      "sensitivity_parameters": {
+        "min_peers_for_median": 2
+      },
+      "evidence_provenance": "synthetic_fixture",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P3",
+      "scenario_name": "Volatile Market Shock Override on Stale Trusted Merchant",
+      "category": "Active Verification & Value-of-Information",
+      "inputs": {
+        "shop_trust": 0.95,
+        "offer_age_days": 28.0,
+        "market_shock_jumps": 4,
+        "travel_minutes": 25.0
+      },
+      "data_source": "Synthetic Market Shock Observation Series",
+      "hard_constraints": [
+        "Stale data during macro shock cannot rely on historical trust alone"
+      ],
+      "candidate_options": [
+        "Skip inquiry due to 95% trust",
+        "Trigger inquiry due to shock and staleness"
+      ],
+      "algorithm_policy_version": "voi-adaptive-v2.1-hvpu",
+      "decision": {
+        "action_code": "enqueue_inquiry",
+        "expected_benefit_slp": 82.39,
+        "expected_cost_slp": 13.0,
+        "net_benefit_slp": 69.39,
+        "priority": "urgent"
+      },
+      "reasons": [
+        "positive_voi_82.4",
+        "verify_price",
+        "verify_stock",
+        "تعداد همتایان هم‌تراز در بازار برای مقایسه مستقیم کافی نیست (تک‌فروشنده یا کم‌عرضه)",
+        "بازار این کالا اخیراً شوک قیمتی یا جهش‌های ناگهانی را تجربه کرده است (4 جهش)"
+      ],
+      "uncertainty": "Aleatoric volatility from macro market jump + epistemic staleness of 28 days",
+      "alternatives_rejected": [
+        {
+          "alternative": "Blind trust without verification",
+          "reason": "High probability of wasted 25-minute journey or unhonored price"
+        }
+      ],
+      "sensitivity_parameters": {
+        "anchor_price": 25000000,
+        "shock_jump_threshold": 0.1
+      },
+      "evidence_provenance": "synthetic_shock_fixture",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P4",
+      "scenario_name": "Competing Nearby Stores & Distance Detour Trade-off",
+      "category": "Multi-Criteria Decision Analysis (MCDA)",
+      "inputs": {
+        "Store_A": {
+          "price_toman": 18500000.0,
+          "travel_minutes": 3.0
+        },
+        "Store_B": {
+          "price_toman": 17800000.0,
+          "travel_minutes": 38.0
+        },
+        "user_weights": {
+          "convenience": 0.65,
+          "price": 0.35
+        }
+      },
+      "data_source": "Tehran Road Network Distance Matrix (Simulated Trip)",
+      "hard_constraints": [
+        "Provide transparent trade-off explanation of time saved vs money spent"
+      ],
+      "candidate_options": [
+        "Select Store A (fast)",
+        "Select Store B (cheaper)"
+      ],
+      "algorithm_policy_version": "mcda-selector-v2.0",
+      "decision": {
+        "recommended_store": "Store A",
+        "score_store_a": 0.7233,
+        "score_store_b": 0.3811,
+        "time_saved_minutes": 35.0,
+        "cost_premium_toman": 700000.0
+      },
+      "reasons": [
+        "Store A saves 35 minutes of traffic for a 700,000 Toman premium",
+        "Customer weighted travel convenience higher than marginal price savings"
+      ],
+      "uncertainty": "Travel times subject to real-time traffic conditions",
+      "alternatives_rejected": [
+        {
+          "alternative": "Force cheapest store regardless of distance",
+          "reason": "Incurs 38-minute congested detour for marginal 3.8% savings"
+        }
+      ],
+      "sensitivity_parameters": {
+        "w_price": 0.35,
+        "w_time": 0.65
+      },
+      "evidence_provenance": "synthetic_distance_fixture",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P5",
+      "scenario_name": "Incomplete Basket with Honest Missing-Item Accounting",
+      "category": "Basket Optimization & Combinatorial Search",
+      "inputs": {
+        "basket_queries": [
+          "کیبورد",
+          "کابل_تخصصی_ناموجود_در_بازار_xyz_99"
+        ],
+        "max_stops": 2
+      },
+      "data_source": "DuckDB Production Catalogue Ingestion",
+      "hard_constraints": [
+        "Never claim 100% basket coverage when items are missing",
+        "Do not hallucinate a store carrying nonexistent items"
+      ],
+      "candidate_options": [
+        "Return partial plan with honest missing list",
+        "Omit missing items silently"
+      ],
+      "algorithm_policy_version": "basket-optimizer-v2.1",
+      "decision": {
+        "all_items_covered": false,
+        "guarantee_status": "partial_catalog_coverage",
+        "missing_items": [
+          "کابل_تخصصی_ناموجود_در_بازار_xyz_99"
+        ],
+        "stores_count": 1
+      },
+      "reasons": [
+        "پوشش 1 قلم از 2 قلم کالا با مراجعه به «روورا نوینا» (اقلام مفقود در کل کاتالوگ فروشگاه‌ها ناموجود هستند). اقلام «کابل_تخصصی_ناموجود_در_بازار_xyz_99» در سقف توقف مشخص‌شده تامین نشدند."
+      ],
+      "uncertainty": "Catalog export limit (300 items/shop) means item could theoretically exist in physical shop unlisted",
+      "alternatives_rejected": [
+        {
+          "alternative": "Fabricate 100% complete basket",
+          "reason": "Violates truthfulness and risks customer traveling for missing item"
+        }
+      ],
+      "sensitivity_parameters": {
+        "max_stops": 2
+      },
+      "evidence_provenance": "real_catalogue_with_synthetic_missing_item",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P6",
+      "scenario_name": "Merchant Fairness: Conflicting Customer vs Merchant Evidence",
+      "category": "Evidence Lifecycle & Merchant Trust",
+      "inputs": {
+        "customer_claim": "Price mismatch (+500k Toman)",
+        "merchant_defense": "Customer bought optional accessory on separate invoice"
+      },
+      "data_source": "SQLite Evidence Ledger & Audit Journal",
+      "hard_constraints": [
+        "Unverified complaints cannot dock merchant Bayesian score",
+        "Shops cannot be excluded from search/routing without verified evidence"
+      ],
+      "candidate_options": [
+        "Immediate automatic merchant penalty",
+        "Triage under dispute review"
+      ],
+      "algorithm_policy_version": "bayesian-reliability-v2.1 + feedback-pipeline-v2.0",
+      "decision": {
+        "case_status": "triaged",
+        "case_outcome": "not_yet_determined",
+        "baseline_score": 0.75,
+        "post_complaint_score": 0.75,
+        "penalty_applied": 0.0
+      },
+      "reasons": [
+        "Case status held as TRIAGED pending third-party operator or receipt verification",
+        "Merchant explanation recorded in auditable event log without automatic dismissal"
+      ],
+      "uncertainty": "Factual truth unknown pending document/receipt audit",
+      "alternatives_rejected": [
+        {
+          "alternative": "Automatically penalize merchant upon customer report",
+          "reason": "Violates merchant procedural fairness and enables competitor sabotage"
+        }
+      ],
+      "sensitivity_parameters": {
+        "default_prior": "(3.5, 1.5)"
+      },
+      "evidence_provenance": "sqlite_ledger_real_event_stream",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P7",
+      "scenario_name": "Seller Daily Interruption Quota & Fatigue Exhaustion",
+      "category": "Merchant Operational Health",
+      "inputs": {
+        "daily_inquiries_sent": 15,
+        "max_daily_budget": 15,
+        "user_intent": "browse",
+        "item_price_toman": 150000.0
+      },
+      "data_source": "Adaptive Policy Configuration",
+      "hard_constraints": [
+        "Enforce hard daily inquiry cap of 15 per shop to prevent merchant churn"
+      ],
+      "candidate_options": [
+        "Enqueue 16th inquiry",
+        "Decline or defer inquiry"
+      ],
+      "algorithm_policy_version": "voi-adaptive-v2.1-hvpu",
+      "decision": {
+        "action_code": "decline_or_defer",
+        "selection_trigger": "daily_budget",
+        "expected_cost_slp": 50.0,
+        "reason_codes": [
+          "daily_budget_exhausted"
+        ]
+      },
+      "reasons": [
+        "Shop has reached its daily safe threshold of 15 inquiries"
+      ],
+      "uncertainty": "Merchant inventory state remains unverified",
+      "alternatives_rejected": [
+        {
+          "alternative": "Send inquiry anyway",
+          "reason": "Causes seller fatigue, increases response latency, and risks merchant opt-out"
+        }
+      ],
+      "sensitivity_parameters": {
+        "max_daily_inquiries_per_shop": 15
+      },
+      "evidence_provenance": "synthetic_policy_fixture",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P8",
+      "scenario_name": "Conversational Multi-Turn Preference Revision via Assistant API",
+      "category": "Conversational Agent & Assistant API",
+      "inputs": {
+        "turn_1": "یه لپ‌تاپ اداری میخوام",
+        "turn_2": "بودجه من سقف ۷۰ میلیون تومن هست",
+        "turn_3": "بودجه رو تا ۸۵ میلیون افزایش بده اما ترجیح میدم برند ایسوس باشه"
+      },
+      "data_source": "FastAPI Assistant REST Endpoints (/api/v1/assistant)",
+      "hard_constraints": [
+        "Preserve unchanged constraints across conversational turns",
+        "Accurately update modified constraints"
+      ],
+      "candidate_options": [
+        "Maintain stateful session",
+        "Stateless reset each turn"
+      ],
+      "algorithm_policy_version": "assistant-orchestrator-v2.0",
+      "decision": {
+        "turn_1_intent": "needs_based",
+        "turn_2_budget": 70000000.0,
+        "turn_3_budget": 85000000.0,
+        "turn_3_brand": "Asus"
+      },
+      "reasons": [
+        "Session repository stored previous turn state",
+        "Conversational parser identified brand update and budget revision"
+      ],
+      "uncertainty": "Colloquial Persian phrasing interpretation",
+      "alternatives_rejected": [
+        {
+          "alternative": "Discard session state",
+          "reason": "Forces customer to re-enter all criteria each turn"
+        }
+      ],
+      "sensitivity_parameters": {
+        "session_ttl_minutes": 60
+      },
+      "evidence_provenance": "rest_api_http_exchange",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P9",
+      "scenario_name": "Plan Invalidation & Adaptive Replanning Recovery",
+      "category": "Plan Lifecycle & Recovery",
+      "inputs": {
+        "original_plan_id": "plan_f104e8fcaa",
+        "rejected_item": "ماوس"
+      },
+      "data_source": "DuckDB Production Catalogue Ingestion",
+      "hard_constraints": [
+        "Preserve unaffected items in the shopping plan",
+        "Generate revised plan only if hard constraints remain satisfied"
+      ],
+      "candidate_options": [
+        "Differential plan repair",
+        "Full restart of multi-store search"
+      ],
+      "algorithm_policy_version": "adaptive-plan-recovery-v2.0",
+      "decision": {
+        "is_recovered": true,
+        "recovery_status": "fully_recovered",
+        "affected_items": [
+          "ماوس دل MS111 باسیم"
+        ],
+        "preservation_summary": "اقلام پایه رومیزی تی وی جک از فروشگاه‌های معتبر قبلی حفظ شدند.",
+        "changes_summary": "کالای ماوس دل MS111 باسیم از فروشگاه «آوآرا دیسیلا» به قیمت 729,000 تومان تامین شد."
+      },
+      "reasons": [
+        "🔄 برنامه خرید بازنگری شد: با توجه به عدم موجودی کالا در فروشگاه «آویسا فرسا»، کالای ماوس دل MS111 باسیم از فروشگاه «آوآرا دیسیلا» به قیمت 729,000 تومان تامین شد. اقلام پایه رومیزی تی وی جک از فروشگاه‌های معتبر قبلی حفظ شدند. مجموع هزینه جدید: 3,149,000 تومان در قالب 2 توقف فروشگاهی."
+      ],
+      "uncertainty": "Replacement store inventory subject to confirmation",
+      "alternatives_rejected": [
+        {
+          "alternative": "Discard entire plan and re-search",
+          "reason": "Wastes verified items and disrupts customer schedule"
+        }
+      ],
+      "sensitivity_parameters": {
+        "max_stops": 2
+      },
+      "evidence_provenance": "real_catalogue_with_simulated_rejection",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    },
+    {
+      "scenario_id": "P10",
+      "scenario_name": "Currency Denomination & 10x Scale Anomaly Guard",
+      "category": "Price Intelligence & Data Hygiene",
+      "inputs": {
+        "listed_price_toman": 5000000.0,
+        "market_median_toman": 50000000.0,
+        "deviation_ratio": 0.1
+      },
+      "data_source": "Synthetic Peer Cluster with 10x Factor Typo",
+      "hard_constraints": [
+        "Quarantine 10x/100x currency errors from cheapest bargain recommendations"
+      ],
+      "candidate_options": [
+        "Accept as super discount",
+        "Flag as currency mismatch suspect"
+      ],
+      "algorithm_policy_version": "pricing-engine-v2.1",
+      "decision": {
+        "status": "currency_mismatch_suspect",
+        "risk_score": 85,
+        "risk_band": "critical"
+      },
+      "reasons": [
+        "احتمال اشتباه تبدیل واحد پول (قیمت حدود یک‌دهم میانه بازار است)",
+        "تاریخچه تغییر قیمت برای این پیشنهاد ثبت نشده است"
+      ],
+      "uncertainty": "Heuristic classification without merchant confirmation",
+      "alternatives_rejected": [
+        {
+          "alternative": "Rank as top recommendation for best price",
+          "reason": "Bait-and-switch or merchant input typo will mislead customer"
+        }
+      ],
+      "sensitivity_parameters": {
+        "currency_mismatch_range": "[0.09, 0.11] and [9.0, 11.0]"
+      },
+      "evidence_provenance": "synthetic_currency_error_fixture",
+      "verification_status": "objectively_verifiable",
+      "passed": true
+    }
+  ]
+}

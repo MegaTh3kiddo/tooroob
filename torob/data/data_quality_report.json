@@ -1,0 +1,31 @@
+{
+  "audit_timestamp": "2026-10-23T06:43:04Z",
+  "execution_seconds": 1.228,
+  "dataset_counts": {
+    "shops": 6476,
+    "products": 225903,
+    "offers": 331506
+  },
+  "price_quality": {
+    "total_offers": 331506,
+    "numeric_prices": 316423,
+    "null_prices": 15083,
+    "sentinel_1_toman": 635,
+    "below_1000_toman": 1010,
+    "above_1_trillion_toman": 126,
+    "median_price_toman": 3640000.0,
+    "min_valid_price": 2.0,
+    "max_valid_price": 920000000000.0
+  },
+  "market_structure": {
+    "products_single_seller": 190649,
+    "products_multi_seller": 35254,
+    "single_seller_ratio": 0.8439
+  },
+  "timestamps": {
+    "valid_timestamps": 330737,
+    "missing_timestamps": 769,
+    "oldest_timestamp": "2020-12-03 12:21:32.129814+03:30",
+    "newest_timestamp": "2026-10-13 03:32:35.297834+03:30"
+  }
+}

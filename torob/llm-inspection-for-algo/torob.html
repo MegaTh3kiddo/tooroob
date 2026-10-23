@@ -1,0 +1,2894 @@
+<html lang="en-US" dir="rtl" class="transparentSkybridgeBackground desktopSkybridge dark" data-theme="dark" style="color-scheme: dark; --safe-area-inset-top: 0px; --safe-area-inset-bottom: 0px; --safe-area-inset-left: 0px; --safe-area-inset-right: 0px;"><head><style>@layer sandbox-defaults{html,body,#root{margin:0;padding:0}}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>مستند جامع اعتبارسنجی قیمت و موجودی</title><style>
+:root{font-family:Tahoma,'DejaVu Sans',Arial,sans-serif;color:#1d2b34;background:#f2f5f7}
+*{box-sizing:border-box} body{margin:0;direction:rtl} aside{position:fixed;top:0;right:0;bottom:0;width:300px;overflow:auto;background:#122936;color:#eef3f7;padding:24px 14px} aside h1{font-size:17px;line-height:1.8;margin:0 5px 13px} aside a{display:block;color:#eef3f7;text-decoration:none;font-size:12px;line-height:1.9;padding:8px 11px;border-radius:8px;margin-bottom:3px} aside a:hover{background:#274758} .path{display:block;color:#8bb9cf;font-size:10px;direction:ltr;text-align:right} main{margin-right:320px;max-width:1150px;padding:20px 38px 75px} section{background:white;border:1px solid #e0e6e9;border-radius:12px;padding:25px 28px;margin-bottom:24px;box-shadow:0 4px 18px #12293609} section h1{font-size:26px;line-height:1.7;color:#153345;border-bottom:2px solid #e5eff5;padding-bottom:12px}h2{font-size:20px;border-right:4px solid #267b91;padding-right:12px;margin-top:28px}h3{font-size:17px} p,li{font-size:14px;line-height:2.1} table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px}th{background:#e9f1f5}td,th{border:1px solid #dce5e9;padding:9px;line-height:1.75;text-align:right;vertical-align:top}tr:nth-child(even) td{background:#fafcfd} code,pre{font-family:Consolas,monospace;direction:ltr;text-align:left;unicode-bidi:plaintext}p code,li code{background:#f0f5f8;padding:2px 4px}pre{background:#182b36;color:#edf4f8;padding:16px;border-radius:8px;overflow:auto;font-size:12px;line-height:1.7}blockquote{border-right:3px solid #6194ab;padding:5px 15px;background:#f2f6f8}.file-path{font-family:monospace;direction:ltr;text-align:left;color:#82919b;font-size:11px}#query{padding:10px;width:100%;border:1px solid #568197;border-radius:8px;font-size:12px}.lead{border-radius:14px;padding:25px;background:#163548;color:white;margin-bottom:22px}.lead h1{font-size:26px}.lead p{color:#dcebf1}.toplink{position:fixed;left:18px;bottom:18px;border:1px solid #ddd;background:#fff;padding:10px 15px;border-radius:50px;color:#222;text-decoration:none}
+@media(max-width:900px){aside{position:relative;width:auto;height:auto;max-height:250px}main{margin:0;padding:10px}section{padding:16px;overflow-x:auto}}
+@media print{aside,.toplink{display:none}body{background:#fff}main{margin:0;max-width:none;padding:0}section{box-shadow:none;border:0;break-before:page;padding:15px}a{color:inherit}pre{white-space:pre-wrap}}
+</style><style>html, body, #root {
+      margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;
+      
+    }
+html,body,#root{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}html,body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Helvetica Neue,Arial,sans-serif!important}button,input,textarea,select{font-family:inherit}html{background-color:transparent}html.chatgptOled.dark,html.mobileSkybridge.dark{background-color:#000}@supports (font: -apple-system-body){html.mobileSkybridge{font:-apple-system-body}}html.desktopSkybridge.dark{background-color:#1e1e1e}html.transparentSkybridgeBackground,html.transparentSkybridgeBackground.dark{background-color:transparent}html.androidSkybridge,html.androidSkybridge body,html.androidSkybridge *{-webkit-tap-highlight-color:rgba(255,255,255,0)}html.androidSkybridge *::selection,html.androidSkybridge *::-moz-selection{background:#fff0;color:inherit}</style></head><body><aside id="top"><h1>راهنمای جامع سیستم اعتبار قیمت، موجودی و فروشگاه</h1><input id="query" aria-label="جستجو در فهرست" placeholder="جستجو در عنوان فایل&zwnj;ها..."><nav><a href="#section-0"><span class="path">00_START</span>۰۱ — جمع&zwnj;بندی مدیریتی و پیشنهاد معماری</a>
+<a href="#section-1"><span class="path">00_START</span>۰۲ — تعاریف، مفروضات و مرزهای استنباط</a>
+<a href="#section-2"><span class="path">00_START</span>۰۳ — ماتریس پوشش کامل ایده&zwnj;های گفت&zwnj;وگو و نیازمندی&zwnj;ها</a>
+<a href="#section-3"><span class="path">00_START</span>۰۴ — صورت&zwnj;جلسهٔ بازبینی نهایی پیش از بسته&zwnj;بندی</a>
+<a href="#section-4"><span class="path">00_START</span>مرجع جامع سامانهٔ اعتبارسنجی قیمت، موجودی و امکان خرید حضوری</a>
+<a href="#section-5"><span class="path">01_PRODUCT</span>۰۳ — سند نیازمندی&zwnj;های محصول (PRD)</a>
+<a href="#section-6"><span class="path">01_PRODUCT</span>۰۴ — مسیرهای کاربران و ریزتصمیم&zwnj;های UX</a>
+<a href="#section-7"><span class="path">01_PRODUCT</span>۰۵ — قرارداد معنایی پیشنهاد قابل&zwnj;خرید و دامنهٔ تأیید</a>
+<a href="#section-8"><span class="path">02_DATA</span>۰۶ — ممیزی بازتولیدپذیر داده&zwnj;های موجود</a>
+<a href="#section-9"><span class="path">02_DATA</span>۰۷ — فرهنگ دادهٔ موجود و شکاف&zwnj;های داده</a>
+<a href="#section-10"><span class="path">03_ALGORITHMS</span>۰۸ — موتور صحت/تازگی قیمت و تشخیص ناهنجاری</a>
+<a href="#section-11"><span class="path">03_ALGORITHMS</span>۰۹ — موتور موجودی، تأمین مجدد و اعتبار در زمان رسیدن</a>
+<a href="#section-12"><span class="path">03_ALGORITHMS</span>۱۰ — چرخهٔ عمر محصول، نوسان چندمقیاسی، ارز و تغییر رژیم</a>
+<a href="#section-13"><span class="path">03_ALGORITHMS</span>۱۱ — اعتبار چندبعدی فروشگاه، شواهد بیرونی و پرهیز از اعتماد کور</a>
+<a href="#section-14"><span class="path">03_ALGORITHMS</span>۱۲ — موتور تصمیم&zwnj;گیری دربارهٔ استعلام، زمان و هزینهٔ مزاحمت</a>
+<a href="#section-15"><span class="path">03_ALGORITHMS</span>۱۳ — معماری یادگیری، کالیبراسیون و آزمون علمی</a>
+<a href="#section-16"><span class="path">04_WORKFLOWS</span>۱۴ — ماشین حالت استعلام و تحویل اعلان</a>
+<a href="#section-17"><span class="path">04_WORKFLOWS</span>۱۵ — فیدبک خریدار، پروندهٔ رسیدگی، عدالت و یادگیری</a>
+<a href="#section-18"><span class="path">04_WORKFLOWS</span>۱۶ — اپ فروشنده: سؤال&zwnj;های سریع، پایداری و انگیزه</a>
+<a href="#section-19"><span class="path">05_ARCHITECTURE</span>۱۷ — معماری سامانه، ذخیره&zwnj;سازی و قراردادهای زمانی</a>
+<a href="#section-20"><span class="path">05_ARCHITECTURE</span>۱۸ — قرارداد API و پیام رویداد (نمونهٔ پیشنهادی)</a>
+<a href="#section-21"><span class="path">05_ARCHITECTURE</span>۱۹ — حریم خصوصی، تقلب، دسترس&zwnj;پذیری و اصول حکمرانی</a>
+<a href="#section-22"><span class="path">06_QUALITY</span>۲۰ — رجیستر جامع سناریوهای مرزی و failure modeها</a>
+<a href="#section-23"><span class="path">06_QUALITY</span>۲۱ — استراتژی تست، معیار پذیرش و دادهٔ آزمایشی</a>
+<a href="#section-24"><span class="path">06_QUALITY</span>۲۲ — تحلیل نقاط شکست و انتخاب&zwnj;های طراحی</a>
+<a href="#section-25"><span class="path">07_DELIVERY</span>۲۳ — نقشهٔ راه پیشنهادی، وابستگی&zwnj;ها و ترتیب ساخت</a>
+<a href="#section-26"><span class="path">07_DELIVERY</span>۲۴ — شاخص&zwnj;های ارزیابی، آزمایش و پایش</a>
+<a href="#section-27"><span class="path">07_DELIVERY</span>۲۵ — تصمیم&zwnj;های معماری، گزینه&zwnj;ها و سؤال&zwnj;های باز</a>
+<a href="#section-28"><span class="path">08_REFERENCES</span>۲۶ — منشأ اطلاعات، منابع خارجی و حدود اعتبار</a>
+<a href="#section-29"><span class="path">09_EXAMPLES</span>۲۷ — نمونه&zwnj;های تصمیم&zwnj;گیری از ابتدا تا انتها</a></nav></aside><main><div class="lead"><h1>مرجع محصول، الگوریتم، داده و سناریوهای مرزی</h1><p>نسخهٔ یکپارچهٔ قابل مرور و چاپ · تاریخ ممیزی ۲۳ اکتبر ۲۰۲۶ · ۱۸۰ سناریوی مرزی در CSV همراه فایل&zwnj;ها · اعداد داده از آدیت مستقل</p></div><section id="section-0"><div class="file-path">00_START/01_Executive_Summary.md</div><h1>۰۱ — جمع&zwnj;بندی مدیریتی و پیشنهاد معماری</h1>
+<h2>مسئلهٔ بنیادی</h2>
+<p>فهرست کالاها و قیمت&zwnj;ها در طول زمان تغییر می&zwnj;کند. فروشنده ممکن است حضور نداشته باشد، کالا فروخته شده باشد، واریانت یا شرایط قیمت با نمایش سیستم فرق کند یا آدرس اشتباه باشد. تصمیم صرفاً مبتنی بر «چند روز از آپدیت گذشت» برای گوشی تازه&zwnj;عرضه&zwnj;شده، SSD کم&zwnj;گردش، کابل متری و کالای دست&zwnj;دوم یکسان قابل دفاع نیست.</p>
+<h2>چشم&zwnj;انداز محصول</h2>
+<p><strong>موتور تصمیم&zwnj;یار اعتبار پیشنهادهای فروش حضوری</strong> با چهار خروجی مستقل: (۱) اعتبار قیمت مشخص، (۲) موجودی/وضعیت تأمین، (۳) بازبودن/آمادگی تحویل، (۴) احتمال تحقق خرید در مقصد و زمان کاربر. کنار همهٔ آن&zwnj;ها کیفیت شواهد و دلیل تصمیم نمایش داده می&zwnj;شود.</p>
+<h2>پاسخ به ایده&zwnj;های پایهٔ گفت&zwnj;وگو</h2>
+<ul>
+<li>اپ نصب&zwnj;شده نزد فروشنده: نوتیفیکیشن کم&zwnj;مزاحمت و پاسخ سریع دربارهٔ قیمت/موجودی/بازبودن، بدون نیاز به تماس مستقیم دستی برای تک&zwnj;تک موارد.</li>
+<li>یادآوری چندمرحله&zwnj;ای: ۵ دقیقه و ۱۰ دقیقه فقط <strong>نمونهٔ سیاست</strong>؛ قابل پیکربندی، با اجازهٔ فروشنده و متناسب با محدودیت پلتفرم. شبیه&zwnj;سازی تماس سیستم نباید پیش&zwnj;فرض فنی باشد.</li>
+<li>استفاده از پاسخ قبلی: بازبودن فروشگاه در سطح شعبه قابل استفادهٔ مجدد، اما موجودی کالای A به B منتقل نمی&zwnj;شود.</li>
+<li>تفاوت دسته&zwnj;ها: نرخ تغییر و اعتبار پویا برای محصولات و فروشگاه&zwnj;ها؛ محصولات تازه&zwnj;وارد، نوسانی، کمیاب، توقف&zwnj;تولید یا پرگردش متفاوت&zwnj;اند.</li>
+<li>دلار و رقبا: ویژگی کمکی؛ مسیر زمانی و انحراف از قیمت مرجع، همراه با تعاریف دقیق واریانت/گارانتی/واحد و اعتبار منبع.</li>
+<li>اعتبار فروشگاه/نشان بیرونی: prior کالیبره&zwnj;شونده و <strong>چندبعدی</strong>؛ فروشگاه معتبر ممکن است در موجودی حضوری ضعیف باشد.</li>
+<li>فیدبک مشتری: گزارش مثبت/منفی، شاهد موقعیت-زمان-واریانت، پروندهٔ قابل پیگیری، پاسخ فروشنده، حل اختلاف و حق اعتراض.</li>
+</ul>
+<h2>معماری پیشنهادی در یک نگاه</h2>
+<ol>
+<li><strong>Entity &amp; Offer Understanding:</strong> شناسه محصول دقیق، واریانت، شرایط تحویل، قیمت، واحد و کانال.</li>
+<li><strong>Observation Ledger:</strong> مشاهده&zwnj;های بدون تغییر، تغییرها، تأییدها، گزارش&zwnj;ها، منبع و زمان/نسخه.</li>
+<li><strong>Market &amp; Lifecycle:</strong> نوسان مسیر، جهش، نرخ تغییر، ورود محصول، کشف قیمت، تثبیت، شوک و خروج بازار.</li>
+<li><strong>Reliability &amp; Evidence:</strong> اعتبار فروشگاه به تفکیک قیمت/موجودی/شعبه، وابستگی منابع، کیفیت شواهد و تعارض.</li>
+<li><strong>Prediction:</strong> احتمال صحت قیمت، موجودی اکنون، موجودی در زمان رسیدن، بازبودن و امکان تحویل + بازهٔ عدم&zwnj;قطعیت.</li>
+<li><strong>Decision &amp; Inquiry:</strong> انتخاب استعلام مفید با لحاظ تقاضا، خسارت خطا، شانس پاسخ و بار فروشنده.</li>
+<li><strong>Feedback &amp; Case Resolution:</strong> پیگیری مغایرت، اصلاح، یادگیری و پایش drift.</li>
+</ol>
+<h2>سه تصمیم برجسته</h2>
+<p><strong>الف.</strong> MVP را با قواعد و سیاست TTL «بازهٔ بازبینی» در خانواده&zwnj;های رفتاری راه&zwnj;اندازی کنید، ولی پایگاه داده را برای survival/transition و مدل&zwnj;های احتمالی آینده بسازید. <strong>ب.</strong> نگذارید مدل از همان استعلام&zwnj;هایی که خودش انتخاب می&zwnj;کند فقط به&zwnj;صورت گزینشی یاد بگیرد؛ نمونهٔ کنترل&zwnj;شده برای ارزیابی داشته باشید. <strong>ج.</strong> برای کاربر صرفاً احتمال نمایش ندهید؛ بگویید «چه چیزی، چه زمانی و با چه کیفیت شواهدی تأیید شده».</p>
+<h2>بستهٔ تحویلی محصول</h2>
+<ul>
+<li>UI خریدار: نوع قیمت، وضعیت موجودی در مغازه/انبار/تأمین&zwnj;کننده، زمان و محدودهٔ تأیید، هشدار مراجعه.</li>
+<li>UI فروشنده: صندوق یکپارچهٔ استعلام&zwnj;ها، پاسخ گروهی، اصلاح قیمت، زمان سکوت، وضعیت در دسترس بودن، گزارش و پاسخ پرونده.</li>
+<li>UI عملیات: ممیزی قیمت، خطاهای پایپلاین، پرونده&zwnj;های باز، مغایرت&zwnj;های دسته&zwnj;ای، آزمایش و گزارش اعتماد.</li>
+</ul>
+<h2>شاخص نهایی موفقیت</h2>
+<p>نه صرفاً تعداد push یا دقت کلاس&zwnj;بندی؛ بلکه <strong>کاهش مراجعهٔ ناموفق و اختلاف قیمت با حداقل هزینهٔ مزاحمت</strong>، همراه با عدالت نسبت به فروشگاه&zwnj;ها و شفافیت داده.</p>
+<h2>مرز فازهای اجرا</h2>
+<ul>
+<li>فاز ۰: تعریف معنایی داده، ممیزی و ثبت snapshot/event؛</li>
+<li>فاز ۱: استعلام، تجمیع، وضعیت تحویل و فیدبک با قواعد ریسک؛</li>
+<li>فاز ۲: تخمین تجربی و اعتبار چندبعدی، ارزیابی زمانی؛</li>
+<li>فاز ۳: مدل hazard پویا، سیاست تطبیقی و احتمال خرید موفق.</li>
+</ul>
+<h2>مواردی که هنوز <em>اندازه نگرفته&zwnj;ایم</em></h2>
+<p>نرخ واقعی تغییر قیمت در روز، سرعت اتمام موجودی، دقت پاسخ فروشنده، اثر نشان بیرونی، نرخ موفقیت مراجعه و صرفه&zwnj;جویی هر استعلام. همهٔ این&zwnj;ها نیازمند دادهٔ تازه&zwnj;اند.</p>
+</section>
+<section id="section-1"><div class="file-path">00_START/02_Assumptions_and_Glossary.md</div><h1>۰۲ — تعاریف، مفروضات و مرزهای استنباط</h1>
+<h2>واژگان الزامی</h2>
+<ul>
+<li><strong>Product:</strong> هویت کلی محصول؛ قابل فروش در چند کانفیگ.</li>
+<li><strong>Variant/SKU:</strong> کالا با ویژگی&zwnj;های دقیق و قابل&zwnj;جایگزینی محدود؛ رنگ/حافظه/رجیستری/سایز/واحد.</li>
+<li><strong>Offer:</strong> پیشنهاد یک فروشگاه/شعبه برای واریانت و شرایط فروش خاص در یک کانال.</li>
+<li><strong>Asking Price:</strong> قیمت درج&zwnj;شده، الزاماً قیمت نهایی قابل&zwnj;خرید نیست.</li>
+<li><strong>Transaction-Eligible Price:</strong> قیمت قابل تحقق همراه با شرایط پرداخت، تعداد، گارانتی، کارمزد و تحویل.</li>
+<li><strong>Observation:</strong> دیده&zwnj;شدن وضعیت توسط منبع در لحظه&zwnj;ای مشخص، حتی اگر عدد ثابت مانده باشد.</li>
+<li><strong>Change Event:</strong> تغییر ثبت&zwnj;شده بین دو مشاهده؛ زمان دقیق وقوع ممکن است معلوم نباشد.</li>
+<li><strong>Verification:</strong> تأیید صریح و دامنه&zwnj;دار از یک منبع؛ کیفیت آن وابسته به منبع و شواهد است.</li>
+<li><strong>Freshness:</strong> نزدیکی مشاهده به زمان تصمیم، نه تضمین درستی.</li>
+<li><strong>Plausibility:</strong> سازگاری عدد با زمینه/همتایان؛ نه اثبات قابل&zwnj;خریدبودن.</li>
+<li><strong>Calibration:</strong> تطابق احتمال پیش&zwnj;بینی با فراوانی واقعی رخداد در دادهٔ آینده.</li>
+<li><strong>Hazard:</strong> نرخ لحظه&zwnj;ای رخداد تغییر وضعیت، مشروط بر وضعیت و شواهد قبلی.</li>
+<li><strong>Censoring:</strong> زمانی که تغییر بین دو مشاهده رخ داده ولی زمان دقیق نامعلوم است یا پایان مشاهده رسیده.</li>
+<li><strong>Market Regime:</strong> الگوی جاری بازار: عادی، پرنوسان، جهش، کمبود عرضه، بازگشت به ثبات.</li>
+<li><strong>Shop Reliability:</strong> دقت تجربی در موضوع مشخص؛ مجزا از شهرت و هویت حقوقی.</li>
+<li><strong>Fulfillability:</strong> توانایی فروش همان واریانت با همان شرایط در زمان/محل تعهد شده.</li>
+<li><strong>Policy:</strong> قاعدهٔ عملیاتی برای نمایش، استعلام، یادآوری و بررسی مستقل.</li>
+<li><strong>Unknown:</strong> نبود شواهد کافی؛ نه صفر، نه «ناموجود».</li>
+</ul>
+<h2>حدود داده و اصول عدم&zwnj;قطعیت</h2>
+<ol>
+<li>زمان <code>last_price_changed_at</code> فقط آخرین تغییر <em>ثبت&zwnj;شده</em> است. برای اندازه&zwnj;گیری volatility یا فرکانس واقعی باید سری snapshots داشت.</li>
+<li>وجود ۳۰۰ محصول در یک فروشگاه، سقف خروجی است، نه شمارش کل کاتالوگ.</li>
+<li>هر محصول در فایل دارای پیشنهاد است؛ نبود پیشنهادهای دیگر نمی&zwnj;گوید بازار انحصاری یا کالا در مغازه&zwnj;های دیگر ناموجود است.</li>
+<li>فیلد <code>weekly_hours</code> حالت اعلامی است؛ بدون استثناهای تعطیلی و تأیید حضور، «الان باز» را اثبات نمی&zwnj;کند.</li>
+<li>رتبه یا نشان بیرونی را بدون شناسهٔ یکتا، دامنه/شعبهٔ دقیق، تاریخ و راستی&zwnj;آزمایی منبع وزن بالا ندهید.</li>
+<li>بازخورد مستقل هم ممکن است خطا یا سوءنیت داشته باشد. رسیدگی و اصلاح لازم است.</li>
+<li>درصدهای سن&zwnj;محور از خروجی واحد را نباید «تعداد تغییر قیمت در آن بازه» تفسیر کرد.</li>
+</ol>
+<h2>خطاهای سیاستی ممنوع</h2>
+<ul>
+<li>نگاشت <code>push_accepted</code> → <code>opened</code>؛</li>
+<li>نگاشت <code>seller_answered</code> → <code>store_physically_open</code>؛</li>
+<li>نگاشت <code>item_not_in_export</code> → <code>out_of_stock</code>؛</li>
+<li>نگاشت <code>price_unchanged_60d</code> → <code>low_volatility</code>؛</li>
+<li>نگاشت <code>high_site_update_rate</code> → <code>stock_correct</code>؛</li>
+<li>نگاشت <code>single_negative_feedback</code> → <code>fraudulent_shop</code>؛</li>
+<li>نگاشت <code>external_badge</code> → <code>in_store_guarantee</code>؛</li>
+<li>محاسبهٔ احتمال خرید موفق با ضرب مستقل چهار امتیاز بدون آزمون وابستگی.</li>
+</ul>
+<h2>دامنهٔ پروژه و دادهٔ حساس</h2>
+<p>اطلاعات مشتری، رسید خرید، موقعیت جغرافیایی و تصاویر اختیاری&zwnj;اند؛ باید حداقل&zwnj;گرایی، کنترل دسترسی، حق اعتراض/حذف و نگهداری محدود رعایت شود. این مجموعه فایل فاقد دادهٔ شخصی مشتریان است؛ فایل فروشگاه&zwnj;ها ممکن است اطلاعات تماس کسب&zwnj;وکار داشته باشد و باید مطابق قرارداد منبع نگهداری شود.</p>
+</section>
+<section id="section-2"><div class="file-path">00_START/03_Conversation_Traceability.md</div><h1>۰۳ — ماتریس پوشش کامل ایده&zwnj;های گفت&zwnj;وگو و نیازمندی&zwnj;ها</h1>
+<p>این ماتریس تضمین می&zwnj;کند موردهای اصلی مطرح&zwnj;شده در کل گفتگو، مسیر مشخص برای طراحی و تست داشته باشند. طرح&zwnj;های تکمیلی هم مشخص شده&zwnj;اند؛ <strong>پوشش مستندسازی</strong> با <strong>پیاده&zwnj;سازی</strong> فرق دارد.</p>
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>موضوع مطرح&zwnj;شده</th>
+  <th>فایل مرجع</th>
+  <th>وضعیت</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>01</td>
+  <td>هدف: قیمت درست یا آپدیت هست؟</td>
+  <td><code>03_ALGORITHMS/01_Price_Validity.md</code></td>
+  <td>طراحی</td>
+</tr>
+<tr>
+  <td>02</td>
+  <td>موجودی فعلی طبیعی/منطقی است؟</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>طراحی</td>
+</tr>
+<tr>
+  <td>03</td>
+  <td>اپ نصب&zwnj;شدهٔ فروشنده و کاهش تماس دستی</td>
+  <td><code>04_WORKFLOWS/03_Seller_App_Experience.md</code></td>
+  <td>UX</td>
+</tr>
+<tr>
+  <td>04</td>
+  <td>استعلام قیمت، موجودی و بازبودن یکجا</td>
+  <td><code>04_WORKFLOWS/01_Inquiry_State_Machine.md</code></td>
+  <td>طراحی</td>
+</tr>
+<tr>
+  <td>05</td>
+  <td>نوتیف و یادآوری پس از ۵/۱۰ دقیقه</td>
+  <td><code>11_CODE/sample_policy.yaml</code></td>
+  <td>فرض آزمایشی</td>
+</tr>
+<tr>
+  <td>06</td>
+  <td>زنگ/تمام&zwnj;صفحه و محدودیت سیستم&zwnj;عامل</td>
+  <td><code>08_REFERENCES/01_Source_Provenance.md</code></td>
+  <td>منبع رسمی</td>
+</tr>
+<tr>
+  <td>07</td>
+  <td>قطع اینترنت/نرسیدن push</td>
+  <td><code>04_WORKFLOWS/01_Inquiry_State_Machine.md</code></td>
+  <td>طراحی</td>
+</tr>
+<tr>
+  <td>08</td>
+  <td>استفادهٔ دوباره از پاسخ «مغازه باز است»</td>
+  <td><code>01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</code></td>
+  <td>قاعده</td>
+</tr>
+<tr>
+  <td>09</td>
+  <td>تفکیک حضور فروشنده از بازبودن</td>
+  <td><code>04_WORKFLOWS/01_Inquiry_State_Machine.md</code></td>
+  <td>قاعده</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td>دسته کالا و TTL مخصوص گوشی/کامپیوتر</td>
+  <td><code>03_ALGORITHMS/05_Inquiry_Policy.md</code></td>
+  <td>پویا</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td>جنس کالای سریع&zwnj;فروش/کم&zwnj;گردش</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>مدل</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td>کمبود هم&zwnj;زمان کالا در بازار</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>bias-aware</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td>امتیاز وب&zwnj;سایت/فروشگاه از ۱۰</td>
+  <td><code>03_ALGORITHMS/04_Shop_Trust.md</code></td>
+  <td>تفکیک ابعاد</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td>آخرین تغییر قیمت محصول/فروشگاه</td>
+  <td><code>02_DATA/01_Audit.md</code></td>
+  <td>ممیزی</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td>آخرین مشاهده/تأیید جدا از تغییر</td>
+  <td><code>02_DATA/02_Data_Dictionary.md</code></td>
+  <td>قرارداد</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td>قیمت نسبت به رقبا</td>
+  <td><code>03_ALGORITHMS/01_Price_Validity.md</code></td>
+  <td>leave-one-out</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td>نرخ دلار و شدت افزایش</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>ویژگی کمکی</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td>احتمال صحیح&zwnj;بودن قیمت و موجودی</td>
+  <td><code>03_ALGORITHMS/06_ML_Evaluation.md</code></td>
+  <td>فقط پس از calibration</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td>فیدبک بسته بودن مغازه</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>کیس</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td>فیدبک ناموجودی، رنگ یا مدل اشتباه</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>کیس</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td>فیدبک قیمت متفاوت</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>کیس</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td>فیدبک آدرس/پاساژ/واحد اشتباه</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>کیس</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td>گزارش مثبت و تجربهٔ موفق</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>کیس</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td>امکان پیگیری و اعتراض فروشنده</td>
+  <td><code>04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</code></td>
+  <td>جریان</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td>اعتبار کلی فروشگاه و نشان بیرونی</td>
+  <td><code>03_ALGORITHMS/04_Shop_Trust.md</code></td>
+  <td>prior</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td>«مدام آپدیت می&zwnj;کند» در برابر «واقعاً دقیق است»</td>
+  <td><code>03_ALGORITHMS/04_Shop_Trust.md</code></td>
+  <td>تفکیک</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td>تغییر خالص کم اما نوسان مسیر زیاد</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>حل شده</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td>پنجره&zwnj;های ۲۴ساعته/۷/۳۰/۹۰ روز</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>طرح</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td>محصول تازه معرفی و قیمت تثبیت نشده</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>cold start</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td>معرفی جهانی ≠ ورود ایران ≠ ورود دیتاست</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>تفکیک</td>
+</tr>
+<tr>
+  <td>31</td>
+  <td>پایان عمر و کمیابی کالا</td>
+  <td><code>03_ALGORITHMS/03_Lifecycle_Regime_FX.md</code></td>
+  <td>طرح</td>
+</tr>
+<tr>
+  <td>32</td>
+  <td>پیشنهاد قابل سفارش ≠ موجودی مغازه</td>
+  <td><code>01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</code></td>
+  <td>scope</td>
+</tr>
+<tr>
+  <td>33</td>
+  <td>مشتری قبل از رسیدن کالای تک&zwnj;عدد فروخته شود</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>ETA model</td>
+</tr>
+<tr>
+  <td>34</td>
+  <td>رزرو اختیاری</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>آینده</td>
+</tr>
+<tr>
+  <td>35</td>
+  <td>چند پیشنهاد یک کالا، واریانت و گارانتی</td>
+  <td><code>01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</code></td>
+  <td>entity</td>
+</tr>
+<tr>
+  <td>36</td>
+  <td>SKU اشتباه و قیمت عمده/متری</td>
+  <td><code>06_QUALITY/01_Edge_Case_Register.md</code></td>
+  <td>QA</td>
+</tr>
+<tr>
+  <td>37</td>
+  <td>هم&zwnj;منبع بودن قیمت رقبا</td>
+  <td><code>03_ALGORITHMS/01_Price_Validity.md</code></td>
+  <td>وابستگی</td>
+</tr>
+<tr>
+  <td>38</td>
+  <td>اختلاف شواهد و دو کارمند</td>
+  <td><code>04_WORKFLOWS/01_Inquiry_State_Machine.md</code></td>
+  <td>conflict</td>
+</tr>
+<tr>
+  <td>39</td>
+  <td>پیام دیررس، نسخهٔ قدیمی قیمت</td>
+  <td><code>04_WORKFLOWS/01_Inquiry_State_Machine.md</code></td>
+  <td>event time</td>
+</tr>
+<tr>
+  <td>40</td>
+  <td>گزارش جعلی رقبا و بازی با امتیاز</td>
+  <td><code>05_ARCHITECTURE/03_Security_Privacy_Abuse.md</code></td>
+  <td>سوءاستفاده</td>
+</tr>
+<tr>
+  <td>41</td>
+  <td>بایاس به علت انتخاب استعلام&zwnj;های مشکوک</td>
+  <td><code>03_ALGORITHMS/06_ML_Evaluation.md</code></td>
+  <td>آزمایش</td>
+</tr>
+<tr>
+  <td>42</td>
+  <td>هزینهٔ خطا با هدف خرید یا مراجعه</td>
+  <td><code>03_ALGORITHMS/05_Inquiry_Policy.md</code></td>
+  <td>تصمیم</td>
+</tr>
+<tr>
+  <td>43</td>
+  <td>سیاست کم&zwnj;مزاحمت/گروه&zwnj;بندی استعلام</td>
+  <td><code>04_WORKFLOWS/03_Seller_App_Experience.md</code></td>
+  <td>UX</td>
+</tr>
+<tr>
+  <td>44</td>
+  <td>شرایط پرداخت و قیمت قابل تحقق</td>
+  <td><code>01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</code></td>
+  <td>قرارداد</td>
+</tr>
+<tr>
+  <td>45</td>
+  <td>کد، قرارداد پایگاه داده و API</td>
+  <td><code>05_ARCHITECTURE/02_API_and_Events.md</code></td>
+  <td>نمونه</td>
+</tr>
+<tr>
+  <td>46</td>
+  <td>تست، سناریو، شکست و پذیرش</td>
+  <td><code>06_QUALITY/02_Test_Strategy.md</code></td>
+  <td>چک لیست</td>
+</tr>
+<tr>
+  <td>47</td>
+  <td>اولویت فازها و قابلیت&zwnj;های آینده</td>
+  <td><code>07_DELIVERY/01_Roadmap.md</code></td>
+  <td>اجرا</td>
+</tr>
+<tr>
+  <td>48</td>
+  <td>ارزش تجاری و KPI</td>
+  <td><code>07_DELIVERY/02_Metrics_and_Experiments.md</code></td>
+  <td>ارزیابی</td>
+</tr>
+<tr>
+  <td>49</td>
+  <td>محدودیت دادهٔ snapshot و cap300</td>
+  <td><code>02_DATA/01_Audit.md</code></td>
+  <td>قابل اندازه&zwnj;گیری</td>
+</tr>
+<tr>
+  <td>50</td>
+  <td>احتمال خرید موفق/تحویل کالا</td>
+  <td><code>01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</code></td>
+  <td>هدف محصول</td>
+</tr>
+<tr>
+  <td>51</td>
+  <td>شارژ مجدد موجودی بعد از ناموجودی و مدل دوطرفه</td>
+  <td><code>03_ALGORITHMS/02_Stock_and_Arrival.md</code></td>
+  <td>گذار وضعیت</td>
+</tr>
+</tbody>
+</table>
+<h2>چیزهای افزوده&zwnj;شده در مستند، فراتر از موارد صریح گفت&zwnj;وگو</h2>
+<ul>
+<li>اسکیما رویداد با version/correlation، جداسازی <code>case_status</code> و <code>case_outcome</code>، ارزیابی leakage و propensity، نگهداری محرمانگی مدارک، برنامهٔ ADR، پایش drift و سلامت پایپلاین.</li>
+<li>رجیستر ۱۸۰ سناریوی مرزی؛ کد نمونهٔ غیرآموزش&zwnj;دیده و policy قابل آزمایش؛ HTML یکپارچهٔ قابل مرور و manifest شفاف.</li>
+</ul>
+<h2>هشدار پوشش</h2>
+<p>این ماتریس معنای نیاز را ردیابی می&zwnj;کند؛ <strong>نه</strong> ادعای اینکه همهٔ امکانات پیاده&zwnj;سازی شده&zwnj;اند. وضعیت مدل&zwnj;ها عمدتاً «پیشنهادی» است و با نمونه&zwnj;گیری مستقل باید ارزیابی شود.</p>
+</section>
+<section id="section-3"><div class="file-path">00_START/04_Pre_Zip_Review.md</div><h1>۰۴ — صورت&zwnj;جلسهٔ بازبینی نهایی پیش از بسته&zwnj;بندی</h1>
+<p><strong>تاریخ بازبینی:</strong> ۲۳ اکتبر ۲۰۲۶. <strong>دامنه:</strong> تطابق با ایده&zwnj;های گفت&zwnj;وگو، عددهای داده، قراردادهای فنی، رجیستر سناریو، خطاهای معروف و قابلیت بازتولید.</p>
+<h2>نتیجهٔ مرور</h2>
+<ul>
+<li>ساختار مرجع شامل فایل&zwnj;های مستقل برای مسئله/نیازمندی، مدل قیمت، مدل موجودی، چرخهٔ عمر و ارز، اعتبار فروشگاه، موتور استعلام، فیدبک و رسیدگی، سامانه، API، امنیت، آزمایش، KPI و نقشهٔ راه است.</li>
+<li>رجیستر ساختاریافته شامل <strong>۱۸۰ سناریوی مرزی در ۲۰ قلمرو</strong> است. هر ردیف شناسه، ریسک، رفتار مورد انتظار و متن آزمون پذیرش دارد؛ تمامی این آزمون&zwnj;ها صرفاً مشخصه&zwnj;اند، نه اجرای E2E روی اپ واقعی.</li>
+<li>ماتریس ردیابی <strong>۵۱ ردیف</strong> از ایده&zwnj;های طرح&zwnj;شده و استنتاج&zwnj;های لازم را به فایل&zwnj;های مرجع متصل می&zwnj;کند.</li>
+<li>فایل&zwnj;های واقعی CSV در آدیت مستقل بازخوانی شدند؛ ۶٬۴۷۶ فروشگاه، ۲۲۵٬۹۰۳ محصول و ۳۳۱٬۵۰۶ پیشنهاد ثبت شد. فایل منبع خام با SHA256 و تعداد ردیف کنترل شد.</li>
+<li>۱۹٬۴۵۸ مورد غربالگری قیمت کاندیدای «بازبینی» هستند، <strong>نه</strong> قیمت غلط قطعی؛ دادهٔ آموزشی truth labels هنوز موجود نیست.</li>
+<li>کد <code>baseline_reference.py</code> فقط نمایش قاعده است و احتمال کالیبره تولید نمی&zwnj;کند؛ هفت آزمون unit نمونه پاس شده&zwnj;اند.</li>
+<li>اسکریپت <code>verify_package.py</code> پس از رفع کمبود اولیهٔ ردیابی <code>شارژ مجدد</code> همهٔ ۴۵ کنترل را پاس کرد. لاگ در <code>06_QUALITY/pre_zip_qa_log.txt</code> موجود است.</li>
+</ul>
+<h2>موارد اصلاح&zwnj;شده در بازبینی</h2>
+<ol>
+<li>شمار و سهم زمانی دسته&zwnj;ها دوباره از فایل محاسبه و جایگزین تقریب&zwnj;های قبلی گفتگو شدند: گوشی (۱۴ روز) ۴۲٫۲۷٪؛ لپ&zwnj;تاپ (۳۰ روز) ۹۷٫۸۴٪؛ timestamp نامعتبر ۷۶۹ مورد.</li>
+<li>تفکیک <strong>آخرین تغییر</strong> از <strong>آخرین مشاهده و تأیید</strong> در تمام موتورهای تحلیلی اعمال شد؛ عدم وجود سری زمانی صریحاً ذکر شد.</li>
+<li>ناموجودی مجدد پس از شارژ، بازگشت قیمت به همان عدد، cold start و شوک مجدد محصول بالغ در حالت&zwnj;های مستقل پوشش داده شد.</li>
+<li>نشان تجاری بیرونی از دقت قیمت/موجودی و ضمانت خرید حضوری تفکیک شد.</li>
+<li>«فروشنده بی&zwnj;پاسخ» از «مغازه بسته» و «کالا ناموجود» جدا شد؛ تحویل push نیز مستقلاً وضعیت دارد.</li>
+<li>موارد فیدبک مثبت، گزارش خام، پروندهٔ قابل اعتراض و منشأ خطای خود سامانه در اسکیما و روند ثبت شدند.</li>
+<li>آزمون ردیابی نبود عبارت «شارژ» در ماتریس را تشخیص داد؛ ردیف مستقل افزوده شد و QA دوباره اجرا شد.</li>
+</ol>
+<h2>چیزهایی که این بسته عمداً ادعا نمی&zwnj;کند</h2>
+<ul>
+<li>آموزش یا کالیبراسیون مدل با دادهٔ واقعی مشتری/فروشگاه؛</li>
+<li>دقت واقعی قیمت/موجودی، نرخ پاسخ و تأیید حضور فیزیکی؛</li>
+<li>دریافت امتیاز یا نشان رسمی برای فروشگاه&zwnj;های موجود در CSV؛</li>
+<li>اعتبار حقوقی نشان&zwnj;ها/شرایط استفاده از اطلاعات و حق استفاده از برند؛</li>
+<li>پیاده&zwnj;سازی نهایی بک&zwnj;اند، اپ موبایل یا اتصال به سیستم بیرونی؛</li>
+<li>اینکه TTLهای فایل YAML از داده&zwnj;ها برآورد شده&zwnj;اند؛</li>
+<li>صحت برچسب&zwnj;های ناهنجاری قبلی.</li>
+</ul>
+<h2>اقدامات لازم قبل از شروع توسعه</h2>
+<p>تثبیت مالکیت فروشگاه/شعبه، تعریف امکان خرید حضوری/آنلاین و شرایط قیمت، تعیین دسترسی به دادهٔ crawl، دسترسی احتمالی به POS/رسید، مجوز و نحوهٔ دریافت نشان بیرونی، تیم رسیدگی و اهداف قابل اندازه&zwnj;گیری نسخهٔ اول. به <code>07_DELIVERY/03_ADRs_and_Open_Decisions.md</code> مراجعه شود.</p>
+<h2>روش بازتولید</h2>
+<p>از ریشهٔ استخراج&zwnj;شدهٔ ZIP: <code>python 11_CODE/reproduce_audit.py</code> (نیازمند pandas)، <code>python 11_CODE/test_baseline.py</code> (کتابخانهٔ استاندارد)، <code>python 11_CODE/verify_package.py</code> (با PyYAML اختیاری). نسخهٔ <code>00_START/All_Documents_Readable.html</code> برای مطالعه و چاپ بدون نصب ابزار مناسب است.</p>
+</section>
+<section id="section-4"><div class="file-path">00_START/README.md</div><h1>مرجع جامع سامانهٔ اعتبارسنجی قیمت، موجودی و امکان خرید حضوری</h1>
+<p><strong>نسخه:</strong> 1.0 / پیش&zwnj;نویس مرجع برای تصمیم&zwnj;گیری و پیاده&zwnj;سازی<br>
+<strong>تاریخ مبنای تحلیل:</strong> ۲۳ اکتبر ۲۰۲۶ / ۱ آبان ۱۴۰۵، با زمان محلی +03:30<br>
+<strong>زبان:</strong> فارسی؛ نام متغیرها و قراردادهای فنی انگلیسی<br>
+<strong>وضعیت:</strong> طرح محصول و معماری پیشنهادی؛ نه گزارش عملکرد مدل آموزش&zwnj;دیده، نه اثبات صحت داده&zwnj;ها.</p>
+<h2>مأموریت</h2>
+<p>کاهش مراجعهٔ ناموفق و مغایرت قیمت از طریق <strong>مدیریت شواهد، تخمین پویا، استعلام کم&zwnj;مزاحمت و یادگیری از تجربهٔ واقعی</strong>. سیستم باید بتواند برای پیشنهاد مشخصِ فروشنده بگوید اطلاعات فعلی چقدر قابل اتکاست، چرا، تا چه زمانی و آیا بهتر است قبل از خرید یا مراجعه دوباره پرس&zwnj;وجو شود.</p>
+<h2>راهنمای مطالعه</h2>
+<table>
+<thead>
+<tr>
+  <th>مسیر</th>
+  <th>کاربرد</th>
+  <th>خروجی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>00_START/</code></td>
+  <td>خلاصه مدیریتی، مفروضات، ردیابی پوشش گفت&zwnj;وگو</td>
+  <td>تصمیم کلی و خواندن سریع</td>
+</tr>
+<tr>
+  <td><code>01_PRODUCT/</code></td>
+  <td>نیازمندی&zwnj;ها، معنای درست بودن قیمت و موجودی، سناریوهای کاربر</td>
+  <td>PRD، معیار پذیرش</td>
+</tr>
+<tr>
+  <td><code>02_DATA/</code></td>
+  <td>ممیزی واقعی CSV، فرهنگ داده، کیفیت و رویدادهای آینده</td>
+  <td>حقایق اندازه&zwnj;گیری&zwnj;شده و کمبود داده</td>
+</tr>
+<tr>
+  <td><code>03_ALGORITHMS/</code></td>
+  <td>قیمت، موجودی، مرحلهٔ عمر، اعتبار فروشگاه، سیاست استعلام، ارزیابی ML</td>
+  <td>طراحی مدل قابل آزمایش</td>
+</tr>
+<tr>
+  <td><code>04_WORKFLOWS/</code></td>
+  <td>چرخهٔ استعلام، اپ فروشنده، گزارش مشتری و پروندهٔ پیگیری</td>
+  <td>ماشین حالت و UX</td>
+</tr>
+<tr>
+  <td><code>05_ARCHITECTURE/</code></td>
+  <td>طراحی سامانه، API، امنیت و حریم خصوصی</td>
+  <td>قراردادهای پیاده&zwnj;سازی</td>
+</tr>
+<tr>
+  <td><code>06_QUALITY/</code></td>
+  <td>رجیستر ساختاریافتهٔ سناریوهای مرزی و تست</td>
+  <td>تحلیل شکست و QA</td>
+</tr>
+<tr>
+  <td><code>07_DELIVERY/</code></td>
+  <td>نقشهٔ راه، شاخص&zwnj;ها، آزمایش&zwnj;ها و تصمیم&zwnj;های باز</td>
+  <td>برنامهٔ اجرا</td>
+</tr>
+<tr>
+  <td><code>08_REFERENCES/</code></td>
+  <td>منبع&zwnj;شناسی، منابع رسمی پلتفرم، درجهٔ اطمینان ادعاها</td>
+  <td>جلوگیری از تفسیر غلط</td>
+</tr>
+<tr>
+  <td><code>09_EXAMPLES/</code></td>
+  <td>سناریوهای حل&zwnj;شدهٔ سرراست و پیچیده</td>
+  <td>نمونه تصمیم موتور</td>
+</tr>
+<tr>
+  <td><code>10_SOURCE_DATA/</code></td>
+  <td>فایل&zwnj;های اصلیِ آپلودشده و README خروجی</td>
+  <td>قابلیت بازتولید ممیزی</td>
+</tr>
+<tr>
+  <td><code>11_CODE/</code></td>
+  <td>SQL پیشنهادی، سیاست نمونه، نمونه کد و اسکیما</td>
+  <td>شروع فنی و چک خودکار</td>
+</tr>
+</tbody>
+</table>
+<p><strong>شروع سریع:</strong> <code>00_START/01_Executive_Summary.md</code> ← <code>01_PRODUCT/01_PRD.md</code> ← <code>02_DATA/01_Audit.md</code> ← <code>03_ALGORITHMS/05_Inquiry_Policy.md</code> ← <code>07_DELIVERY/01_Roadmap.md</code>.</p>
+<h2>اصل&zwnj;های غیرقابل مذاکره</h2>
+<ol>
+<li>«زمان آخرین تغییر قیمت» برابر «زمان آخرین تأیید قیمت» نیست.</li>
+<li>قیمت پایین&zwnj;تر از رقبا به معنی تقلب یا اشتباه قطعی نیست.</li>
+<li>«عدم پاسخ/عدم تحویل پوش» هیچ دلالت مستقیمی بر ناموجودی یا بسته بودن ندارد.</li>
+<li>«فروشنده معتبر» یک prior مثبت است، نه مجوز اعتماد بی&zwnj;پایان یا ضمانت موجودی شعبه.</li>
+<li>«تأیید در لحظه» با «تحویل موفق هنگام رسیدن مشتری» متفاوت است.</li>
+<li>اعتبار قیمت، موجودی، ساعت کاری، امکان تحویل و کیفیت شواهد جدا نگهداری شوند.</li>
+<li>گزارش مشتری یک <strong>شاهد</strong> است، نه حکم نهایی و نه جریمهٔ خودکار.</li>
+<li>قیمت و موجودی بدون تعریف دقیق مدل، واریانت، گارانتی، واحد، شرایط و کانال فروش قابل تأیید قطعی نیستند.</li>
+<li>هیچ امتیاز اکتشافی نباید با «احتمال واقعی کالیبره&zwnj;شده» اشتباه گرفته شود.</li>
+<li>دادهٔ نادیده/نامشخص، دادهٔ منفی نیست. خروجی با سقف ۳۰۰ محصول برای هر فروشگاه سانسور شده است.</li>
+</ol>
+<h2>وضعیت کنونی و مرز ادعا</h2>
+<ul>
+<li>فایل&zwnj;های پایه: <code>shops.csv</code>, <code>products.csv</code>, <code>offers.csv</code>, <code>README.txt</code>؛ یک خروجی هشدارهای اولیهٔ قیمت نیز وجود دارد.</li>
+<li>اندازهٔ نمونه: ۶٬۴۷۶ فروشگاه، ۲۲۵٬۹۰۳ محصول، ۳۳۱٬۵۰۶ پیشنهاد. اعداد جزئی و روش محاسبه در <code>02_DATA/verified_audit.json</code> و سند ممیزی آمده&zwnj;اند.</li>
+<li>فاقد تاریخچهٔ واقعی قیمت و موجودی، تایم&zwnj;استمپ مشاهده/تأیید، نتیجهٔ مراجعه، رتبه&zwnj;های بیرونی معتبر و دادهٔ نرخ ارز است.</li>
+<li><strong>این بسته شامل دادهٔ خام به عنوان منبع است، ولی نه مشخصات کامل کاتالوگ خارج از خروجی و نه دسترسی زنده به ترب/فروشگاه&zwnj;ها.</strong></li>
+</ul>
+<h2>برچسب&zwnj;های روش&zwnj;شناسی</h2>
+<ul>
+<li><strong>[داده]</strong> محاسبهٔ قابل بازتولید از CSV؛</li>
+<li><strong>[گفت&zwnj;وگو]</strong> ایده یا قید مطرح&zwnj;شده در گفتگو؛</li>
+<li><strong>[پیشنهاد]</strong> طراحی و نظر کارشناسی، هنوز تأییدنشده؛</li>
+<li><strong>[فرض آزمایشی]</strong> عدد نمونه یا پارامتر قابل تنظیم؛</li>
+<li><strong>[منبع بیرونی]</strong> ادعای عمومی متکی به مستند رسمی با URL.</li>
+</ul>
+<h2>مالکیت تصمیم و نکات حقوقی</h2>
+<p>این سند راهنمای طراحی است، نه تفسیر حقوقی. برای سیاست&zwnj;های نمایش فروشگاه، مصرف مجوز، تماس/پیامک، پردازش اطلاعات شخصی، شرایط جمع&zwnj;آوری شواهد و رتبه&zwnj;بندی، بررسی مقررات و قراردادهای مرتبط قبل از عرضه لازم است. هیچ رابطه یا دسترسی رسمی به ترب از داده&zwnj;های موجود اثبات نمی&zwnj;شود.</p>
+</section>
+<section id="section-5"><div class="file-path">01_PRODUCT/01_PRD.md</div><h1>۰۳ — سند نیازمندی&zwnj;های محصول (PRD)</h1>
+<h2>کاربران و مشاغل</h2>
+<p><strong>خریدار:</strong> مقایسه، تصمیم خرید، استعلام پیش از حرکت، گزارش تجربه.<br>
+<strong>فروشنده/کارمند:</strong> دریافت درخواست کم&zwnj;مزاحمت، تأیید سریع با دسترسی به اطلاعات، اصلاح و پاسخ پرونده.<br>
+<strong>مدیر عملیات/پشتیبانی:</strong> کنترل مغایرت، بررسی صحت، رسیدگی به شکایات و کیفیت منابع.<br>
+<strong>مدل/داده:</strong> مصرف&zwnj;کنندهٔ شواهد زمان&zwnj;مند با حفظ منشأ، دقت و خطا.</p>
+<h2>اهداف</h2>
+<ul>
+<li>کاهش مغایرت قیمت نمایش در برابر قابل&zwnj;فروش؛</li>
+<li>کاهش سفر ناموفق به علت بسته&zwnj;بودن، موجودی یا آدرس اشتباه؛</li>
+<li>حفظ سلامت و شفافیت بازار بدون مجازات اشتباه فروشنده؛</li>
+<li>کسب شواهد معتبر جدید با حداقل بار نوتیفیکیشن؛</li>
+<li>یادگیری تفاوت کالاها، دسته&zwnj;ها، فروشگاه&zwnj;ها، شعب و کانال&zwnj;ها.</li>
+</ul>
+<h2>کارهای اصلی محصول / User Stories</h2>
+<table>
+<thead>
+<tr>
+  <th>شناسه</th>
+  <th>نیاز</th>
+  <th>معیار پذیرش</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>PR-01</td>
+  <td>خریدار بداند <strong>آخرین قیمت تأییدشده</strong> چه بوده</td>
+  <td>زمان، منبع و دامنهٔ تأیید نمایان باشد</td>
+</tr>
+<tr>
+  <td>PR-02</td>
+  <td>خریدار بداند کالا «در مغازه» است یا «قابل سفارش»</td>
+  <td>وضعیت&zwnj;های مستقل و کانال مشخص باشد</td>
+</tr>
+<tr>
+  <td>PR-03</td>
+  <td>برای مراجعهٔ حضوری استعلام قابل&zwnj;پیگیری ارسال کند</td>
+  <td>درخواستِ یکتا، مهلت و نتیجه/عدم نتیجه مشخص باشد</td>
+</tr>
+<tr>
+  <td>PR-04</td>
+  <td>فروشنده یکجا به چند SKU پاسخ دهد</td>
+  <td>کلید اشتراک دقیق و شمارش پاسخ روشن باشد</td>
+</tr>
+<tr>
+  <td>PR-05</td>
+  <td>فروشنده قیمت جدید را وارد کند</td>
+  <td>قیمت به نسخهٔ offer و شروط خرید متصل شود</td>
+</tr>
+<tr>
+  <td>PR-06</td>
+  <td>فروشنده مشخص کند مغازه باز است یا صرفاً آنلاین پاسخ می&zwnj;دهد</td>
+  <td>حضور فیزیکی از قابلیت پاسخ&zwnj;گویی جدا باشد</td>
+</tr>
+<tr>
+  <td>PR-07</td>
+  <td>سیستم تأیید بازبودن را برای درخواست دیگر استفاده کند</td>
+  <td>فقط در شعبه/بازهٔ زمانی مربوط و بدون تعمیم موجودی</td>
+</tr>
+<tr>
+  <td>PR-08</td>
+  <td>مشتری گزارش موجودی/قیمت/مدل/آدرس/بسته بودن بدهد</td>
+  <td>پرونده و امکان پیگیری بدون جریمهٔ فوری</td>
+</tr>
+<tr>
+  <td>PR-09</td>
+  <td>مشتری تجربهٔ مثبت را گزارش کند</td>
+  <td>دادهٔ مثبت مستقل و امکان انصراف از گزارش</td>
+</tr>
+<tr>
+  <td>PR-10</td>
+  <td>فروشگاه به گزارش اعتراض کند</td>
+  <td>تاریخچهٔ رویداد حفظ و پاسخ مستند ثبت شود</td>
+</tr>
+<tr>
+  <td>PR-11</td>
+  <td>نشان بیرونی در اعتماد کمک کند</td>
+  <td>راستی&zwnj;آزمایی، انقضا و عدم سرایت به ضمانت حضوری</td>
+</tr>
+<tr>
+  <td>PR-12</td>
+  <td>فروشگاه مزاحمت را کنترل کند</td>
+  <td>quiet hours، سقف، batching، opt-out</td>
+</tr>
+<tr>
+  <td>PR-13</td>
+  <td>مدیر بداند خطا از کجا بوده</td>
+  <td>منشأ: فروشنده، منبع، پردازش، تطبیق، تغییر طبیعی، نامعلوم</td>
+</tr>
+<tr>
+  <td>PR-14</td>
+  <td>کاربر از شرایط استوک/گارانتی/مقدار آگاه باشد</td>
+  <td>دامنهٔ قیمت/واریانت پیش از اعتماد نمایش یابد</td>
+</tr>
+<tr>
+  <td>PR-15</td>
+  <td>دادهٔ قدیمی را با هوش مصنوعی قطعاً غلط ننامد</td>
+  <td><code>unknown/stale/conflicted</code> قابل نمایش باشد</td>
+</tr>
+</tbody>
+</table>
+<h2>حالت&zwnj;های UI خریدار</h2>
+<ul>
+<li>«تأیید شده در ... توسط ...»؛ «برآورد سیستمی — تأیید مستقیم ندارد»؛ «اطلاعات کافی نیست»؛ «گزارش مغایرت تحت بررسی»؛ «قبل از مراجعه تأیید کنید».</li>
+<li>هنگام درخواست استعلام، ETA پاسخ <strong>قول قطعی</strong> نیست. کاربر باید قبل از سفر، وجود کالا/آدرس/ساعت/قیمت کامل را بررسی کند.</li>
+<li>نمرهٔ کلی فروشگاه نباید جای جزئیات اعتماد قیمت و موجودی را بگیرد.</li>
+<li>عدم امکان تضمین تحویل باید صریح ذکر شود، مگر رزرو معتبر و تعهد واقعی فروشگاه.</li>
+</ul>
+<h2>محدودیت&zwnj;ها و «فعلاً نسازیم»</h2>
+<ul>
+<li>تماس ساختگی VoIP/پوش تمام&zwnj;صفحه به&zwnj;عنوان بخش حیاتی فرایند.</li>
+<li>درصد احتمال موجودی کالیبره&zwnj;نشده در MVP؛ دادهٔ برچسب&zwnj;خورده کافی نیست.</li>
+<li>رزرو الزام&zwnj;آور در MVP بدون اتصال/فرایند واقعی پذیرش و آزادسازی.</li>
+<li>تعمیم نشان خرید اینترنتی به ضمانت خرید حضوری.</li>
+<li>الگوریتم جریمهٔ خودکار برای گزارش&zwnj;های منفیِ غیرمستند.</li>
+</ul>
+<h2>معیار پذیرش سطح سیستم</h2>
+<ul>
+<li>در تولید داده هیچ گزارش/پاسخ کهنه جدیدترین وضعیت را خاموش و بی&zwnj;قید بازنویسی نکند.</li>
+<li>هر نتیجه قابل ردیابی تا منبع، زمان مشاهده و نسخهٔ پیشنهاد باشد.</li>
+<li>هر استعلام دارای بودجهٔ مزاحمت و شناسهٔ عدم&zwnj;تکرار باشد.</li>
+<li>وضعیت بازبودن/حضور، قیمت و موجودی جداگانه به&zwnj;روز شوند.</li>
+<li>تمام احتمال&zwnj;های نمایش&zwnj;یافته تعریف دقیق هدف و کالیبراسیون داشته باشند.</li>
+</ul>
+</section>
+<section id="section-6"><div class="file-path">01_PRODUCT/02_User_Journeys.md</div><h1>۰۴ — مسیرهای کاربران و ریزتصمیم&zwnj;های UX</h1>
+<h2>مسیر A: خریدار در حال مقایسه</h2>
+<ol>
+<li>مشاهدهٔ پیشنهاد با قیمت و واحد مشخص، زمان آخرین تغییر ثبت&zwnj;شده و کیفیت شواهد؛ ۲. مقایسهٔ کالاهای <strong>واقعاً یکسان</strong>؛ ۳. نمایش برآورد/تأیید و هشدار بدون مزاحمت خودکار برای هر بازدید؛ ۴. امکان استعلام در صورت قصد خرید یا دادهٔ پرریسک.</li>
+</ol>
+<h2>مسیر B: کاربر قصد مراجعه دارد</h2>
+<ol>
+<li>کاربر «قصد مراجعه» را انتخاب می&zwnj;کند؛ ۲. سیستم شعبه و کانال حضوری، مدل/رنگ/ظرفیت، بازبودن در زمان مراجعه و زمان رسیدن تقریبی را ارزیابی می&zwnj;کند؛ ۳. اگر مدرک کافی نیست، یک استعلام مشترک با مهلت معتبر ارسال می&zwnj;کند؛ ۴. قبل از حرکت نتیجه و محدودیت را توضیح می&zwnj;دهد؛ ۵. پس از مراجعه فقط در صورت تمایل فیدبک می&zwnj;گیرد؛ ۶. اگر مغایرت بود پرونده باز می&zwnj;شود.</li>
+</ol>
+<h2>مسیر C: فروشندهٔ حضوری</h2>
+<p>ثبت و احراز هویت مغازه و شعبه؛ مجوز نوتیفیکیشن؛ ساعات پاسخ&zwnj;گویی؛ نمایش درخواست گروهی؛ دکمه&zwnj;های «موجود در مغازه/انبار/تأمین&zwnj;کننده/ناموجود/نامشخص»؛ «قیمت همان است/قیمت جدید/استعلام قیمت لازم»؛ «باز/بسته/در دسترس اما بیرون مغازه»؛ اصلاح واریانت؛ پاسخ/اعتراض به پرونده.</p>
+<h2>مسیر D: مشتری گزارش می&zwnj;دهد</h2>
+<p>ورودی&zwnj;های مستقل: مغازه بسته بود؛ محصول نبود؛ رنگ یا کانفیگ متفاوت بود؛ قیمت تغییر کرده بود؛ آدرس/طبقه/واحد نادرست؛ کالا صرفاً سفارشی بود؛ شرایط پرداخت/گارانتی فرق داشت؛ فروشنده در مغازه نبود؛ تجربهٔ مثبت. دریافت زمان مشاهده، SKU، شعبه، کانال، توضیح و مدرک اختیاری؛ ساخت رسید پیگیری و اعلام مرحله، بدون اعلام تخلف زودهنگام.</p>
+<h2>مسیر E: رسیدگی عملیات</h2>
+<p>پیام خودکار دریافت شد → تشخیص تکراری/سوءاستفاده → تعیین ریسک و SLA → درخواست توضیح فروشگاه → تطبیق نسخهٔ پیشنهاد/زمان/واریانت → بررسی مستقل در صورت نیاز → نتیجه: تأیید، رد، تغییر طبیعی، خطای خودمان، نامشخص → اطلاع&zwnj;رسانی و حق اعتراض → اصلاح داده/مدل.</p>
+<h2>طراحی چند کانال</h2>
+<ul>
+<li>حضوری / آنلاین / تماس / انبار/تأمین&zwnj;کننده باید فیلد مستقل داشته باشند.</li>
+<li>«موجود» نباید بدون ذکر مکان و امکان تحویل به «آمادهٔ تحویل حضوری» تعبیر شود.</li>
+<li>ساعت کاری اعلام&zwnj;شده برابری با حضور واقعی یا بازبودن در تعطیلی خاص ندارد.</li>
+<li>یک فروشگاه می&zwnj;تواند چند شعبه، چند کارمند، چند گوشی و چند شناسهٔ ثبت&zwnj;شده داشته باشد؛ تعلق و مالکیت باید حل شود.</li>
+</ul>
+<h2>تجربهٔ کم&zwnj;اصطکاک فروشنده</h2>
+<ul>
+<li>پاسخ به وضعیت موجودی بدون تایپ، ورود عدد قیمت فقط هنگام تغییر؛</li>
+<li>گروه&zwnj;بندی درخواست&zwnj;های نزدیک، سقف روزانه و quiet hours؛</li>
+<li>اولویت&zwnj;بندی داخل اپ و عدم فشار برای پاسخ «بله»؛</li>
+<li>پاسخ «بررسی نکردم/نامشخص» مشروع و بدون جریمه؛</li>
+<li>پرهیز از نمایش اطلاعات شخصی خریدار به فروشنده مگر ضرورت.</li>
+</ul>
+<h2>Accessibility و بین&zwnj;المللی&zwnj;سازی</h2>
+<p>متن فارسی راست&zwnj;به&zwnj;چپ، اعداد و ارز یکدست، تاریخ شمسی/میلادی و UTC در بک&zwnj;اند، صفحه&zwnj;خوان/رنگ غیرانحصاری، کیبورد عددی مناسب، وضع «بدون اینترنت»، اندازهٔ دکمه قابل لمس، تفاوت منطقهٔ زمانی شهرها.</p>
+</section>
+<section id="section-7"><div class="file-path">01_PRODUCT/03_Verification_Scope_and_Fulfillment.md</div><h1>۰۵ — قرارداد معنایی پیشنهاد قابل&zwnj;خرید و دامنهٔ تأیید</h1>
+<h2>پنج موجودیت متفاوت</h2>
+<p><strong>فروشگاه حقوقی</strong> → <strong>شعبه فیزیکی</strong> → <strong>کانال فروش</strong> → <strong>واریانت SKU</strong> → <strong>پیشنهاد با شرایط</strong>. هیچ تأیید نباید از یکی به دیگری بدون قرارداد صریح منتقل شود.</p>
+<h2>دامنهٔ یک تأیید (<code>verification_scope</code>)</h2>
+<p>حداقل: <code>shop_id</code>, <code>branch_id</code>, <code>offer_id</code>, <code>offer_version</code>, <code>product_id</code>, <code>variant_id</code>, <code>channel</code>, <code>price_type</code>, <code>currency</code>, <code>unit</code>, <code>condition</code>, <code>warranty</code>, <code>payment_terms</code>, <code>delivery_location</code>, <code>observed_at</code>, <code>actor_id</code>, <code>evidence_source</code>.</p>
+<h2>حالات قیمت</h2>
+<ul>
+<li><code>fixed_purchase_price</code>: قیمت قطعی برای شرایط شفاف؛</li>
+<li><code>starting_from</code>: قیمت حداقلی «از ...»؛</li>
+<li><code>quote_required</code>: نیازمند استعلام؛</li>
+<li><code>volume_tier</code>: وابسته به مقدار/عمده؛</li>
+<li><code>promotion</code>: تخفیف محدود و مشروط؛</li>
+<li><code>negotiable</code>: توافقی/غیرقطعی؛</li>
+<li><code>unavailable</code>: عملاً فروش/قیمت فعال نیست؛</li>
+<li><code>unknown</code>: داده نامشخص، نه رقم صفر و نه رقم یک.</li>
+</ul>
+<h2>حالات عرضه و تحویل</h2>
+<p><code>in_store</code>, <code>other_branch</code>, <code>own_warehouse</code>, <code>supplier</code>, <code>preorder</code>, <code>made_to_order</code>, <code>unknown</code>؛ با <code>delivery_eta</code> و در صورت نیاز <code>reservation_status</code>.</p>
+<h2>موجودی قابل&zwnj;فروش</h2>
+<p>موجودی نمایشی/رزروشده/معیوب/مرجوعی با موجودی قابل فروش متفاوت است. رنگ، ظرفیت، پک، ریجن، رجیستری، پلمپ، گارانتی، واحد متری/کیلویی و وضعیت کارکرده باید در هویت SKU لحاظ شوند.</p>
+<h2>وضعیت تطابق/تعهد</h2>
+<p><code>verified_exact</code>, <code>verified_with_conditions</code>, <code>inferred</code>, <code>not_verified</code>, <code>contradicted</code>, <code>unknown</code>، مستقل از نتیجهٔ قیمت/موجودی.</p>
+<h2>مثال</h2>
+<p>تأیید «گوشی ۲۵۶ گیگ مشکی، نو، رجیستر، گارانتی ۱۸ ماه، پرداخت نقدی، تحویل در شعبهٔ خیابان X به قیمت Y در ساعت ۱۰» به رنگ سفید یا گارانتی متفاوت قابل تعمیم نیست. اگر ساعت ۱۱ آخرین واحد فروخت، تأیید ساعت ۱۰ نادرست نمی&zwnj;شود؛ ارزیابی خرید ساعت ۱۲ باید زمان و ریسک فروش را لحاظ کند.</p>
+<h2>مدیریت هم&zwnj;زمانی</h2>
+<p>یک رزرو/فروش باید بتواند شواهد موجودی را invalidate کند؛ پاسخ دیررس روی نسخهٔ قدیمی نباید جایگزین نسخهٔ جدید شود. <code>valid_from</code>, <code>observed_at</code>, <code>ingested_at</code>, <code>valid_until</code> و <code>supersedes_id</code> را از هم تفکیک کنید.</p>
+<h2>ریسک ادعای تضمین</h2>
+<p>کلمات «تضمینی/قطعاً موجود/قیمت قطعی» تنها وقتی مجازند که تعهد قراردادی، رزرو واقعی یا فرایند اجرایی قابل دفاع وجود داشته باشد؛ امتیاز الگوریتمی چنین تعهدی ایجاد نمی&zwnj;کند.</p>
+</section>
+<section id="section-8"><div class="file-path">02_DATA/01_Audit.md</div><h1>۰۶ — ممیزی بازتولیدپذیر داده&zwnj;های موجود</h1>
+<p><strong>مبنای زمانی:</strong> 2026-10-23 00:00:00 +03:30. فایل عددی قابل پردازش: <code>verified_audit.json</code>؛ خلاصهٔ دسته&zwnj;ها: <code>category_profile.csv</code>.<br>
+<strong>منابع:</strong> فایل&zwnj;های CSV تحویلی و README همراه آن&zwnj;ها. همهٔ آمار این سند دوباره محاسبه شده&zwnj;اند.</p>
+<h2>اندازه و پیوند</h2>
+<table>
+<thead>
+<tr>
+  <th>سنجه</th>
+  <th style="text-align:right">مقدار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>فروشگاه</td>
+  <td style="text-align:right">6,476</td>
+</tr>
+<tr>
+  <td>محصول</td>
+  <td style="text-align:right">225,903</td>
+</tr>
+<tr>
+  <td>پیشنهاد</td>
+  <td style="text-align:right">331,506</td>
+</tr>
+<tr>
+  <td>دسته&zwnj;بندی</td>
+  <td style="text-align:right">3,428</td>
+</tr>
+<tr>
+  <td>فروشگاه با پیشنهاد</td>
+  <td style="text-align:right">3,792</td>
+</tr>
+<tr>
+  <td>فروشگاه بدون پیشنهاد در خروجی</td>
+  <td style="text-align:right">2,684</td>
+</tr>
+<tr>
+  <td>زوج یکتای فروشگاه/محصول</td>
+  <td style="text-align:right">311,191</td>
+</tr>
+<tr>
+  <td>زوج با بیش از یک پیشنهاد</td>
+  <td style="text-align:right">9,557</td>
+</tr>
+<tr>
+  <td>زوج با بیش از یک قیمت عددی متمایز</td>
+  <td style="text-align:right">5,355</td>
+</tr>
+<tr>
+  <td>محصول با حداقل دو فروشگاه</td>
+  <td style="text-align:right">35,254؛ 15.61٪</td>
+</tr>
+<tr>
+  <td>محصول با فقط یک فروشگاه</td>
+  <td style="text-align:right">190,649؛ 84.39٪</td>
+</tr>
+<tr>
+  <td>محصول فاقد پیشنهاد در همین خروجی</td>
+  <td style="text-align:right">0</td>
+</tr>
+<tr>
+  <td>شناسه&zwnj;های تکراری سطح جدول</td>
+  <td style="text-align:right">0 برای شناسهٔ محصول/فروشگاه/پیشنهاد</td>
+</tr>
+<tr>
+  <td>پیشنهاد با ارجاع شکسته به محصول/فروشگاه</td>
+  <td style="text-align:right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>احتیاط:</strong> صادرات هر فروشگاه حداکثر ۳۰۰ محصول متمایز دارد؛ ۴۶۱ فروشگاه دقیقاً به این سقف رسیده&zwnj;اند. عدم مشاهدهٔ SKU در خروجی اثبات نبود آن در فروشگاه نیست.</p>
+<h2>کیفیت قیمت</h2>
+<table>
+<thead>
+<tr>
+  <th>آزمون</th>
+  <th style="text-align:right">تعداد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>خالی یا غیرقابل&zwnj;تبدیل به عدد</td>
+  <td style="text-align:right">15,083</td>
+</tr>
+<tr>
+  <td>دقیقاً ۱ تومان</td>
+  <td style="text-align:right">635</td>
+</tr>
+<tr>
+  <td>مثبت و کمتر از ۱٬۰۰۰ تومان (شامل قیمت ۱)</td>
+  <td style="text-align:right">1,645</td>
+</tr>
+<tr>
+  <td>بزرگ&zwnj;تر از ۱٬۰۰۰٬۰۰۰٬۰۰۰٬۰۰۰ تومان</td>
+  <td style="text-align:right">126</td>
+</tr>
+<tr>
+  <td>مقدار صفر</td>
+  <td style="text-align:right">0</td>
+</tr>
+<tr>
+  <td>مقدار منفی</td>
+  <td style="text-align:right">0</td>
+</tr>
+<tr>
+  <td>قیمت عددی</td>
+  <td style="text-align:right">316,423</td>
+</tr>
+<tr>
+  <td>میانهٔ قیمت&zwnj;های مثبت</td>
+  <td style="text-align:right">3,640,000 تومان</td>
+</tr>
+</tbody>
+</table>
+<p>این&zwnj;ها flag کیفیت&zwnj;اند، نه اثبات خطا. بعضی قیمت&zwnj;های کوچک به واحد/متر/تعداد یا placeholder مرتبط&zwnj;اند و بعضی قیمت&zwnj;های بزرگ ممکن است خطای منبع/تبدیل باشند. خروجی <code>price_audit_candidates_review_only.csv</code> شامل ۱۹٬۴۵۸ کاندیدای بازبینی قبلی است؛ flagها هم&zwnj;پوشانی دارند و مرجع حقیقت نیستند.</p>
+<h2>زمان تغییر ثبت&zwnj;شده، نه سن تأیید</h2>
+<table>
+<thead>
+<tr>
+  <th>سنجه</th>
+  <th style="text-align:right">مقدار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>timestamp خالی/نامعتبر</td>
+  <td style="text-align:right">769</td>
+</tr>
+<tr>
+  <td>قدیمی&zwnj;ترین timestamp معتبر</td>
+  <td style="text-align:right">2020-12-03 UTC</td>
+</tr>
+<tr>
+  <td>جدیدترین timestamp معتبر</td>
+  <td style="text-align:right">2026-10-13 UTC</td>
+</tr>
+<tr>
+  <td>میانهٔ سن آخرین تغییر</td>
+  <td style="text-align:right">31.26 روز</td>
+</tr>
+<tr>
+  <td>صدک ۹۰ سن</td>
+  <td style="text-align:right">170.14 روز</td>
+</tr>
+<tr>
+  <td>صدک ۹۵ سن</td>
+  <td style="text-align:right">241.31 روز</td>
+</tr>
+<tr>
+  <td>سن ۰ تا کمتر از ۱۴ روز</td>
+  <td style="text-align:right">42,765</td>
+</tr>
+<tr>
+  <td>۱۴ تا کمتر از ۳۰ روز</td>
+  <td style="text-align:right">118,825</td>
+</tr>
+<tr>
+  <td>۳۰ تا کمتر از ۹۰ روز</td>
+  <td style="text-align:right">88,767</td>
+</tr>
+<tr>
+  <td>۹۰ تا کمتر از ۱۸۰ روز</td>
+  <td style="text-align:right">54,029</td>
+</tr>
+<tr>
+  <td>دست&zwnj;کم ۱۸۰ روز</td>
+  <td style="text-align:right">26,351</td>
+</tr>
+</tbody>
+</table>
+<p>هر عدد بالا مربوط به timestamp آخرین تغییر ثبت&zwnj;شده است؛ نه تعداد تغییرها، نرخ نوسان یا آخرین crawl. در صادرات فعلی بیشینهٔ تغییر ثبت&zwnj;شده حدود ۱۰ روز پیش از تاریخ مبناست؛ علت تأخیر را فایل توضیح نمی&zwnj;دهد.</p>
+<h2>پوشش اطلاعات فروشگاه</h2>
+<ul>
+<li>دارای <code>website_url</code>: ۹۰ فروشگاه. نامعتبر/نبود URL از این فایل اثبات عدم وجود سایت خارجی نیست.</li>
+<li>ساعات هفتگی خالی/<code>{}</code>: ۲٬۰۰۳ فروشگاه؛ ساعت اعلامی برای بقیه به معنی تأیید باز بودن لحظه&zwnj;ای نیست.</li>
+<li>مختصات lat/lon غیرخالی: ۶٬۴۷۶ فروشگاه؛ این به معنی «آدرس تأیید شده» نیست.</li>
+<li><code>model</code> تکمیل&zwnj;شده: ۴٬۰۵۶ محصول، تقریباً ۱٫۸٪؛ مشخصات <code>specs</code> غنی&zwnj;ترند و باید با عنوان خوانده شوند.</li>
+</ul>
+<h2>برش دسته&zwnj;های مهم</h2>
+<table>
+<thead>
+<tr>
+  <th>دسته</th>
+  <th style="text-align:right">پیشنهاد</th>
+  <th style="text-align:right">محصولات</th>
+  <th style="text-align:right">تغییر ثبت&zwnj;شده در ۱۴ روز اخیر*</th>
+  <th style="text-align:right">در ۳۰ روز اخیر*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>گوشی موبایل</td>
+  <td style="text-align:right">2,122</td>
+  <td style="text-align:right">814</td>
+  <td style="text-align:right">42.27٪</td>
+  <td style="text-align:right">85.53٪</td>
+</tr>
+<tr>
+  <td>لپ تاپ و نوت بوک</td>
+  <td style="text-align:right">833</td>
+  <td style="text-align:right">505</td>
+  <td style="text-align:right">70.35٪</td>
+  <td style="text-align:right">97.84٪</td>
+</tr>
+<tr>
+  <td>کارت گرافیک</td>
+  <td style="text-align:right">54</td>
+  <td style="text-align:right">52</td>
+  <td style="text-align:right">7.41٪</td>
+  <td style="text-align:right">64.81٪</td>
+</tr>
+<tr>
+  <td>حافظه SSD</td>
+  <td style="text-align:right">128</td>
+  <td style="text-align:right">103</td>
+  <td style="text-align:right">8.59٪</td>
+  <td style="text-align:right">79.69٪</td>
+</tr>
+<tr>
+  <td>هارد دیسک اینترنال</td>
+  <td style="text-align:right">768</td>
+  <td style="text-align:right">471</td>
+  <td style="text-align:right">19.66٪</td>
+  <td style="text-align:right">70.70٪</td>
+</tr>
+<tr>
+  <td>کیف و کاور گوشی</td>
+  <td style="text-align:right">2,396</td>
+  <td style="text-align:right">2,176</td>
+  <td style="text-align:right">4.88٪</td>
+  <td style="text-align:right">31.93٪</td>
+</tr>
+<tr>
+  <td>سیم و کابل برق ساختمان</td>
+  <td style="text-align:right">7,837</td>
+  <td style="text-align:right">5,274</td>
+  <td style="text-align:right">16.92٪</td>
+  <td style="text-align:right">42.03٪</td>
+</tr>
+<tr>
+  <td>پمپ خانگی و صنعتی</td>
+  <td style="text-align:right">3,093</td>
+  <td style="text-align:right">1,732</td>
+  <td style="text-align:right">6.30٪</td>
+  <td style="text-align:right">34.98٪</td>
+</tr>
+</tbody>
+</table>
+<p>*این درصد سهم پیشنهادهایی است که <strong>آخرین تغییر ثبت&zwnj;شدهٔ آن&zwnj;ها</strong> در پنجره قرار دارد. هیچ&zwnj;گونه ادعای «تغییر قیمت روزانه/هفتگی بازار» از آن قابل استخراج نیست.</p>
+<h2>کمبودهای اساسی</h2>
+<p>فاقد: <code>last_seen_at</code>, <code>last_verified_at</code>, زنجیرهٔ snapshot قیمت و تغییر بدون تغییر، وضعیت موجودی، مقدار/ورود مجدد، شعبه و کانال دقیق، ساعت استثنایی، نرخ ارز تاریخی، سن واقعی عرضه/ورود بازار، تعداد/نتیجه استعلام، کیفیت مستقل پاسخ، سفر/خرید موفق، نشان&zwnj;های رسمی راستی&zwnj;آزمایی&zwnj;شده، دادهٔ کامل فروش/رزرو.</p>
+<h2>اصلاح ادعاهای قدیمی</h2>
+<p>در طول گفت&zwnj;وگو تعدادی تقریب زده شد (مثلاً سهم ۱۴روزهٔ گوشی ۴۱٫۵٪ یا شمار سن&zwnj;های ۳۰روزه). در این بسته <strong>فقط مقادیر مجدداً محاسبه&zwnj;شده با زمان مبنای ثابت</strong> مرجع&zwnj;اند. طبق آدیت جدید نرخ ۱۴روزهٔ گوشی ۴۲٫۲۷٪، ۳۰روزهٔ لپ&zwnj;تاپ ۹۷٫۸۴٪ است. مجموع «کمتر از ۱۰۰۰ تومان» شامل ۶۳۵ مورد قیمت ۱ هم هست. اعداد سنی با انتخاب نیمه&zwnj;شب محلی محاسبه شده&zwnj;اند و با ساعت&zwnj;های دیگر اندکی فرق می&zwnj;کنند.</p>
+<h2>محدودیت سنجش صحت</h2>
+<p>این ممیزی برچسب نظارتی ندارد؛ تشخیص ناهنجاری≠قیمت اشتباه؛ داشتن آدرس/ساعت≠درستی آدرس/باز بودن؛ داشتن قیمت≠موجود بودن؛ تعداد پیشنهاد≠سهم بازار.</p>
+</section>
+<section id="section-9"><div class="file-path">02_DATA/02_Data_Dictionary.md</div><h1>۰۷ — فرهنگ دادهٔ موجود و شکاف&zwnj;های داده</h1>
+<h2>فایل <code>shops.csv</code> (۱۳ ستون)</h2>
+<table>
+<thead>
+<tr>
+  <th>ستون</th>
+  <th>معنا</th>
+  <th>توجه</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>shop_id</code></td>
+  <td>شناسهٔ فروشگاه در خروجی</td>
+  <td>معادل branch_id تأیید نشده</td>
+</tr>
+<tr>
+  <td><code>name</code></td>
+  <td>نام فروشگاه</td>
+  <td>برای identity resolution ناکافی</td>
+</tr>
+<tr>
+  <td><code>address</code></td>
+  <td>آدرس متن</td>
+  <td>طبقه/واحد/شماره ممکن است قدیمی باشد</td>
+</tr>
+<tr>
+  <td><code>lat</code>, <code>lon</code></td>
+  <td>مختصات</td>
+  <td>وجود ≠ صحت مکانی</td>
+</tr>
+<tr>
+  <td><code>location_label</code></td>
+  <td>برچسب محله/موقعیت</td>
+  <td>اطلاعات کمکی</td>
+</tr>
+<tr>
+  <td><code>contacts</code></td>
+  <td>کانال&zwnj;های تماس، JSON رشته&zwnj;ای</td>
+  <td>شماره/راه ارتباط شخصی محسوب نشود بدون بررسی</td>
+</tr>
+<tr>
+  <td><code>instagram</code></td>
+  <td>حساب اجتماعی</td>
+  <td>ممکن است null</td>
+</tr>
+<tr>
+  <td><code>website_url</code></td>
+  <td>دامنه ثبت&zwnj;شده</td>
+  <td>پوشش اندک؛ نبود ≠ نبود سایت</td>
+</tr>
+<tr>
+  <td><code>weekly_hours</code></td>
+  <td>ساعت هفتگی، JSON رشته&zwnj;ای</td>
+  <td>تعطیلی استثنایی/بازبودن فعلی ندارد</td>
+</tr>
+<tr>
+  <td><code>category_names</code></td>
+  <td>مجموعه دسته&zwnj;ها</td>
+  <td>هم&zwnj;پوشانی و طبقه&zwnj;بندی فروشگاه</td>
+</tr>
+<tr>
+  <td><code>payment_options</code></td>
+  <td>روش&zwnj;های پرداخت</td>
+  <td>صرفاً اظهار/منبع</td>
+</tr>
+<tr>
+  <td><code>supports_fast_delivery</code></td>
+  <td>ارسال سریع</td>
+  <td>null/اعلامی</td>
+</tr>
+</tbody>
+</table>
+<h2><code>products.csv</code> (۷ ستون)</h2>
+<p><code>product_id</code>, <code>persian_title</code>, <code>brand_name</code>, <code>model</code>, <code>category_name</code>, <code>specs</code>, <code>image_urls</code>. بخش <code>specs</code>، JSON ساختاریافته اما متنوع است؛ <code>model</code> عمدتاً خالی است. مشخصات باید با OCR یا تصویر حدسی تکمیل نشوند مگر فرایند اعتبارسنجی جدا؛ عنوان/متن ممکن است ناقص یا مبهم باشد.</p>
+<h2><code>offers.csv</code> (۸ ستون)</h2>
+<p><code>offer_id</code>, <code>product_id</code>, <code>shop_id</code>, <code>seller_title</code>, <code>description</code>, <code>warranty</code>, <code>price_toman</code>, <code>last_price_changed_at</code>. این داده نوع قیمت، قیمت واقعی معامله، نوع کانال، وضعیت حضوری، موجودی و تعداد ندارد. <code>last_price_changed_at</code> را به زمان تأیید rename نکنید.</p>
+<h2>مقادیر مفقود و JSON</h2>
+<p>صادرکننده <code>null</code> را به&zwnj;صورت رشته می&zwnj;نویسد و آرایه&zwnj;ها/آبجکت&zwnj;ها را JSON فشرده در CSV ذخیره می&zwnj;کند. در ETL ابتدا nullها normalize شوند و سپس JSON با schema validation و ثبت خطای parse باز شوند.</p>
+<h2>موجودیت&zwnj;های پیشنهادی جدید</h2>
+<ul>
+<li><code>shop_legal_entity</code>, <code>shop_branch</code>, <code>shop_channel</code>, <code>shop_identity_evidence</code>؛</li>
+<li><code>sku_variant</code>, <code>offer_terms</code>, <code>offer_versions</code>؛</li>
+<li><code>offer_observation</code>, <code>market_price_observation</code>, <code>stock_observation</code>, <code>shop_presence_observation</code>؛</li>
+<li><code>inquiry</code>, <code>inquiry_delivery_attempt</code>, <code>inquiry_response</code>, <code>inquiry_subscriber</code>؛</li>
+<li><code>feedback_report</code>, <code>feedback_case</code>, <code>case_action</code>, <code>case_evidence</code>, <code>case_appeal</code>؛</li>
+<li><code>external_trust_evidence</code>, <code>shop_reliability_dimension</code>, <code>model_prediction</code>, <code>decision_log</code>؛</li>
+<li><code>market_fx_snapshot</code>, <code>market_regime_event</code>, <code>product_lifecycle_signal</code>؛</li>
+<li><code>outlet_business_hours_exception</code>, <code>seller_device</code>, <code>notification_preferences</code>.</li>
+</ul>
+<h2>زمان&zwnj;های استاندارد</h2>
+<p><code>event_time/observed_at</code> (واقعاً چه وقت مشاهده شد)، <code>ingested_at</code> (سرور چه وقت دریافت کرد)، <code>last_changed_at</code> (آخرین تغییر شناخته&zwnj;شده)، <code>verified_at</code> (زمان تأیید)، <code>valid_until</code> (انقضای حقوقی/عملیاتی)، <code>decision_at</code> (زمان پیش&zwnj;بینی). همه timestampها UTC ذخیره و با منطقهٔ زمانی شعبه نمایش داده شوند؛ زمان مشاهدهٔ ادعایی منبع می&zwnj;تواند نیازمند تأیید باشد.</p>
+<h2>شناسه و ارتباطات</h2>
+<p>هویت فروشگاه و شعبه با <code>shop_id</code> صرفاً پوشش داده نمی&zwnj;شود؛ دامنهٔ اینترنتی، تلفن، نشانی، حساب اپ و مالک حقوقی ممکن است یک&zwnj;به&zwnj;چند باشند. تغییر مالکیت شعبه و انتقال آدرس باید versioned و قابل بازگشت باشد.</p>
+</section>
+<section id="section-10"><div class="file-path">03_ALGORITHMS/01_Price_Validity.md</div><h1>۰۸ — موتور صحت/تازگی قیمت و تشخیص ناهنجاری</h1>
+<h2>هدف دقیق و دو مسئلهٔ مستقل</h2>
+<p><strong>Plausibility:</strong> آیا قیمت گزارش&zwnj;شده در مقایسه با SKU/شرایط مشابه معقول است؟<br>
+<strong>Current purchase-price validity:</strong> آیا مشتری <em>اکنون</em> می&zwnj;تواند با همان قیمت و شرایط خرید کند؟<br>
+<strong>Change occurrence:</strong> آیا پس از تأیید قبلی دست&zwnj;کم یک تغییر واقعی رخ داده؟<br>
+این سه برچسب یکی نیستند؛ تغییر قیمت ممکن است چندبار رخ دهد و دوباره به مقدار اولیه برسد.</p>
+<h2>فاز A — Quality Gates</h2>
+<ol>
+<li>قیمت null، sentinel مثل ۱ تومان، واحد پول نامعتبر، ریال/تومان ۱۰برابر، اعشار/جداکننده خراب، صفر/عدد غیرعادی؛ ۲. شناسایی دقیق واریانت (رنگ، ظرفیت، نسل، گارانتی، پک/رجیستری/نو/استوک، متراژ/وزن/تعداد)؛ ۳. تشخیص quote/starting-from/volume-tier/promotion؛ ۴. وضعیت اطمینان: <code>comparable</code> یا <code>incomparable_unknown</code>، نه تعمیم کاذب.</li>
+</ol>
+<h2>فاز B — مرجع قیمت با کیفیت شواهد</h2>
+<p>مرجع باید از <strong>فروشگاه&zwnj;های مستقل، پیشنهادهای قابل&zwnj;مقایسه و مشاهده&zwnj;های تازه</strong> ساخته شود. در بررسی خودِ offer، قیمت&zwnj;های همان فروشگاه را از همتایان حذف کنید (<code>Leave-One-Shop-Out</code>) و برای هر فروشگاه/واریانت چند پیشنهاد را با قرارداد مناسب تجمیع کنید. توزیع مقاوم (median، MAD یا quantileها) ترجیح دارد به میانگین خام.</p>
+<p>برای نمونه در قیمت مرجع می&zwnj;توان از وزن&zwnj;های زیر استفاده کرد: تازگی مشاهده، نوع تأیید (تطبیق مستقل یا صرفاً فروشنده)، دقت تاریخی منبع، استقلال تأمین&zwnj;کننده و تطابق واریانت. از شمار مستقل همتایان و بازهٔ عدم&zwnj;قطعیت مرجع گزارش دهید. اگر همتا کم بود «مرجع نامطمئن» اعلام کنید و به prior دسته تکیه کنید؛ تخمین بازار را قطعی نکنید.</p>
+<h2>فاز C — تحلیل مسیر، نه اول/آخر</h2>
+<p>برای سری قیمت&zwnj;های هم&zwnj;فاصله و قابل&zwnj;مقایسه، بازده لگاریتمی <code>r_t = ln(P_t/P_{t-1})</code>. ویژگی&zwnj;ها:</p>
+<ul>
+<li><code>net_return = sum(r_t)</code>؛ تغییر خالص؛</li>
+<li><code>total_abs_path = sum(abs(r_t))</code>؛ حرکت تجمعی مسیر؛</li>
+<li><code>realized_variance = sum(r_t^2)</code>؛ شدت نوسان در قرارداد نمونه&zwnj;برداری معین؛</li>
+<li><code>change_count</code>, <code>time_between_changes</code>, <code>change_hazard</code>؛</li>
+<li><code>jump_count</code> و اندازهٔ جهش&zwnj;ها، تغییر جهت، هم&zwnj;حرکتی منابع؛</li>
+<li>پنجره&zwnj;های چندمقیاسی ساعت/روز/هفته/ماه با کنترل تعداد مشاهده و عدم توازن ساعت&zwnj;های مشاهده.</li>
+</ul>
+<p><strong>نکته:</strong> «بدون ثبت تغییر در snapshots» الزاماً بدون تغییر <em>در بین</em> دو snapshot نیست؛ تغییرهای میان&zwnj;دوره&zwnj;ای پنهان&zwnj;اند. نوسان اندازه&zwnj;گیری&zwnj;شده با نمونه&zwnj;برداری کم، معمولاً ناقص است. تنها <code>last_price_changed_at</code> یک سری زمانی معتبر تولید نمی&zwnj;کند.</p>
+<h2>فاز D — نرخ تغییر و احتمال قیمت فعلی</h2>
+<p>مدل زمان تا اولین تغییر از آخرین <strong>تأیید معتبر</strong>:</p>
+<p><code>S_change(t | x) = exp[- integral_0^t lambda_change(u | category, sku, shop, market, launch, supply, channel) du ]</code></p>
+<p>و برای صحت کنونی قیمت نسبت به عدد/شرایط معین باید مدل جدا (یا hidden-state/HMM) داشته باشیم؛ چون تغییر رفت و برگشتی رخ می&zwnj;دهد. ویژگی&zwnj;های فروشگاه، اختلاف با بازار، نوسان و شواهد مشتری در این مدل نقش دارند. مرجع «قیمت قابل معامله» و تعریف خطای مجاز (مثلاً &lt;= مقدار پولی/درصدی طبق UX) باید از قبل صریح باشد.</p>
+<h2>ویژگی&zwnj;های بازار</h2>
+<ul>
+<li>نرخ ارز و تغییر آن با تأخیر <strong>وابسته به دسته</strong>؛ نه قانون «دلار بالا رفت پس قیمت غلط است»؛</li>
+<li>تغییر قیمت همتایان معتبر در بازهٔ اخیر، تغییر تعداد فروشگاه&zwnj;ها و تنوع عرضه؛</li>
+<li>معرفی نسل جدید، شوک واردات/تأمین، فصل/رویداد خرید؛</li>
+<li>سرعت واکنش فروشگاه به رویداد بازار؛</li>
+<li>بازگشت قیمت به سطح گذشته با تشخیص تغییرهای میان&zwnj;دوره&zwnj;ای.</li>
+</ul>
+<h2>رفتارهای دسته&zwnj;ای و سلسله&zwnj;مراتبی</h2>
+<p><code>global -&gt; family -&gt; category -&gt; SKU -&gt; SKU×shop×channel</code>. در cold-start وزن prior خانواده بیشتر باشد؛ با افزایش دادهٔ معتبر، اثر اختصاصی بالا رود. برای دسته&zwnj;های نادر مخلوط کردن واریانت/وضعیت را مجاز نکنید. تغییر رژیم باید اجازه دهد محصول بالغ ناگهان پرریسک شود.</p>
+<h2>خروجی</h2>
+<p><code>price_data_status</code>, <code>price_plausibility_flag</code>, <code>price_valid_probability</code> (فقط اگر کالیبره), <code>confidence_interval/uncertainty</code>, <code>evidence_strength</code>, <code>reference_price_range</code>, <code>last_changed_at</code>, <code>last_verified_at</code>, <code>verification_scope</code>, <code>reason_codes</code>, <code>model_version</code>, <code>data_as_of</code>.</p>
+<h2>خطاهای نمونه</h2>
+<ul>
+<li>قیمت ۱۰ برابر به علت ریال/تومان؛</li>
+<li>گوشی ۲۵۶ با ۱۲۸ مقایسه شود؛</li>
+<li>یک پیشنهاد «از» با قیمت قطعی؛</li>
+<li>قیمت ۱ تومان به عنوان کف بازار؛</li>
+<li>قیمت امروز فروشندهٔ معتبر در بازار پرنوسان، همواره تا ۷ روز معتبر فرض شود؛</li>
+<li>یک فروشگاه بزرگ با ده پیشنهاد همسان ۱۰ همتای مستقل تلقی شود.</li>
+</ul>
+<h2>شیوهٔ ارزیابی</h2>
+<p>مجموعهٔ holdout آینده با راستی&zwnj;آزمایی قیمت دقیق و شرایط کامل؛ MAE/MAPE برای برآورد قیمت فقط روی مقادیر مجاز؛ calibration و log-loss برای احتمال؛ precision/recall در هشدار با هزینهٔ false positive؛ تفکیک دسته، سرآمد/کم&zwnj;داده، کانال، ماه و رژیم بازار.</p>
+<h2>راه&zwnj;اندازی MVP</h2>
+<p>قواعد عددی + مطابقت exact SKU + وزن محدود سن تأیید + نشانهٔ قیمت غیرعادی + اولویت استعلام؛ بدون ادعای «احتمال ۸۰٪» تا برچسب معتبر کافی جمع شود.</p>
+</section>
+<section id="section-11"><div class="file-path">03_ALGORITHMS/02_Stock_and_Arrival.md</div><h1>۰۹ — موتور موجودی، تأمین مجدد و اعتبار در زمان رسیدن</h1>
+<h2>مسئله&zwnj;ای که می&zwnj;خواهیم حل کنیم</h2>
+<ul>
+<li><code>P(stock_sellable_now | evidence)</code> و نه صرفاً وجود ردیف offer؛</li>
+<li><code>P(stock_at_arrival | ETA, demand, evidence)</code>، حتی اگر در لحظهٔ تأیید موجود بوده؛</li>
+<li><code>P(available_via_supplier | promised_eta)</code> مجزا از موجودی در مغازه؛</li>
+<li><code>P(fulfillment_success | exact terms)</code> به&zwnj;عنوان هدف نهایی چندبعدی.</li>
+</ul>
+<h2>State Space</h2>
+<p>حالت&zwnj;های observable: <code>in_store_sellable</code>, <code>in_other_warehouse</code>, <code>supplier_available</code>, <code>reserved</code>, <code>display_only</code>, <code>defective</code>, <code>out_of_stock</code>, <code>preorder</code>, <code>unknown</code>. برای سادگی MVP وضعیت کلی + مکان + قابل&zwnj;فروش/رزرو تفکیک شوند؛ یک enum تخت، ترکیب&zwnj;های مهم را از بین می&zwnj;برد.</p>
+<h2>مدل پایهٔ دوطرفه (CTMC / transition)</h2>
+<p>دو حالت قابل&zwnj;فروش (<code>I</code>) و ناموجود (<code>O</code>) با نرخ&zwnj;های <code>lambda_IO</code> (اتمام) و <code>lambda_OI</code> (شارژ مجدد). این نرخ&zwnj;ها تابع خانواده/زیرگروه/واریانت/فروشگاه/فصل/تقاضا/مقدار است. در مراحل بعد می&zwnj;توان حالت تأمین&zwnj;کننده و رزرو را وارد کرد. مدل ماندگاری سادهٔ <code>exp(-lambda t)</code> صرفاً برای «تا اولین اتمام موجودی» با فرض نرخ ثابت مناسب است و ورود مجدد را پوشش نمی&zwnj;دهد.</p>
+<h2>مقدار موجودی</h2>
+<p>اگر عدد دقیق در دسترس نیست، پرسش کوتاه «۱ عدد / ۲ تا ۵ / بیش از ۵ / نامشخص» کمک می&zwnj;کند. برای تک&zwnj;موجودی پرتقاضا TTL کوتاه&zwnj;تر منطقی است. فروشگاه مجبور به اعلام دقیق مقدار نشود و مقدار نامشخص نباید به ۰ تبدیل شود.</p>
+<h2>بازار و انتقال شواهد</h2>
+<ul>
+<li>افزایش گزارش ناموجودی بازار برای SKU مستقل می&zwnj;تواند prior موجودی را تغییر دهد؛ <strong>اما نمونه استعلام&zwnj;ها گزینشی است</strong> و نرخ ۶۰٪ ناموجود در استعلام&zwnj;ها معادل نرخ بازار نیست.</li>
+<li>گزارش «فروشگاه باز است» به شعبه منتقل می&zwnj;شود، نه به هر SKU.</li>
+<li>موجودی کالا A به B منتقل نشود؛ در حد ویژگی وابستگی خانوادهٔ کالایی و کاهش اعتماد قابل استفاده است.</li>
+<li>«عدم پاسخ فروشنده» شواهد موجودی منفی نیست.</li>
+<li>قیمت تغییر نکرده ≠ موجودی تغییر نکرده.</li>
+</ul>
+<h2>مشاهدهٔ بازه&zwnj;ای و bias</h2>
+<p>اگر دوشنبه موجود و پنجشنبه ناموجود بود، زمان دقیق تغییر بین این دو unknown است (<code>interval_censored</code>). ممکن است در این فاصله ناموجود و مجدداً موجود شده باشد. ثبت <code>event_time</code>, <code>ingested_at</code>, <code>source</code>, <code>scope</code>, <code>quantity_bucket</code>, <code>state</code>, <code>evidence_quality</code> لازم است.</p>
+<h2>ETA و سفر</h2>
+<p>درخواست کاربر برای مراجعه باید آخرین تأیید قابل&zwnj;فروش، امکان رزرو، زمان بازبودن واقعی و سن احتمال را با ETA ترکیب کند. یک ساعت پیش تأیید یک عدد موجود، ممکن است برای مشتری نزدیک مفید باشد ولی برای سفر طولانی کافی نباشد.</p>
+<h2>سناریوهای خاص</h2>
+<ul>
+<li>لباس با سایز متفاوت، گوشی با رنگ متفاوت، قطعهٔ یکتا و استوک با سریال مشخص؛</li>
+<li>تأمین&zwnj;کننده موجود ولی تحویل سه روز دیگر؛</li>
+<li>یک واحد نمایشی / رزرو / معیوب؛</li>
+<li>تعطیلی فروشگاه و پاسخ آنلاین از خانه؛</li>
+<li>تأیید موجودی دقیقاً قبل از فروش آخرین واحد؛</li>
+<li>شارژ مجدد و بازگشت سریع به حالت موجود؛</li>
+<li>فروشگاه بزرگ با دو شعبه و انبار مشترک؛</li>
+<li>موجودی سایت با موجودی شعبهٔ حضوری همگام نیست؛</li>
+<li>قطعی گستردهٔ اینترنت مانع استعلام شده است.</li>
+</ul>
+<h2>اعتبار و تعامل با فروشگاه</h2>
+<p>حداقل سؤال&zwnj;ها: «همین واریانت در <strong>مغازه</strong> قابل تحویل است؟»، «تعداد تقریبی؟»، «اگر نیست از کجا/چه زمانی قابل تأمین است؟». ادعای حضور در مغازه را از پاسخ آنلاین مستقل نگهداری کنید.</p>
+<h2>سنجش</h2>
+<p>Positive predictive value تأیید موجودی در زمان مراجعه، نرخ عدم موجودی، تعداد شکایت معتبر، اثر فاصلهٔ زمانی تا مراجعه، خطای مدل در گروه یک&zwnj;عدد/چندعدد، پوشش unknown و اندازهٔ نمونهٔ مستقل. موفقیت مراجعه نباید با فقط «تراکنش انجام شد» یکی شود؛ مشتری ممکن است منصرف شود هرچند کالا موجود بوده.</p>
+</section>
+<section id="section-12"><div class="file-path">03_ALGORITHMS/03_Lifecycle_Regime_FX.md</div><h1>۱۰ — چرخهٔ عمر محصول، نوسان چندمقیاسی، ارز و تغییر رژیم</h1>
+<h2>سه تاریخ «تازگی»</h2>
+<p><code>global_release_at</code> (عرضهٔ جهانی)، <code>local_market_first_seen_at</code> (اولین مشاهدهٔ معتبر در بازار محلی)، <code>system_first_seen_at</code> (اولین حضور در دادهٔ ما). نبود یکی را با دیگری بی&zwnj;سر و صدا پر نکنید؛ محصول قدیمی می&zwnj;تواند تازه وارد دیتابیس شده باشد.</p>
+<h2>حالت&zwnj;های رفتاری محصول</h2>
+<p><code>cold_start</code> (داده کم)، <code>price_discovery</code> (دورهٔ کشف قیمت)، <code>stabilizing</code>, <code>established</code>, <code>end_of_life_or_scarcity</code> و <code>shock_regime</code>. این وضعیت&zwnj;ها می&zwnj;توانند با هم هم&zwnj;پوشانی داشته باشند؛ مثلاً محصول established در shock. امتیاز بلوغ داده از سن بازار مستقل است.</p>
+<h2>معضل «فقط ۲٪ رشد خالص، ولی نوسان زیاد»</h2>
+<p>یک قیمت می&zwnj;تواند ۱۰۰→۱۲۵→۹۵→۱۳۵→۹۰→۱۰۲ شود: بازده خالص +۲٪، اما مسیر پرنوسان است. جداگانه حساب کنید: net change، مجموع قدر مطلق log-return، realized variance، تعداد تغییر، جهش و فراوانی تغییر جهت. برابری قیمت اول و آخر اثبات اعتبار اطلاعات در بین دوره نیست.</p>
+<h2>پنجره&zwnj;ها و تغییر رژیم</h2>
+<p>۲۴ ساعت/۷/۳۰/۹۰ روز فقط نقطهٔ شروع؛ پنجره باید با شدت مشاهده&zwnj;ها و دسته هماهنگ باشد. ۹۰ روز نوسان یکسان ولی اگر تمام جهش&zwnj;ها در ۱۰ روز آخر بوده ریسک فعلی با جهش&zwnj;های قدیمی برابر نیست. ابزارهای پیشنهادی: EWMA، نسبت نوسان کوتاه به بلند، change-point detection، Bayesian Online Change Point Detection یا detector های سادهٔ threshold-based؛ فقط پس از ارزیابی false alarm.</p>
+<h2>cold-start و عدم&zwnj;قطعیت</h2>
+<p>دو مشاهدهٔ مساوی برای محصول یک&zwnj;روزه ≠ اثبات نوسان کم. prior خانواده/نسل قبلی و بازار محلی بگیرید و uncertainty را بالا اعلام کنید. محصولات نو همیشه پرنوسان نیستند؛ عرضهٔ گسترده می&zwnj;تواند سریع ثبات بیاورد. محصولات پایان&zwnj;عمر می&zwnj;توانند دوباره وارد بی&zwnj;ثباتی شوند.</p>
+<h2>نرخ ارز</h2>
+<p>بازار محلی کالاهای وارداتی ممکن است با FX هم&zwnj;حرکت باشد؛ رابطه را به&zwnj;صورت کشش وابسته به دسته و وقفهٔ زمانی مدل کنید: <code>Delta log P_c,t ≈ beta_c * Delta log FX_(t-lag) + supply/demand effects + error</code>. مقایسه با ارز، <strong>دلیل قطعی</strong> غلط&zwnj;بودن قیمت نیست؛ ممکن است انبار قبلی، تخفیف یا سیاست بازار سبب اختلاف باشد. دادهٔ FX با منبع، timezone، نوع نرخ و اختلال ثبت شود.</p>
+<h2>متغیرهای بازار</h2>
+<p>فراوانی پیشنهاد مستقل، توزیع قیمت، حجم نمایش/تقاضا با احتیاط، نسبت فروشگاه&zwnj;های گزارش&zwnj;کنندهٔ کمبود، تغییرات وضعیت تأمین&zwnj;کننده، تعطیلی&zwnj;ها، معرفی نسل بعد، جهش مواد اولیه برای کابل، نوسان قطعات فناوری.</p>
+<h2>نمونهٔ سیاست خانوادگی (نه واقعیت بازار)</h2>
+<p>گوشی جدید: بازبینی قیمت از چند ساعت تا چند روز بسته به عرضه و نوسان؛ گوشی بالغ: قابل تمدید با شواهد قوی؛ کابل فلزمحور: وابسته به ماده اولیه/واحد؛ تجهیزات صنعتی سفارشی: <code>quote_required</code>; استوک تک&zwnj;عدد: ریسک موجودی شدید با سن تأیید بسیار کوتاه.</p>
+<h2>خطرهای تحلیل</h2>
+<p>نوسان مصنوعی از تغییر واریانت/گارانتی، نقطهٔ قیمت جعلی، تفاوت ساعت crawlها، بازهٔ ناقص مشاهده، هم&zwnj;زمانی قیمت&zwnj;ها از یک تأمین&zwnj;کننده، تغییر فصل یا شکست دامنهٔ فروشگاه. آستانهٔ تشخیص رژیم باید کیفیت داده را لحاظ کند.</p>
+</section>
+<section id="section-13"><div class="file-path">03_ALGORITHMS/04_Shop_Trust.md</div><h1>۱۱ — اعتبار چندبعدی فروشگاه، شواهد بیرونی و پرهیز از اعتماد کور</h1>
+<h2>بُعدهای جداگانه</h2>
+<p><code>business_identity_confidence</code>, <code>external_commercial_trust</code>, <code>price_reliability</code>, <code>stock_reliability</code>, <code>catalog_observation_freshness</code>, <code>response_quality</code>, <code>branch_presence_reliability</code>, <code>fulfillment_reliability</code>, <code>feedback_resolution_quality</code>. در سطح سازمان، شعبه، کانال، خانوادهٔ محصول و زمان جداگانه محاسبه شوند.</p>
+<h2>چرا «سایت زیاد آپدیت می&zwnj;شود» کافی نیست؟</h2>
+<p>سایت ممکن است قیمت را خودکار و درست بروزرسانی کند ولی موجودی شعبه sync نباشد؛ ممکن است batch update بی&zwnj;تغییر واقعی باشد؛ ممکن است قیمت نادرست روزانه refresh شود. چهار زمان متفاوت نگهداری شود: <code>crawled_at</code>, <code>observed_at</code>, <code>price_changed_at</code>, <code>verified_at</code>. فعالیت سایت یک سیگنال رفتار منبع است؛ دقت مستقیم قیمت/موجودی با مشاهدات مستقل سنجیده می&zwnj;شود.</p>
+<h2>نشان&zwnj;های بیرونی؛ مثال «نشان ضمانت ترب»</h2>
+<p>[گفت&zwnj;وگو] کاربر خواسته نشان&zwnj;های بیرونی/اعتبار فروشگاه&zwnj;های معتبر، پیش&zwnj;فرض احتمال را تقویت کنند.<br>
+[پیشنهاد] <code>external_trust_evidence</code> با <code>source_name</code>, <code>shop_identity</code>, <code>scope</code>, <code>observed_at</code>, <code>expires_at</code>, <code>verification_method</code> ذخیره شود و وزن در مدل از دادهٔ outcome یاد گرفته شود. <strong>نشان خرید اینترنتی به تنهایی اثبات قیمت/موجودی مغازه یا ضمانت مستقل سیستم ما نیست.</strong> وابستگی به رابطه/مجوز دسترسی بررسی شود.</p>
+<h2>prior و سابقه</h2>
+<p>برای نرخ صحت تجربی همراه نمونهٔ محدود می&zwnj;توان از Beta-Binomial با هموارسازی و prior دسته استفاده کرد: <code>(alpha + successes)/(alpha + beta + inspected)</code>؛ اما تغییر زمان/جنس شواهد، وزن منبع و نمونه&zwnj;گیری غیریکسان این فرمول ساده را محدود می&zwnj;کند. برای نگهداری عملکرد جدیدتر از decay زمانی یا مدل پویا با امکان بازگشت استفاده کنید. دقت را در سطح <code>shop×category×channel</code> با shrinkage به shop و family تخمین بزنید.</p>
+<h2>تفکیک اعتبار و کیفیت شواهد</h2>
+<p>مغازه با «۵ تأیید از ۵» = داده کم، uncertainty بالا؛ مغازه با «۹۶ از ۱۰۰» = شواهد بیشتر. فروشگاه تازه&zwnj;کار لزوماً نامعتبر نیست؛ نداشتن داده به معنای ریسک اثبات&zwnj;شده نیست. جریمهٔ فوری بر اساس گزارش منفرد ممنوع.</p>
+<h2>نمونهٔ اقدام</h2>
+<ul>
+<li>معتبر + تأیید جدید + بازار آرام → نیاز کمتر به استعلام، با نمونه&zwnj;گیری دوره&zwnj;ای؛</li>
+<li>معتبر + شوک FX یا محصول جدید → بررسی دوباره؛</li>
+<li>معتبر + چند مغایرت مستقل اخیر → بررسی افت/تغییر رژیم؛</li>
+<li>ضعیف در موجودی، خوب در قیمت → اولویت استعلام موجودی، نه قیمت؛</li>
+<li>آدرس نامطمئن → عملیات تصحیح مکان، نه افت خودکار اعتبار قیمت؛</li>
+<li>فروشگاه پاسخ نمی&zwnj;دهد به علت اختلال پوش → کاهش دقت پاسخ&zwnj;پذیری مشروط، نه کیفیت موجودی.</li>
+</ul>
+<h2>استقلال شواهد</h2>
+<p>۵ فروشگاه که قیمت را از یک تأمین&zwnj;کننده می&zwnj;گیرند پنج شاهد مستقل قیمت مرجع نیستند. چند اپ دستگاه یک کارمند یا چند حساب یک شعبه هم مستقل نیستند. وابستگی و منبع مشترک در استنتاج کم&zwnj;وزن شود.</p>
+<h2>انصاف و سوءاستفاده</h2>
+<p>سوءاستفادهٔ رقبا از گزارش جعلی، خودامتیازدهی، تبلیغ قیمت غیرقابل&zwnj;خرید، فریب با فروش موجودی «همیشه بله» و افزایش مصنوعی آپدیت بررسی شوند؛ در عین حال فروشنده حق پاسخ و اعتراض دارد، و «نمی&zwnj;دانم» پاسخ صادقانه و قابل قبول است.</p>
+<h2>خروجی برای UI و API</h2>
+<p>به&zwnj;جای یک «۸/۱۰ معتبر» بدون توضیح: ابعاد مجزا، سطح پشتوانه، تعداد مشاهدات معتبر، تاریخ، منبع، اختلاف مورد بررسی. اگر امتیاز ۰ تا ۱۰ نمایش داده می&zwnj;شود، معنی هر بُعد، uncertainty و شرایط حداقلی انتشار مشخص باشد.</p>
+</section>
+<section id="section-14"><div class="file-path">03_ALGORITHMS/05_Inquiry_Policy.md</div><h1>۱۲ — موتور تصمیم&zwnj;گیری دربارهٔ استعلام، زمان و هزینهٔ مزاحمت</h1>
+<h2>چرا TTL ثابت کافی نیست؟</h2>
+<p>قیمت گوشی جدید ممکن است امروز چند بار تغییر کند؛ قطعهٔ کم&zwnj;گردش شاید هفته&zwnj;ها ثابت بماند؛ فروشگاه ممتاز ممکن است دیرتر به استعلام نیاز داشته باشد؛ بحران بازار می&zwnj;تواند حتی تأیید صبح را بی&zwnj;اعتبار کند. TTL در MVP <strong>زمان بازبینی</strong> است، نه حکم قطعیتِ اشتباه&zwnj;بودن یا حذف پیشنهاد.</p>
+<h2>ورودی&zwnj;های سیاست</h2>
+<ul>
+<li><code>offer_context</code>: SKU دقیق، واریانت، کانال، محل، سن snapshots و تأییدها، anomalies.</li>
+<li><code>market_context</code>: نرخ تغییر و magnitude نوسان مسیر، رژیم، قیمت مرجع با کیفیت منبع، FX و کمبود عرضه.</li>
+<li><code>stock_context</code>: موجودی/quantity bucket، شارژ مجدد، آخرین تأیید همان SKU، ETA کاربر.</li>
+<li><code>seller_context</code>: پاسخ&zwnj;پذیری، فاصلهٔ آخرین مزاحمت، quiet hours، ترجیحات، اعتبار چندبعدی.</li>
+<li><code>user_intent</code>: مرور، درخواست قیمت، تصمیم خرید، مراجعهٔ حضوری، رزرو.</li>
+<li><code>evidence_context</code>: تأیید مستقل، تعارض، پوشش، عدم&zwnj;قطعیت، پروندهٔ باز.</li>
+<li><code>operations_context</code>: هزینه، سهمیه، ارتباط/قطعی و احتمال پاسخ به موقع.</li>
+</ul>
+<h2>محاسبهٔ مطلوبیت (چارچوب، نه فرمول کالیبره)</h2>
+<p><code>U(q) = E[loss_without_q - loss_with_q] * P(answer_before_deadline) - cost_notification - cost_delay - fairness_penalty</code>.<br>
+<code>expected_information_gain</code> فقط در صورت ارتباط با تصمیم واقعی وزن بالا دارد. برای کاربر در حال مقایسه، ضرر خطا کمتر از کاربری است که یک ساعت راه دارد. در حالت ایمنی/عدم اطمینان بالا، نشان دادن «نیاز به استعلام» می&zwnj;تواند بهتر از push بی&zwnj;پایان باشد.</p>
+<h2>ترتیب اجرای سیاست</h2>
+<ol>
+<li>Data quality gate؛ بررسی <code>unknown/contradicted/expired</code> و scope.</li>
+<li>اگر درخواست فعال هم&zwnj;ارز وجود دارد، subscriber جدید را به همان request اضافه کن؛ ادغام صرفاً SKU، شعبه، کانال، موضوع، نسخه و بازهٔ مهلت یکسان.</li>
+<li>استفاده از cache در scope صحیح: بازبودن شعبه مستقل از موجودی SKU؛ قیمت مستقل از stock.</li>
+<li>ارزیابی بازهٔ فعالیت، quiet hours، نرخ مزاحمت و شرایط فنی دریافت push.</li>
+<li>انتخاب <code>no_action</code>, <code>show_warning</code>, <code>enqueue</code>, <code>batch</code>, <code>manual_verify</code>, <code>decline_or_defer</code>.</li>
+<li>در صورت استعلام، ارسال push و ثبت تلاش/تحویل؛ <strong>پذیرش توسط سرویس push به معنی تحویل نیست</strong>.</li>
+<li>با انقضا/پاسخ/لغو، لغو retryها؛ نتیجه جدا از score فروشگاه نگهداری شود.</li>
+</ol>
+<h2>سیاست یادآوری نمونه</h2>
+<p>۵ دقیقه یادآوری آرام، ۱۰ دقیقه یادآوری دوم در صورت مجوز، و ۱۵ دقیقه انقضا <strong>صرفاً پارامتر آزمایشی</strong> هستند. روی Android/iOS مجوزهای push/حالت خواب/محدودیت full-screen وجود دارند؛ جایگزین قابل اتکا استفاده از اپ باز، اعلان معمول، فهرست درخواست&zwnj;های فعال و اختیاری fallback سازگار با مقررات است. هر فروشگاه budget قابل&zwnj;تنظیم دارد.</p>
+<h2>اکتشاف کنترل&zwnj;شده</h2>
+<p>در کنار استعلام&zwnj;های پربازده، یک سهم آزمایشی (برای مثال ۵–۱۰٪ قابل تنظیم) برای نمونه&zwnj;گیری کنترل&zwnj;شده در خانواده/فروشگاه/ریسک نگه دارید. <code>selection_policy_version</code>, <code>selection_probability</code>, <code>decision_context</code> برای جلوگیری از بایاس خودتقویت&zwnj;گر ذخیره شوند. گزارش فروشنده حقیقت مرجع مستقل نیست؛ دادهٔ مراجعه یا ممیزی تصادفی لازم است.</p>
+<h2>واکنش به شکست</h2>
+<ul>
+<li><code>push_accepted</code> بدون <code>device_received</code>: تحویل نامعلوم؛ ذخیره و احتمال مسیر جایگزین؛</li>
+<li><code>delivered</code> ولی پاسخ&zwnj;نداد: امتیاز پاسخ&zwnj;گویی با در نظر گرفتن کارکرد اپ؛ موجودی را تغییر نده؛</li>
+<li>قطع سراسری شبکه: از جریمهٔ افراد جلوگیری و backoff/circuit breaker؛</li>
+<li>پاسخ پس از expire: برای audit حفظ، برای وضعیت اکنون نیازمند تفسیر زمان مشاهده؛</li>
+<li>چند پاسخ متناقض: reconcile، بدون last-write-wins کور؛</li>
+<li>نسخهٔ offer عوض شده: پاسخ به نسخهٔ قدیمی متصل بماند.</li>
+</ul>
+<h2>خروجی تصمیم</h2>
+<p><code>action</code>, <code>reason_codes</code>, <code>expected_benefit</code>, <code>expected_cost</code>, <code>policy_version</code>, <code>expires_at</code>, <code>scope</code>, <code>consent_state</code>, <code>budget_state</code>, <code>audit_log_id</code>; حذف توضیح&zwnj;پذیری باعث نمی&zwnj;شود بعداً بتوانیم ارزیابی علّی انجام دهیم.</p>
+</section>
+<section id="section-15"><div class="file-path">03_ALGORITHMS/06_ML_Evaluation.md</div><h1>۱۳ — معماری یادگیری، کالیبراسیون و آزمون علمی</h1>
+<h2>نردبان بلوغ</h2>
+<p><strong>سطح ۰: قواعد کنترل کیفیت و استعلام</strong> — بدون ادعای احتمال.<br>
+<strong>سطح ۱: نرخ&zwnj;های تجربی</strong> — confidence intervals با prior خانواده و دادهٔ تصادفی.<br>
+<strong>سطح ۲: مدل&zwnj;های داده&zwnj;محور</strong> — Logistic/GBDT و calibration برای قیمت/موجودی، survival/hazard برای زمان.<br>
+<strong>سطح ۳: تصمیم&zwnj;گیری علّی/آزمایش&zwnj;محور</strong> — contextual bandit یا value of information با محافظ&zwnj;های ایمنی/عدالت.</p>
+<h2>برچسب&zwnj;ها و حقیقت مستقل</h2>
+<p><code>price_valid_exact_scope</code>, <code>stock_sellable_at_observation</code>, <code>shop_open_at_visit</code>, <code>fulfillment_possible_at_arrival</code>, <code>address_correct_at_visit</code>؛ هر برچسب شامل زمان مشاهده، نسخهٔ پیشنهاد، میزان شواهد و منبع است. گزارش فروشنده source است نه gold label خودکار؛ بازخورد مشتری هم نیازمند کیفیت/راستی&zwnj;آزمایی است. موفقیت خرید ≠ فقط وقوع تراکنش؛ ممکن است مشتری منصرف شده باشد.</p>
+<h2>شیوهٔ تقسیم داده</h2>
+<p>برای پیش&zwnj;بینی آینده از temporal holdout با purge/embargo در رویدادهای مرتبط، جلوگیری از leakage میان snapshotهای یک offer؛ ارزیابی جدا برای محصولات جدید و فروشگاه&zwnj;های جدید و ریسک&zwnj;های نادر. <code>as_of</code> مدل باید strict باشد؛ دادهٔ بعد از زمان تصمیم حق ورود به ویژگی ندارد. اگر فروشگاه مشترک در train/test می&zwnj;ماند، گزارش انحراف قابل انتقال به فروشگاه جدید جدا ارائه شود.</p>
+<h2>معیارها</h2>
+<ul>
+<li>Binary calibration: Brier Score، log-loss، reliability diagram، ECE با احتیاط و گروه&zwnj;بندی;</li>
+<li>رتبه&zwnj;بندی استعلام: precision@budget, useful inquiries per 100, avoided expected loss;</li>
+<li>رخداد زمانی: time-dependent Brier, concordance، کیفیت interval-censor handling؛</li>
+<li>عملیاتی: زمان پاسخ، delivered/opened/answered rates، اعلان به ازای فروشگاه/روز، SLA, هزینه؛</li>
+<li>تجربه: false-positive stock, price mismatch, successful visit availability, geographic address error، نوع خطا/دلیل؛</li>
+<li>انصاف: مقایسهٔ گروه&zwnj;های کوچک/بزرگ، فروشگاه تازه&zwnj;وارد، مناطق/کانال&zwnj;ها، فروشگاه معتبر و نامعتبر.</li>
+</ul>
+<h2>بایاس انتخاب و نمونه&zwnj;برداری</h2>
+<p>سیستم موارد پرریسک را بیشتر استعلام می&zwnj;کند: نرخ مغایرت در این نمونه تخمین کل بازار نیست. ثبت propensity و یک stratified random audit ضروری است. گزارش&zwnj;های پس از مراجعه self-selected هستند؛ برای مدل prevalence باید وزن&zwnj;دهی/نمونه&zwnj;برداری یا طراحی پژوهش مستقل کرد.</p>
+<h2>چگونگی آزمایش سیاست</h2>
+<p>A/B امن (پیش/پس کنترل با احتیاط؛ cohort فروشگاهی برای مزاحمت)، guardrails برای کاهش شدید پاسخ&zwnj;گویی، شکایات، latency، عدالت و ریزش نصب. هدف «اعلان کمتر و مراجعهٔ موفق بیشتر» است؛ نه بیشینه&zwnj;کردن صرف تعامل با اپ.</p>
+<h2>Drift و بازآموزی</h2>
+<p>مانیتور تغییر رژیم ارز، عرضهٔ نسل جدید، سن ورودی سیستم، تغییر مالکیت شعبه، تغییر رفتار فروشگاه، فصل خرید؛ در صورت افت کالیبراسیون fallback به قواعد محافظه&zwnj;کار و افزایش unknown/verification، نه ساخت درصد جعلی.</p>
+<h2>اولویت مدل&zwnj;ها</h2>
+<p>اول قیمت عددی و entity matching؛ سپس نسخهٔ رویداد، cold-start و استعلام؛ بعد stock transition و shop trust؛ سپس market regime و decision policy. مدل complex بدون ثبت صحیح شواهد سود محدودی دارد.</p>
+</section>
+<section id="section-16"><div class="file-path">04_WORKFLOWS/01_Inquiry_State_Machine.md</div><h1>۱۴ — ماشین حالت استعلام و تحویل اعلان</h1>
+<h2>موجودیت&zwnj;ها</h2>
+<p><code>inquiry</code> (یک نیاز منطقی)، <code>inquiry_subscriber</code> (متقاضیانی که به پاسخ مشترک متصل&zwnj;اند)، <code>delivery_attempt</code> (تلاش ارسال مستقل در هر دستگاه/کانال)، <code>response</code> (شاهد دربارهٔ یک scope و زمان)، <code>inquiry_job</code> (زمان&zwnj;بند یادآوری/انقضا).</p>
+<h2>حالت&zwnj;های درخواست</h2>
+<p><code>created -&gt; queued -&gt; active -&gt; answered | expired | cancelled | superseded</code>؛ تأخیر/ارسال ناموفق حالت inquiry نهایی نیست، بلکه حالت delivery است. یک درخواست می&zwnj;تواند چند بار تلاش ارسال داشته باشد، اما <code>answered</code> باید idempotent و حاوی چند پاسخ قابل تعارض باشد.</p>
+<h2>حالت&zwnj;های delivery</h2>
+<p><code>scheduled</code>, <code>sent_to_provider</code>, <code>provider_accepted</code>, <code>device_received</code>, <code>opened</code>, <code>failed</code>, <code>unknown</code>, <code>expired</code>. پذیرفته&zwnj;شدن push توسط ارائه&zwnj;دهنده تضمین delivery در گوشی نیست. «نمایش روی گوشی» و «بازکردن توسط فروشنده» ممکن است telemetry دقیقی نداشته باشند؛ unknown به دروغ delivered نشود.</p>
+<h2>استانداردهای زمان</h2>
+<ul>
+<li><code>requested_at</code>, <code>deadline_at</code> در بک&zwnj;اند UTC؛</li>
+<li><code>delivered_at</code>, <code>opened_at</code>, <code>responded_at</code>, <code>observed_at</code> جدا؛</li>
+<li><code>observed_at</code> ادعایی کاربر ممکن است نیازمند ارزیابی clock skew باشد؛</li>
+<li>پاسخ دیررس بعد از <code>deadline_at</code> برای audit حفظ، نه overwrite خودکار وضعیت فعلی.</li>
+</ul>
+<h2>dedupe</h2>
+<p>کلید اشتراک درخواست بر اساس <code>(branch, sku_variant, offer_version or tolerated_revision, channel, question_scope, deadline_bucket)</code>؛ سفارش&zwnj;های دو مشتری با همان scope می&zwnj;توانند مشترک شوند. درخواست برای قیمت ≠ درخواست موجودی؛ می&zwnj;توان آن&zwnj;ها را در یک پیام گروه کرد اما نتیجه باید مستقل باشد.</p>
+<h2>ترتیب ارسال و یادآوری</h2>
+<p>حد اولیه (قابل تنظیم): T0 پیام معمولی؛ T+5m بررسی وضعیت و یادآوری نرم؛ T+10m یادآوری تنها با اجازه و budget؛ T+15m انقضای درخواست. اگر پاسخ رسید، تمام jobهای مانده لغو شوند؛ اگر مغازه بسته/در quiet hours بود، defer/skip و به خریدار توضیح داده شود. retryهای شبکه backoff و سقف مشخص دارند.</p>
+<h2>پاسخ&zwnj;دهندهٔ متعدد</h2>
+<p>کارمندان چندگوشی می&zwnj;توانند پاسخ متعارض بدهند؛ <code>role</code>, <code>actor_id</code>, <code>device_id</code>, <code>response_source</code> ثبت و مسئله حل شود. در رخداد هم&zwnj;زمان، پاسخ&zwnj;های idempotent متمایز بمانند؛ event consumerها حداقل یک&zwnj;بار اجراشدن را تحمل کنند.</p>
+<h2>offline</h2>
+<p>اپ پاسخ محلی می&zwnj;گیرد، ولی پاسخ همراه با ساعت محلی و زمان دریافت سرور ذخیره می&zwnj;شود؛ اگر deadline گذشته، به عنوان وضعیت اکنون بدون تأیید مجدد استفاده نکنید. اتصال مجدد: fetch requests فعال، suppress نمایش pushهای منقضی، clear queued local answers با آگاهی کاربر.</p>
+<h2>تفاوت حضور/بازبودن/پاسخ</h2>
+<p>«فروشنده پاسخ می&zwnj;دهد» با «در مغازه حاضر است» و «در آن ساعت مغازه باز است» جدا. تأیید بازبودن فقط در شعبه/شیفت مرتبط قابل reuse است. <code>weekly_hours</code> برای برنامهٔ اعلامی است، نه اثبات بازبودن لحظه&zwnj;ای.</p>
+<h2>محافظ&zwnj;های حیاتی</h2>
+<p>عدم پاسخ ↛ stock false؛ push accepted ↛ device received؛ پیام دیررس ↛ پاسخ معتبر کنونی؛ استعلام duplicate ↛ نوتیف duplicate؛ پاسخ مثبت ↛ تمام کانفیگ&zwnj;ها موجود؛ نشان بیرونی ↛ ضمانت حضوری.</p>
+<h2>شبه&zwnj;الگوریتم</h2>
+<pre><code class="language-text">on_new_intent(intent):
+  scope = canonicalize_exact_offer(intent)
+  if cached_evidence_is_sufficient(scope, intent.arrival_eta): show_evidence(); return
+  if existing_active_inquiry(scope): subscribe(intent.user); return
+  if quiet_hours or seller_budget_exhausted: show_uncertainty(); defer_if_allowed(); return
+  inquiry = create_with_idempotency_key(scope, deadline, policy_version)
+  enqueue_push(inquiry)
+  register_reminders_and_expiry(inquiry)
+
+on_response(response):
+  verify_actor_and_scope(response)
+  persist_immutable_event(response)
+  if after_deadline or stale_offer_version: mark_historical_only()
+  else update_projection_if_consistent(); resolve_related_jobs()
+  if conflicting: create_conflict_case()
+</code></pre>
+</section>
+<section id="section-17"><div class="file-path">04_WORKFLOWS/02_Customer_Feedback_and_Cases.md</div><h1>۱۵ — فیدبک خریدار، پروندهٔ رسیدگی، عدالت و یادگیری</h1>
+<h2>مسئله</h2>
+<p>گزارش مشتری هم دادهٔ باارزش دربارهٔ بازار است، هم ممکن است ناقص/اشتباه/جعلی باشد. هدف «حل مسئله و اصلاح داده» است، نه جمع&zwnj;کردن نمرهٔ منفی یا جریمهٔ فوری فروشگاه.</p>
+<h2>کاتالوگ انواع گزارش</h2>
+<p><code>shop_closed</code>, <code>seller_absent</code>, <code>shop_moved</code>, <code>wrong_address_or_pin</code>, <code>wrong_floor_or_unit</code>, <code>price_mismatch</code>, <code>unexpected_fees_or_payment_terms</code>, <code>stock_unavailable</code>, <code>wrong_color_variant</code>, <code>different_condition_or_warranty</code>, <code>supplier_only</code>, <code>delivery_promise_mismatch</code>, <code>successful_visit</code>, <code>correct_price_and_stock</code>, <code>other</code>.</p>
+<h2>هر گزارش باید چه دانسته&zwnj;ای داشته باشد؟</h2>
+<p><code>report_id</code>, <code>reporter_pseudonymous_id</code>, <code>shop_id</code>, <code>branch_id</code>, <code>offer_id</code>, <code>offer_version</code>, <code>sku_variant</code>, <code>reported_issue</code>, <code>visit_at</code>, <code>reported_at</code>, <code>observed_price</code>, <code>expected_price</code>, <code>observed_unit</code>, <code>channel</code>, <code>text_optional</code>, <code>evidence_optional</code>, <code>confidence</code>, <code>possible_linked_inquiry_id</code>, <code>consent_flags</code>.</p>
+<h2>فرایند پرونده</h2>
+<ol>
+<li><strong>Received:</strong> ثبت، رسید پیگیری، عدم برچسب تخلف؛</li>
+<li><strong>Triaged:</strong> میزان اثر/تکراری/کامل&zwnj;بودن/احتمال سوءاستفاده و بررسی نسخه/زمان؛</li>
+<li><strong>Pending shop:</strong> درخواست نظر، اصلاح یا شاهد از فروشگاه با مهلت منصفانه؛</li>
+<li><strong>Investigating:</strong> بررسی مستقل، تماس اختیاری، تطبیق واریانت/زمان/مکان؛</li>
+<li><strong>Resolved:</strong> <code>confirmed_mismatch</code>, <code>false_report</code>, <code>natural_change</code>, <code>system_extraction_error</code>, <code>variant_mismatch</code>, <code>unresolved_insufficient_evidence</code>؛</li>
+<li><strong>Appeal:</strong> اعتراض فروشگاه/مشتری با تاریخچهٔ immutable؛</li>
+<li><strong>Learning:</strong> فقط شواهد واجدکیفیت به labelهای مدل و اعتبار ابعاد مربوط وارد شوند.</li>
+</ol>
+<h2>تأثیر الگوریتمی مرحله&zwnj;ای</h2>
+<p>گزارش تنها و بدون مدرک: افزایش نیاز به بررسی، نه تبدیل stock=0 و کاهش شدید رتبه؛ گزارش&zwnj;های مستقل سازگار: هشدار موقت و اولویت استعلام، در موارد پرخطر نمایش احتیاطی؛ مغایرت مستند/تأییدشده: اصلاح وضعیت و ثبت نتیجه برای آموزش. گزارش قدیمی نیازمند decay است و نباید موجودی امروز را منفی کند اگر شارژ مجدد اثبات شده.</p>
+<h2>شواهد مثبت و بایاس</h2>
+<p>کاربرانی که تجربهٔ خوبی داشته&zwnj;اند کمتر گزارش می&zwnj;دهند؛ باید مسیر کوتاه «همه&zwnj;چیز درست بود» داشته باشیم و در نمونه&zwnj;ای از سفرهای تأییدشده پیگیری غیرمزاحم کنیم. کلیک روی مسیر ≠ مراجعه واقعی؛ تراکنش ثبت نشده ≠ شکست تجربه.</p>
+<h2>آدرس/پین</h2>
+<p>گزارش آدرس اشتباه باید مسیر مستقل تصحیح پین، پلاک، پاساژ، طبقه/واحد، ورودی و شعبه را فعال کند. تغییر آدرس نباید نمرهٔ قیمت تمام محصولات فروشگاه را خودکار کاهش دهد. آدرس موقتاً «در حال بررسی» شود و با چند منبع تأیید گردد.</p>
+<h2>علت واقعی مغایرت</h2>
+<p><code>seller_misstatement</code>, <code>supplier_changed</code>, <code>normal_stock_depletion</code>, <code>shop_closed_exception</code>, <code>scrape_delay</code>, <code>wrong_entity_matching</code>, <code>price_unit_or_condition_error</code>, <code>customer_misunderstanding</code>, <code>abuse</code>, <code>unknown</code>. هر کدام به مسیر اصلاح مناسب وصل شوند.</p>
+<h2>مدارک و محرمانگی</h2>
+<p>موقعیت، فاکتور، شماره سفارش و تصاویر اختیاری و حداقلی؛ حذف/پوشاندن شماره/نام/آدرس شخصی؛ مجوز مشاهده بر اساس نقش، نگهداری محدود، ممیزی دسترسی و حق اعتراض/اصلاح. گزارش عمومی نباید اطلاعات مشتری را به فروشنده افشا کند.</p>
+<h2>SLA پیشنهادی (فرض آزمایشی)</h2>
+<p>شدت شدید: triage سریع در همان روز کاری؛ مورد عادی: ۱–۳ روز کاری برای بررسی؛ بررسی پیچیده: بیشتر با اطلاع&zwnj;رسانی. زمان&zwnj;ها باید با تیم عملیاتی و بودجهٔ واقعی هماهنگ شوند.</p>
+<h2>KPI</h2>
+<p>تعداد پرونده به ازای فرصت گزارش/مراجعهٔ واقعی (نه خام)، درصد مغایرت تأییدشده، زمان رسیدگی، نرخ بازگشایی، نرخ حل اختلاف، درصد منشأ خطای خودمان، سهم مثبت، نرخ سوءاستفاده و اثر بر مراجعه موفق.</p>
+</section>
+<section id="section-18"><div class="file-path">04_WORKFLOWS/03_Seller_App_Experience.md</div><h1>۱۶ — اپ فروشنده: سؤال&zwnj;های سریع، پایداری و انگیزه</h1>
+<h2>وظیفهٔ واقعی اپ</h2>
+<p>کاهش تماس/پیامک دستی با یک رابط تأیید سریع و قابل نصب؛ نصب اپ = «متصل به سامانهٔ استعلام»، نه اثبات دقت یا ضمانت مستقل. دریافت پوش یک ابزار است؛ حقیقت باید در بک&zwnj;اند و گزارش شواهد ذخیره شود.</p>
+<h2>صفحهٔ اصلی</h2>
+<ul>
+<li>درخواست&zwnj;های جدید، فعال، پاسخ&zwnj;داده، منقضی و گروهی؛</li>
+<li>فیلتر شعبه، نقش کارمند و خانوادهٔ کالا؛</li>
+<li>نشان زمان درخواست، مهلت، واریانت دقیق، قیمت فعلی و لینک «نمایش صفحهٔ پیشنهادی»؛</li>
+<li>دکمه&zwnj;های سریع «قیمت درست/قیمت جدید/نیاز به بررسی»؛ «در مغازه موجود/در انبار/نزد تأمین&zwnj;کننده/ناموجود/نامعلوم»؛</li>
+<li>سؤال مستقل «الان مغازه باز است؟» با حفظ شیفت؛</li>
+<li>حالت آفلاین با ذخیرهٔ pending و هشدار دربارهٔ انقضا/نسخه.</li>
+</ul>
+<h2>بودجهٔ مزاحمت</h2>
+<p>حتی اگر ۲۰ مشتری همزمان محصول مشابه بخواهند، تا حد امکان یک درخواست به فروشنده ارسال شود. چند SKU نزدیک به هم در یک batch. quiet hours، دکمهٔ pause، opt-out از صدا، محدودیت در روز، احترام به تعطیلی و فوریت درخواست؛ امکان مشاهدهٔ backlog در اپ حتی بدون push.</p>
+<h2>اعلان فنی</h2>
+<ul>
+<li>Android 13+ مجوز اعلان در موارد مرتبط؛ Android 14+ محدودیت full-screen intent برای استفاده&zwnj;های تماس/آلارم؛</li>
+<li>iOS PushKit مخصوص تماس VoIP واقعی است، نه استعلام کالا؛</li>
+<li>push provider accepted ≠ device received؛</li>
+<li>هیچ ضمانت زمان تحویل روی شبکهٔ قطع یا حالت battery saver نیست؛</li>
+<li>fallback فقط با رضایت، بودجه و سیاست؛ بدون تقلید تماس ورودی فریبنده.</li>
+</ul>
+<h2>چند دستگاه/کارمند</h2>
+<p>مالک فروشگاه/مدیر شعبه می&zwnj;تواند چند کارمند تعریف کند؛ scope دسترسی و تعارض پاسخ مشخص شود. یک <code>response_id</code> برای رویداد و <code>actor_id</code> برای منشأ؛ تعارض دو کارمند باید بررسی شود، نه overwrite خام.</p>
+<h2>حفظ انگیزهٔ صداقت</h2>
+<p>پاسخ «نمی&zwnj;دانم» مطلوب&zwnj;تر از «موجود» حدسی است. پاداش نه برای تعداد کلیک بلکه برای تأییدهای درستِ قابل راستی&zwnj;آزمایی؛ نمایش سلامت کاتالوگ و هشدارهای دقیق به فروشنده، امکان اصلاح دسته&zwnj;ای و گزارش مشتریان به&zwnj;صورت محترمانه.</p>
+<h2>پاسخ به فیدبک</h2>
+<p>فروشگاه باید بتواند گزارش «بسته بود»، «ناموجود»، «آدرس اشتباه» را با تاریخ، واریانت و ادعای خودش ببیند؛ امکان پذیرش، توضیح و اعتراض فراهم باشد. هیچ گزارش خامی نباید عنوان «متخلف» به فروشگاه بدهد.</p>
+</section>
+<section id="section-19"><div class="file-path">05_ARCHITECTURE/01_System_Architecture.md</div><h1>۱۷ — معماری سامانه، ذخیره&zwnj;سازی و قراردادهای زمانی</h1>
+<h2>ماژول&zwnj;های مفهومی (نه الزاماً مایکروسرویس)</h2>
+<p><code>Catalog Ingestion</code> → <code>Entity/SKU Resolution</code> → <code>Snapshot/Event Ledger</code> → <code>Feature Store</code> → <code>Scoring</code> → <code>Decision Policy</code> → <code>Inquiry Orchestrator</code> → <code>Seller App</code> → <code>Feedback Case Manager</code> → بازگشت به Ledger/Training.</p>
+<h2>زیرساخت شروع پیشنهادی</h2>
+<p>PostgreSQL برای entity/state/eventهای نسخه&zwnj;دار؛ Redis اختیاری برای TTL cache و dedupe کم&zwnj;ریسک با پایگاه داده به عنوان مرجع؛ صف وظایف برای اعلان/expire/backoff؛ Object Storage برای تصاویر مدرک با عمر محدود؛ پردازش batch برای features/ممیزی؛ سرویس API با auth و RBAC؛ گزارش&zwnj;دهی آفلاین و داشبورد مانیتورینگ.</p>
+<h2>معماری رویدادمحور</h2>
+<p>Append-only evidence log → materialized current view. «وضعیت فعلی» نمای مشتق&zwnj;شده است؛ تغییر شواهد تاریخی را حذف نکنید. درج رویداد با <code>idempotency_key</code>، <code>source_event_id</code>, <code>observed_at</code>, <code>ingested_at</code>, <code>offer_version</code>, <code>scope_hash</code>. رویدادهای قدیمی می&zwnj;توانند دیر برسند و نباید last-write-wins کور رخ دهد.</p>
+<h2>نسخه&zwnj;ها و consistency</h2>
+<p><code>offer_versions</code> با hash محتوا/شرایط؛ پاسخ به نسخهٔ ثبت&zwnj;شده هنگام سؤال؛ تغییر قیمت هم&zwnj;زمان با استعلام → current projection جدید و پاسخ قبلی تاریخی. identity merges نباید به آرامی شواهد مربوط به فروشگاه دیگری را منتقل کنند. تغییر مالکیت/دامنه/شعبه/version جدا ثبت شود.</p>
+<h2>مقیاس و هزینه</h2>
+<p>۳۳۱٬۵۰۶ پیشنهاد فعلی کوچک&zwnj;تر از مقیاس روزانهٔ بالقوهٔ رویدادهاست؛ هر مشاهدهٔ بدون تغییر را فشرده/partition کنید و materialized summaries داشته باشید. ایندکس روی <code>branch_id,sku_id,observed_at</code>, <code>offer_id,version</code>, <code>case_id</code> و pending inquiries. محدودیت نرخ api، صف تکراری و latency؛ ابتدا بار واقعی را اندازه بگیرید.</p>
+<h2>وابستگی و lineage</h2>
+<p>هر score/recommendation باید <code>model_version</code>, <code>policy_version</code>, <code>feature_as_of</code>, <code>source_events_hash</code>, <code>reason_codes</code> داشته باشد. اگر منبع خطا کشف شد بتوان اثر آن را روی scoreها بازپخش/replay کرد.</p>
+<h2>سیستم ساعت</h2>
+<p>UTC در ذخیره&zwnj;سازی، منطقهٔ زمانی شعبه برای ساعت کاری و تعطیلی؛ <code>observed_at</code> فروشنده می&zwnj;تواند دستکاری/clock drift داشته باشد؛ <code>server_received_at</code> هم ذخیره شود. تجارت در تعطیلات خاص باید <code>hours_exception</code> داشته باشد.</p>
+<h2>حالت&zwnj;های degraded</h2>
+<ul>
+<li>DB/queue down: عدم تأیید جعلی، request idempotency و UI «موقتاً امکان استعلام نیست»؛</li>
+<li>Push down: صف و expiry، fallback اختیاری، عدم جریمهٔ فروشنده؛</li>
+<li>Market FX down: حذف/کاهش وزن feature، افزایش uncertainty؛</li>
+<li>Geocoder down: نمایش آدرس اعلامی و هشدار؛</li>
+<li>Model unavailable: قواعد محافظه&zwnj;کار و evidence UI؛</li>
+<li>Dataset stale: عدم اعلام درصد تازه، flag وضعیت منبع.</li>
+</ul>
+</section>
+<section id="section-20"><div class="file-path">05_ARCHITECTURE/02_API_and_Events.md</div><h1>۱۸ — قرارداد API و پیام رویداد (نمونهٔ پیشنهادی)</h1>
+<p>این&zwnj;ها قراردادهای طراحی&zwnj;اند و endpointهای واقعی موجود را ادعا نمی&zwnj;کنند. JSON Schema در <code>11_CODE/evidence.schema.json</code> و DDL در <code>11_CODE/schema.sql</code> آمده&zwnj;اند.</p>
+<h2>endpointهای اصلی</h2>
+<table>
+<thead>
+<tr>
+  <th>Endpoint پیشنهادی</th>
+  <th>عملیات</th>
+  <th>نکته</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>GET /v1/offers/{id}/confidence?arrival_at=...</code></td>
+  <td>نمایش score و شواهد</td>
+  <td>scope/زمان/نسخه دقیق</td>
+</tr>
+<tr>
+  <td><code>POST /v1/inquiries</code></td>
+  <td>ایجاد یا join درخواست</td>
+  <td>idempotency key الزامی</td>
+</tr>
+<tr>
+  <td><code>GET /v1/inquiries/{id}</code></td>
+  <td>وضعیت پاسخ</td>
+  <td>تفکیک inquiry/delivery</td>
+</tr>
+<tr>
+  <td><code>POST /v1/inquiries/{id}/responses</code></td>
+  <td>ثبت پاسخ فروشنده</td>
+  <td>actor authorization، offer_version</td>
+</tr>
+<tr>
+  <td><code>GET /v1/seller/inbox</code></td>
+  <td>صندوق درخواست&zwnj;ها</td>
+  <td>شعبه، فیلتر نقش و انقضا</td>
+</tr>
+<tr>
+  <td><code>POST /v1/feedback</code></td>
+  <td>گزارش مراجعه</td>
+  <td>positive/negative، evidence optional</td>
+</tr>
+<tr>
+  <td><code>GET /v1/feedback/cases/{id}</code></td>
+  <td>مرحلهٔ رسیدگی</td>
+  <td>کنترل دسترسی</td>
+</tr>
+<tr>
+  <td><code>POST /v1/feedback/cases/{id}/shop-response</code></td>
+  <td>توضیح فروشنده</td>
+  <td>append-only</td>
+</tr>
+<tr>
+  <td><code>POST /v1/feedback/cases/{id}/appeal</code></td>
+  <td>اعتراض</td>
+  <td>مهار سوءاستفاده</td>
+</tr>
+<tr>
+  <td><code>POST /v1/shops/{id}/presence</code></td>
+  <td>اعلام حضور/باز بودن</td>
+  <td>scope شعبه؛ مستقل از پاسخ آنلاین</td>
+</tr>
+</tbody>
+</table>
+<h2>نمونهٔ درخواست استعلام</h2>
+<pre><code class="language-json">{
+  "branch_id": "branch_example",
+  "offer_id": "offer_example",
+  "offer_version": 7,
+  "sku_variant_id": "sku_black_256_registered",
+  "channel": "in_store",
+  "questions": ["price", "sellable_stock", "branch_open"],
+  "user_intent": "visit",
+  "arrival_at": "2026-10-23T10:30:00Z",
+  "request_deadline_at": "2026-10-23T10:10:00Z",
+  "idempotency_key": "example-unique-token"
+}
+</code></pre>
+<h2>نمونهٔ پاسخ درست</h2>
+<pre><code class="language-json">{
+  "response_id": "resp_example",
+  "inquiry_id": "inq_example",
+  "offer_version": 7,
+  "observed_at": "2026-10-23T10:04:00Z",
+  "price": {"status":"confirmed","amount_toman":70000000,"price_type":"fixed_purchase_price"},
+  "stock": {"state":"in_store_sellable","quantity_bucket":"one"},
+  "presence": {"branch_open":true,"seller_physically_present":null},
+  "source":"shop_employee_app"
+}
+</code></pre>
+<h2>رویدادهای اصلی</h2>
+<p><code>OfferObserved</code>, <code>OfferPriceChanged</code>, <code>PriceVerified</code>, <code>StockObserved</code>, <code>PresenceVerified</code>, <code>InquiryRequested</code>, <code>PushProviderAccepted</code>, <code>PushReceived</code>, <code>InquiryAnswered</code>, <code>InquiryExpired</code>, <code>CustomerFeedbackReported</code>, <code>CaseResolved</code>, <code>ExternalTrustSignalVerified</code>, <code>ScoreCalculated</code>, <code>PolicyDecisionLogged</code>.</p>
+<h2>اسکیما و قوانین جهانی</h2>
+<p>هر رویداد <code>event_id</code>, <code>event_type</code>, <code>event_version</code>, <code>aggregate_id</code>, <code>observed_at</code>, <code>ingested_at</code>, <code>source</code>, <code>actor_id</code>, <code>scope</code>, <code>payload</code>, <code>consent</code>, <code>correlation_id</code> دارد. ورودی&zwnj;های تکراری idempotent؛ <code>observed_at</code> الزاماً زمان receipt نیست؛ actor دسترسی باید به شعبه/offer مرتبط باشد؛ حذف فیزیکی evidence فقط تحت سیاست حقوقی مخصوص انجام شود و رد ممیزی مناسب باقی بماند.</p>
+<h2>خطاهای API</h2>
+<p><code>400 invalid_scope</code>, <code>401/403 unauthorized</code>, <code>409 stale_offer_version</code>, <code>409 conflicting_response</code>, <code>410 inquiry_expired</code>, <code>422 mismatched_variant</code>, <code>429 budget_exceeded</code>, <code>503 delivery_unavailable</code>؛ نه اینکه بعد از خطا status موجودی تغییر کند.</p>
+</section>
+<section id="section-21"><div class="file-path">05_ARCHITECTURE/03_Security_Privacy_Abuse.md</div><h1>۱۹ — حریم خصوصی، تقلب، دسترس&zwnj;پذیری و اصول حکمرانی</h1>
+<h2>دارایی&zwnj;های حساس</h2>
+<p>مدرک خرید، عکس، شمارهٔ سفارش، موقعیت مشتری، هویت کارمند، شماره&zwnj;های تماس فروشگاه، سوابق پاسخ و امتیاز اعتباری فروشندگان. کمینه&zwnj;سازی جمع&zwnj;آوری و حذف یا ناشناس&zwnj;سازی در انتهای دورهٔ نگهداری ضروری است.</p>
+<h2>مجوز و کنترل دسترسی</h2>
+<p>RBAC/ABAC بر اساس نقش و شعبه: فروشنده فقط گزارش&zwnj;های مرتبط را با اطلاعات لازم ببیند؛ پشتیبانی دسترسی ممیزی&zwnj;شده و محدود داشته باشد؛ تحلیلگر به دادهٔ شبه&zwnj;ناشناس دسترسی داشته باشد؛ مشتری فقط پروندهٔ خود و اطلاعات عمومی مجاز را ببیند. تغییر مالکیت مغازه دسترسی قدیمی&zwnj;ها را لغو کند.</p>
+<h2>امنیت فنی</h2>
+<p>TLS، احراز هویت دستگاه/کاربر، rate limiting، idempotency، امضای payload در صورت نیاز، بررسی MIME و اسکن فایل مدارک، جلوگیری از دسترسی IDOR، جلوگیری از تزریق متن نامعتبر به سیستم داخلی، audit log غیرقابل دستکاری عادی.</p>
+<h2>تهدیدهای خاص</h2>
+<ul>
+<li>فروشگاه تقلبی با نام مشابه یا تحویل پوش به دستگاه نامعتبر؛</li>
+<li>فروشنده همیشه «موجود» می&zwnj;زند یا قیمت را صوری تایید می&zwnj;کند؛</li>
+<li>گزارش جعلی رقبا، هماهنگی گروهی یا بات&zwnj;ها؛</li>
+<li>سوءاستفادهٔ کاربر از درخواست&zwnj;های زیاد برای مزاحمت؛</li>
+<li>فیدبک حاوی دادهٔ خصوصی یا اتهام قابل انتشار؛</li>
+<li>امتیازدهی نامنصفانه به تازه&zwnj;واردها یا مناطق با اینترنت ضعیف؛</li>
+<li>وابستگی شدید مدل به نشان بیرونی یا اطلاعات لاینز/دامنهٔ اشتباه.</li>
+</ul>
+<h2>پاسخ و مجازات متناسب</h2>
+<p>سقف نرخ، تشخیص وابستگی حساب&zwnj;ها، بررسی استقلال شواهد، سیاست اعتراض، نمونه&zwnj;گیری تصادفی و عدم اعلام تخلف بدون بررسی؛ ثبت منشأ خطای سیستم ما. امتیاز اعتماد باید قابل توضیح و اصلاح باشد.</p>
+<h2>حفظ تجربهٔ کاربر</h2>
+<p>پرسش فیدبک اختیاری پس از احتمال مراجعه؛ عدم الزام به اشتراک&zwnj;گذاری موقعیت دقیق یا فاکتور؛ پنهان&zwnj;کردن اطلاعات هویتی در گزارش عمومی؛ عدم انتشار متن خام اتهامات علیه فروشنده؛ رویهٔ حذف/اعتراض.</p>
+<h2>انطباق حقوقی</h2>
+<p>تطبیق با مقررات حریم خصوصی، مصرف&zwnj;کننده و قرارداد پلتفرم/منبع داده باید توسط مشاور حقوقی مرتبط بررسی شود. این سند مجوز استفاده از نشان&zwnj;های تجاری یا اطلاعات اشخاص را ایجاد نمی&zwnj;کند.</p>
+</section>
+<section id="section-22"><div class="file-path">06_QUALITY/01_Edge_Case_Register.md</div><h1>۲۰ — رجیستر جامع سناریوهای مرزی و failure modeها</h1>
+<p><strong>۱۸۰ سناریوی مشخص در ۲۰ قلمرو</strong> با شناسه، سطح اولویت، نتیجهٔ مورد انتظار و آزمون پذیرش در <code>edge_case_register.csv</code>. عدد ۱۸۰ به معنی آزمون اجرایی پاس&zwnj;شده نیست؛ فقط رجیستر طراحی است.</p>
+<h2>روش استفاده</h2>
+<ol>
+<li>برای هر epic آیتم&zwnj;های مرتبط را فیلتر کنید. ۲. P0ها را پیش از عرضه به تست تبدیل کنید. ۳. تست&zwnj;های chaos و integration را با seed دارای زمان/نسخهٔ معلوم اجرا کنید. ۴. با هر حادثه سناریوی جدید اضافه کنید.</li>
+</ol>
+<h2>PRICE_FORMAT</h2>
+<ul>
+<li><strong>EC-001 [P0]</strong> قیمت برابر یک تومان ← به&zwnj;عنوان sentinel مشکوک علامت&zwnj;گذاری شود نه کف قیمت مرجع</li>
+<li><strong>EC-002 [P0]</strong> قیمت null ← به وضعیت quote_required یا unknown با منشأ مشخص برود</li>
+<li><strong>EC-003 [P0]</strong> قیمت ده&zwnj;برابر ناشی از ریال/تومان ← تأیید واحد و منبع قبل از اصلاح لازم باشد</li>
+<li><strong>EC-004 [P0]</strong> قیمت متری/کیلویی با قیمت بسته&zwnj;ای ← بدون نرمال&zwnj;سازی واحد مقایسه نشود</li>
+<li><strong>EC-005 [P0]</strong> قیمت «از» در برابر قیمت قطعی ← نوع starting_from به مشتری نمایش یابد</li>
+<li><strong>EC-006 [P0]</strong> قیمت ویژهٔ عمده&zwnj;فروشی ← حداقل تعداد سفارش ثبت و مقایسهٔ خرده ممنوع شود</li>
+<li><strong>EC-007 [P0]</strong> تخفیف محدود ساعتی ← انقضای کمپین مستقل از TTL عمومی باشد</li>
+<li><strong>EC-008 [P0]</strong> شرایط پرداخت اقساطی/نقدی متفاوت ← قیمت و شرایط پرداخت مشترکاً scope تأیید شوند</li>
+<li><strong>EC-009 [P0]</strong> حمل/نصب/مالیات جدا از قیمت ← جزءهای هزینه یا وضعیت نامشخص به کاربر گفته شود</li>
+</ul>
+<h2>PRODUCT_MATCH</h2>
+<ul>
+<li><strong>EC-010 [P0]</strong> گوشی ۱۲۸ با ۲۵۶ گیگ ← SKU دقیق جدا و مقایسهٔ قیمت رد شود</li>
+<li><strong>EC-011 [P0]</strong> گوشی با رجیستری و بدون رجیستری ← شرط رجیستری در scope قیمت لحاظ شود</li>
+<li><strong>EC-012 [P0]</strong> رنگ پرتقاضا با رنگ دیگر ← stock در سطح رنگ مستقل بماند</li>
+<li><strong>EC-013 [P0]</strong> کارت گرافیک نو با استوک ← condition جدا و میانگین&zwnj;گیری ممنوع شود</li>
+<li><strong>EC-014 [P0]</strong> لپ&zwnj;تاپ کاستوم با کانفیگ کارخانه ← کانفیگ دقیق در match اعتبارسنجی شود</li>
+<li><strong>EC-015 [P0]</strong> گارانتی معتبر با بدون گارانتی ← قیمت همتا فقط با گارانتی قابل&zwnj;مقایسه ساخته شود</li>
+<li><strong>EC-016 [P0]</strong> نام فارسی محصول با نام انگلیسی مبهم ← در موارد کم&zwnj;اطمینان entity matching برچسب unknown بدهد</li>
+<li><strong>EC-017 [P0]</strong> کیت چندقطعه&zwnj;ای با قطعهٔ تکی ← مقدار و محتویات بسته از ویژگی SKU شود</li>
+<li><strong>EC-018 [P0]</strong> مدل مشابه نسل متفاوت ← شماره مدل/نسل مانع merge ناخواسته شود</li>
+</ul>
+<h2>PRICE_SERIES</h2>
+<ul>
+<li><strong>EC-019 [P1]</strong> قیمت دو ماه ابتدا و انتها یکسان با ۱۰ جهش ← نوسان مسیر از تغییر خالص جدا محاسبه شود</li>
+<li><strong>EC-020 [P1]</strong> قیمت پس از جهش به عدد اولیه برگشته ← رخداد تغییر و صحت فعلی دو هدف جدا باشند</li>
+<li><strong>EC-021 [P1]</strong> قیمت مشاهده&zwnj;شده هر روز ولی timestamp تغییر قدیمی ← آخرین مشاهده از آخرین تغییر مستقل نگهداری شود</li>
+<li><strong>EC-022 [P1]</strong> crawl نامنظم در آخر هفته ← نرخ نوسان با تراکم مشاهده adjust شود</li>
+<li><strong>EC-023 [P1]</strong> پرش قیمت ناشی از تغییر گارانتی ← رویداد قیمت به دو scope مجزا تقسیم شود</li>
+<li><strong>EC-024 [P1]</strong> ثبت batch update بدون تغییر عدد ← به معنی price change مستقل نشود</li>
+<li><strong>EC-025 [P1]</strong> زمان تغییر قبل از تأیید قبلی ← قانون زمانی consistency بررسی شود</li>
+<li><strong>EC-026 [P1]</strong> زمان تغییر مربوط به آینده به&zwnj;علت ساعت دستگاه ← event time با server time کنترل شود</li>
+<li><strong>EC-027 [P1]</strong> یک قیمت غیرعادی بین هزاران مشاهده ← robust statistic و ممیزی منبع انجام شود</li>
+</ul>
+<h2>LIFECYCLE</h2>
+<ul>
+<li><strong>EC-028 [P1]</strong> محصول یک&zwnj;روزه با دو قیمت یکسان ← عدم&zwnj;قطعیت بالا و prior خانواده استفاده شود</li>
+<li><strong>EC-029 [P1]</strong> محصول قدیمی تازه وارد دیتابیس شده ← system_first_seen را release_date فرض نکند</li>
+<li><strong>EC-030 [P1]</strong> محصول جهانی قدیمی تازه وارد بازار محلی ← local_first_seen مستقل ثبت شود</li>
+<li><strong>EC-031 [P1]</strong> نسل جدید موجب افت قیمت نسل قدیم ← مدل اثر جانشینی و lifecycle داشته باشد</li>
+<li><strong>EC-032 [P1]</strong> محصول کمیاب بعد از توقف تولید ← end_of_life ممکن است ریسک را بالا ببرد</li>
+<li><strong>EC-033 [P1]</strong> محصول در حال تثبیت دوباره پرنوسان می&zwnj;شود ← regime تغییرپذیر باشد</li>
+<li><strong>EC-034 [P1]</strong> نسخهٔ پیش&zwnj;فروش با نسخهٔ حاضر ← کانال پیش&zwnj;فروش از آماده&zwnj;تحویل جدا شود</li>
+<li><strong>EC-035 [P1]</strong> بازگشت تولید بعد از توقف طولانی ← stock transition مجدداً یاد گرفته شود</li>
+<li><strong>EC-036 [P1]</strong> دادهٔ عرضهٔ محصول نامعلوم است ← مرحلهٔ عمر با برچسب unknown ذخیره شود</li>
+</ul>
+<h2>MARKET</h2>
+<ul>
+<li><strong>EC-037 [P1]</strong> ده فروشگاه از یک تأمین&zwnj;کننده قیمت می&zwnj;گیرند ← هم&zwnj;بستگی منابع از استقلال همتایان کسر شود</li>
+<li><strong>EC-038 [P1]</strong> افزایش دلار ولی قیمت فروشگاه ثابت ← FX فقط feature باشد نه حکم خطا</li>
+<li><strong>EC-039 [P1]</strong> قیمت ارز با نوع نرخ نامشخص ← feature ارز تا تعیین منبع/نوع unreliable بماند</li>
+<li><strong>EC-040 [P1]</strong> کمبود موجودی در بسیاری از استعلام&zwnj;های گزینشی ← نرخ کمبود کل بازار از sample biased تخمین زده نشود</li>
+<li><strong>EC-041 [P1]</strong> یک جهش کوتاه در هفت روز اخیر ← regime کوتاه&zwnj;مدت جدا از baseline تشخیص شود</li>
+<li><strong>EC-042 [P1]</strong> نوسان ۹۰ روز بالا اما دو هفته اخیر آرام ← حساسیت recent و long horizon مستقل باشد</li>
+<li><strong>EC-043 [P1]</strong> تغییر قیمت کالای وارداتی با تأخیر ← lag دسته و فروشگاه یاد گرفته شود</li>
+<li><strong>EC-044 [P1]</strong> تغییر ناگهانی قیمت مواد اولیهٔ کابل ← family-specific shock وارد سیاست شود</li>
+<li><strong>EC-045 [P1]</strong> فروشگاه زودتر از رقبا قیمت را اصلاح می&zwnj;کند ← قیمت متفاوت صرفاً به&zwnj;علت early update جریمه نشود</li>
+</ul>
+<h2>STOCK</h2>
+<ul>
+<li><strong>EC-046 [P0]</strong> یک واحد قابل&zwnj;فروش پس از تأیید سریع فروخته شد ← موجودی زمان رسیدن جدا محاسبه شود</li>
+<li><strong>EC-047 [P0]</strong> محصول ناموجود دوباره شارژ شده ← transition ناموجود به موجود مدل شود</li>
+<li><strong>EC-048 [P0]</strong> فروشنده تعداد نامشخص اعلام می&zwnj;کند ← quantity_bucket unknown نه صفر باشد</li>
+<li><strong>EC-049 [P0]</strong> موجودی آنلاین با شعبه متفاوت ← stock branch×channel مستقل ثبت شود</li>
+<li><strong>EC-050 [P0]</strong> یک کالا نزد فروشگاه رزرو شده ← sellable از physical_stock جدا بماند</li>
+<li><strong>EC-051 [P0]</strong> محصول ویترینی یا معیوب ← موجودی قابل&zwnj;فروش false/unknown بماند</li>
+<li><strong>EC-052 [P0]</strong> محصول یک سریال/دست&zwnj;دوم یکتا ← موجودی برای سریال دقیق ثبت شود</li>
+<li><strong>EC-053 [P0]</strong> فروشنده در خانه موجودی را تأیید می&zwnj;کند ← source online پاسخ را از حضور فیزیکی جدا کند</li>
+<li><strong>EC-054 [P0]</strong> مشاهدهٔ موجود دوشنبه و ناموجود پنجشنبه ← interval-censor به مدل منتقل شود</li>
+</ul>
+<h2>FULFILLMENT</h2>
+<ul>
+<li><strong>EC-055 [P0]</strong> کالا نزد تأمین&zwnj;کننده ولی در مغازه نیست ← supplier_available با in_store تفکیک شود</li>
+<li><strong>EC-056 [P0]</strong> سفارش تولید سفارشی با پیش&zwnj;پرداخت ← made_to_order و شروط تحویل نمایش یابد</li>
+<li><strong>EC-057 [P0]</strong> ارسال ۲۰ روز کاری ← ETA دقیق به&zwnj;جای موجودی فوری نمایش داده شود</li>
+<li><strong>EC-058 [P0]</strong> کالای انبار مرکزی با انتقال یک روزه ← تحویل فعلی حضوری را قطعی ننامد</li>
+<li><strong>EC-059 [P0]</strong> خرید آنلاین با قیمت مخصوص اینترنت ← channel-specific price رعایت شود</li>
+<li><strong>EC-060 [P0]</strong> پرداخت کارت فقط با هزینهٔ اضافی ← شرایط قابل تحقق قیمت را محدود کند</li>
+<li><strong>EC-061 [P0]</strong> رزرو کوتاه&zwnj;مدت همزمان دو مشتری ← race-safe reservation expiry اجرا شود</li>
+<li><strong>EC-062 [P0]</strong> مشتری خرید نکرد چون منصرف شد ← عدم خرید لزوماً شکست موجودی نیست</li>
+<li><strong>EC-063 [P0]</strong> تحویل کالا با گارانتی متفاوت ← fulfillment exact terms ناموفق علامت&zwnj;گذاری شود</li>
+</ul>
+<h2>PRESENCE</h2>
+<ul>
+<li><strong>EC-064 [P0]</strong> فروشنده پاسخ می&zwnj;دهد ولی مغازه بسته است ← online availability با branch_open جدا باشد</li>
+<li><strong>EC-065 [P0]</strong> ساعت کاری هفتگی خالی ← نتیجه unknown نه closed باشد</li>
+<li><strong>EC-066 [P0]</strong> تعطیلی رسمی یا تعطیلی اضطراری ← hours exception بر weekly ساعات غلبه کند</li>
+<li><strong>EC-067 [P0]</strong> فروشگاه در پاساژ با ساعات متفاوت پاساژ ← ساعات branch و مجتمع جدا مدیریت شوند</li>
+<li><strong>EC-068 [P0]</strong> کارمند شیفت قبلی بازبودن را تأیید کرده ← reuse تا scope شیفت/انقضا محدود شود</li>
+<li><strong>EC-069 [P0]</strong> مغازه باز ولی مسئول فروش حضور ندارد ← open با able_to_serve جدا شود</li>
+<li><strong>EC-070 [P0]</strong> برق منطقه قطع است ← presence uncertainty افزایش یابد نه تخلف</li>
+<li><strong>EC-071 [P0]</strong> ساعت سیستم کارمند اشتباه است ← server timestamps و client clock skew کنترل شود</li>
+<li><strong>EC-072 [P0]</strong> فروشگاه چند شعبه با ساعت متفاوت ← presence فقط branch مربوطه را تغییر دهد</li>
+</ul>
+<h2>SELLER_RELIABILITY</h2>
+<ul>
+<li><strong>EC-073 [P1]</strong> فروشگاه با نشان معتبر اما قیمت قدیمی ← نشان prior باشد نه تأیید فعلی</li>
+<li><strong>EC-074 [P1]</strong> فروشگاه پرآپدیت ولی دقت موجودی ضعیف ← ابعاد trust تفکیک شوند</li>
+<li><strong>EC-075 [P1]</strong> فروشگاه ۲ تأیید صحیح از ۲ ← عدم&zwnj;قطعیت نمونهٔ کم حفظ شود</li>
+<li><strong>EC-076 [P1]</strong> فروشگاه معتبر با چند خطای اخیر ← recent drift بتواند prior قدیمی را اصلاح کند</li>
+<li><strong>EC-077 [P1]</strong> فروشگاه جدید بدون سابقه ← unknown با bad trust اشتباه نشود</li>
+<li><strong>EC-078 [P1]</strong> فروشگاه قیمت صحیح ولی آدرس غلط دارد ← penalty دامنه&zwnj;دار باشد</li>
+<li><strong>EC-079 [P1]</strong> فروشگاه چند کانال و موجودی متفاوت ← trust آنلاین به حضوری بی&zwnj;دلیل منتقل نشود</li>
+<li><strong>EC-080 [P1]</strong> نشان بیرونی منقضی شده ← تأیید بیرونی زمان&zwnj;دار شود</li>
+<li><strong>EC-081 [P1]</strong> نشان مربوط به دامنهٔ دیگری است ← identity match مانع انتقال نشان شود</li>
+</ul>
+<h2>INQUIRY</h2>
+<ul>
+<li><strong>EC-082 [P0]</strong> سه مشتری یک SKU یکسان می&zwnj;پرسند ← یک request مشترک و چند subscriber ثبت شود</li>
+<li><strong>EC-083 [P0]</strong> دو SKU با یک product_id متفاوتند ← merge اشتباه جلوگیری شود</li>
+<li><strong>EC-084 [P0]</strong> درخواست قیمت و موجودی همزمان ← سؤال&zwnj;ها مستقل و در UI قابل batch باشند</li>
+<li><strong>EC-085 [P0]</strong> پاسخ یکی از سؤال&zwnj;ها دریافت شده ← سؤال بدون پاسخ unknown بماند</li>
+<li><strong>EC-086 [P0]</strong> بودجهٔ روزانهٔ اعلان پر شده ← defer و نشان عدم&zwnj;قطعیت به خریدار</li>
+<li><strong>EC-087 [P0]</strong> استعلام در ساعات سکوت فروشگاه ← پوش بدون اجازه فرستاده نشود</li>
+<li><strong>EC-088 [P0]</strong> استعلام قبل از بازبودن مغازه ← دربارهٔ وضعیت اکنون ادعای حضور نشود</li>
+<li><strong>EC-089 [P0]</strong> کاربر صرفاً در حال مرور فهرست است ← درخواست بی&zwnj;ارزش فوری برای همهٔ کالاها ارسال نشود</li>
+<li><strong>EC-090 [P0]</strong> کاربر قصد سفر طولانی دارد ← ETA و هزینهٔ شکست در اولویت لحاظ شود</li>
+</ul>
+<h2>NOTIFICATION</h2>
+<ul>
+<li><strong>EC-091 [P0]</strong> FCM پیام را پذیرفته ولی گوشی خاموش است ← push_accepted به received تبدیل نشود</li>
+<li><strong>EC-092 [P0]</strong> دستگاه اینترنت ندارد ← delivery unknown و sync هنگام اتصال مجدد</li>
+<li><strong>EC-093 [P0]</strong> اعلان بعد از انقضای استعلام می&zwnj;رسد ← UI expired و منع پاسخ به نسخهٔ قدیمی</li>
+<li><strong>EC-094 [P0]</strong> کاربر مجوز اعلان نمی&zwnj;دهد ← اپ حالت inbox/polling را پشتیبانی کند</li>
+<li><strong>EC-095 [P0]</strong> اندروید full-screen-intent را نمی&zwnj;دهد ← workflow به صفحه تماس نمایشی وابسته نباشد</li>
+<li><strong>EC-096 [P0]</strong> iOS PushKit فقط VoIP حقیقی ← برای استعلام معمولی استفاده نشود</li>
+<li><strong>EC-097 [P0]</strong> یادآوری اول همزمان با پاسخ رسیده ← job idempotent cancel شود</li>
+<li><strong>EC-098 [P0]</strong> چند دستگاه یک فروشگاه پوش می&zwnj;گیرند ← تک inquiry و de-dup response</li>
+<li><strong>EC-099 [P0]</strong> یک اختلال سراسری اپراتور رخ می&zwnj;دهد ← اعتبار فروشنده بابت عدم پاسخ افت نکند</li>
+</ul>
+<h2>RESPONSE</h2>
+<ul>
+<li><strong>EC-100 [P0]</strong> پاسخ فروشنده بعد از deadline می&zwnj;رسد ← historical-only و برچسب stale بررسی شود</li>
+<li><strong>EC-101 [P0]</strong> دو کارمند پاسخ متناقض می&zwnj;دهند ← conflicted حفظ و reconciliation انجام شود</li>
+<li><strong>EC-102 [P0]</strong> فروشنده بدون بررسی همواره موجود می&zwnj;زند ← اعتبار فقط با outcome مستقل افزایش یابد</li>
+<li><strong>EC-103 [P0]</strong> فروشنده «نمی&zwnj;دانم» می&zwnj;زند ← unknown پذیرفته و جریمهٔ غلط نشود</li>
+<li><strong>EC-104 [P0]</strong> offer در میانهٔ استعلام تغییر کرده ← response با offer_version گذشته بماند</li>
+<li><strong>EC-105 [P0]</strong> فروشنده پاسخ آفلاین می&zwnj;دهد و دیر sync می&zwnj;کند ← observed_at و ingested_at جدا تحلیل شوند</li>
+<li><strong>EC-106 [P0]</strong> کارمند اجازهٔ پاسخ شعبهٔ دیگر ندارد ← RBAC پاسخ رد شود</li>
+<li><strong>EC-107 [P0]</strong> پاسخ برای واریانت اشتباه ثبت شده ← schema/variant validation و اصلاح فراهم شود</li>
+<li><strong>EC-108 [P0]</strong> پاسخ مجدد از همان event id ارسال می&zwnj;شود ← idempotent و فقط یک رویداد منطقی</li>
+</ul>
+<h2>FEEDBACK</h2>
+<ul>
+<li><strong>EC-109 [P0]</strong> مشتری می&zwnj;گوید مغازه بسته بوده ← زمان مراجعه و استثنای ساعت بررسی شود</li>
+<li><strong>EC-110 [P0]</strong> مشتری می&zwnj;گوید محصول نبوده ← scope SKU و زمان مراجعه تطبیق شود</li>
+<li><strong>EC-111 [P0]</strong> مشتری قیمت متفاوت گفته ← عدد واقعی و شرایط پرداخت optional ثبت شود</li>
+<li><strong>EC-112 [P0]</strong> مشتری رنگ دیگری یافته ← variant mismatch جدا از stock mismatch ثبت شود</li>
+<li><strong>EC-113 [P0]</strong> مشتری گزارش آدرس اشتباه دارد ← پروندهٔ تصحیح نشانی مستقل باز شود</li>
+<li><strong>EC-114 [P0]</strong> مشتری گزارش مثبت دارد ← شاهد مثبت با کیفیت و وزن مناسب ثبت شود</li>
+<li><strong>EC-115 [P0]</strong> مشتری اصلاً به فروشگاه نرفته ← جواب no_visit به&zwnj;عنوان outcome حضوری حساب نشود</li>
+<li><strong>EC-116 [P0]</strong> مشتری گزارش قدیمی چند روز بعد ثبت می&zwnj;کند ← visit_at و reported_at جدا باشند</li>
+<li><strong>EC-117 [P0]</strong> عکس فاکتور حاوی اطلاعات شخصی است ← redaction و کنترل دسترسی انجام شود</li>
+</ul>
+<h2>CASE_MANAGEMENT</h2>
+<ul>
+<li><strong>EC-118 [P0]</strong> گزارش خام به جریمهٔ اتوماتیک تبدیل می&zwnj;شود ← نتیجهٔ verified از raw جدا بماند</li>
+<li><strong>EC-119 [P0]</strong> فروشنده مدعی تغییر طبیعی موجودی است ← زمان دو مشاهده مقایسه شود</li>
+<li><strong>EC-120 [P0]</strong> اشکال از scrape خود سیستم بوده ← error_source=system و عدم جریمهٔ فروشنده</li>
+<li><strong>EC-121 [P0]</strong> دو گزارش دربارهٔ یک مراجعه&zwnj;اند ← dedupe و correlation برقرار شود</li>
+<li><strong>EC-122 [P0]</strong> فروشنده به نتیجه اعتراض می&zwnj;کند ← appeal با audit trail ثبت شود</li>
+<li><strong>EC-123 [P0]</strong> پرونده بدون شواهد حل نشد ← unresolved_insufficient_evidence نگه داشته شود</li>
+<li><strong>EC-124 [P0]</strong> پشتیبان سهوی مدرک را حذف می&zwnj;کند ← نسخه و log حذف/ویرایش کنترل شود</li>
+<li><strong>EC-125 [P0]</strong> گزارش آدرس قابل تصحیح است ← مسیر بازبینی پین و شماره واحد فعال شود</li>
+<li><strong>EC-126 [P0]</strong> پاسخ دیرهنگام فروشنده برای پروندهٔ بسته ← به&zwnj;صورت addendum/reopen بررسی شود</li>
+</ul>
+<h2>ABUSE</h2>
+<ul>
+<li><strong>EC-127 [P1]</strong> رقبا گروهی شکایت جعلی ثبت می&zwnj;کنند ← استقلال منابع و anomaly detection بررسی شود</li>
+<li><strong>EC-128 [P1]</strong> فروشنده خود را به&zwnj;عنوان مشتری مثبت معرفی می&zwnj;کند ← identity correlation و rate limit اجرا شود</li>
+<li><strong>EC-129 [P1]</strong> بات هزار استعلام در دقیقه ایجاد می&zwnj;کند ← rate limit و abuse budget داشته باشد</li>
+<li><strong>EC-130 [P1]</strong> فروشگاه با قیمت غیرقابل خرید مشتری جذب می&zwnj;کند ← offer fulfillability evidence جمع شود</li>
+<li><strong>EC-131 [P1]</strong> فروشنده فعالیت ساختگی آپدیت ثبت می&zwnj;کند ← refresh و actual change جدا باشند</li>
+<li><strong>EC-132 [P1]</strong> چند حساب یک شعبه شواهد مستقل وانمود می&zwnj;کنند ← source clustering و downweight اجرا شود</li>
+<li><strong>EC-133 [P1]</strong> مدیر عملیات از قدرت تغییر امتیاز سوءاستفاده می&zwnj;کند ← approval و audit log داشته باشد</li>
+<li><strong>EC-134 [P1]</strong> کاربر گزارش نامناسب/تهدید در متن می&zwnj;نویسد ← moderation و عدم انتشار خام انجام شود</li>
+<li><strong>EC-135 [P1]</strong> فروشگاه پس از شکایت نام/شناسه عوض می&zwnj;کند ← entity history و حق دفاع حفظ شود</li>
+</ul>
+<h2>DATA_PIPELINE</h2>
+<ul>
+<li><strong>EC-136 [P0]</strong> مقادیر null به صورت رشته در CSV هستند ← normalize before metrics/joins</li>
+<li><strong>EC-137 [P0]</strong> JSON تو در تو داخل CSV خراب است ← parse errors جدا ثبت و رکورد قرنطینه شود</li>
+<li><strong>EC-138 [P0]</strong> product_id پیشنهاد در محصولات وجود ندارد ← broken join flag و تصمیم محافظه&zwnj;کار</li>
+<li><strong>EC-139 [P0]</strong> شناسهٔ فروشگاه تغییر کرده ← identity mapping نسخه&zwnj;دار باشد</li>
+<li><strong>EC-140 [P0]</strong> فروشگاه دقیقاً ۳۰۰ محصول در خروجی دارد ← censored coverage فرض و no absence inference</li>
+<li><strong>EC-141 [P0]</strong> ۲۷۰ پیشنهاد یک کالا مربوط به سایز/رنگ&zwnj;هاست ← duplicate detection و variant split انجام شود</li>
+<li><strong>EC-142 [P0]</strong> timestamp خالی یا نامعتبر است ← age unknown نه صفر/اکنون شود</li>
+<li><strong>EC-143 [P0]</strong> قیمت غیرعدد یا بزرگ نمایی شده ← مانع reference price contamination شود</li>
+<li><strong>EC-144 [P0]</strong> دادهٔ نرخ ارز چند ساعت دیر می&zwnj;رسد ← freshness و provenance ارز ثبت شود</li>
+</ul>
+<h2>GEOGRAPHY</h2>
+<ul>
+<li><strong>EC-145 [P1]</strong> مختصات درست ولی طبقهٔ مغازه اشتباه ← address detail با پین ترکیب شود</li>
+<li><strong>EC-146 [P1]</strong> فروشگاه جابه&zwnj;جا شده ولی پین قدیمی است ← بازبینی هویت/مکان و alert</li>
+<li><strong>EC-147 [P1]</strong> آدرس چند شعبه یکسان است ← branch unit/ID جدا بماند</li>
+<li><strong>EC-148 [P1]</strong> موقعیت کاربر اختیاری است ← عدم دسترسی به GPS مانع فیدبک نشود</li>
+<li><strong>EC-149 [P1]</strong> کاربر در منطقه&zwnj;ای با پوشش اینترنت ضعیف است ← عدم پاسخ به فروشگاه نسبت داده نشود</li>
+<li><strong>EC-150 [P1]</strong> تعطیلی محلی مخصوص شهر است ← hours exceptions region-aware باشد</li>
+<li><strong>EC-151 [P1]</strong> مشتری به شعبهٔ دیگری مراجعه می&zwnj;کند ← report به شعبهٔ درست متصل شود</li>
+<li><strong>EC-152 [P1]</strong> ساعت کار روز جمعه متفاوت است ← هفته/شیفت/تعطیلی جدا محاسبه شود</li>
+<li><strong>EC-153 [P1]</strong> مختصات ۰ یا خارج محدودهٔ انتظار است ← geospatial validation و بررسی دستی</li>
+</ul>
+<h2>ML_EVALUATION</h2>
+<ul>
+<li><strong>EC-154 [P1]</strong> استعلام فقط برای قیمت&zwnj;های مشکوک انجام شده ← نمونهٔ کنترل تصادفی برای prevalence داشته باشیم</li>
+<li><strong>EC-155 [P1]</strong> train و test snapshots یک offer نزدیکند ← split زمانی با purge انجام شود</li>
+<li><strong>EC-156 [P1]</strong> مدل از نتیجهٔ آینده feature گرفته ← as_of leakage tests اجرا شود</li>
+<li><strong>EC-157 [P1]</strong> احتمال ۹۰٪ کالیبره نیست ← عدد احتمالی به UI انتشار نیابد</li>
+<li><strong>EC-158 [P1]</strong> دستهٔ کوچک فقط دو outcome دارد ← hierarchical shrinkage و uncertainty</li>
+<li><strong>EC-159 [P1]</strong> بازار به دلیل FX ناگهان تغییر می&zwnj;کند ← drift monitor و fallback</li>
+<li><strong>EC-160 [P1]</strong> فروشگاه تازه&zwnj;وارد کمتر داده دارد ← fairness و cold-start eval</li>
+<li><strong>EC-161 [P1]</strong> عدم خرید را عدم موجودی برچسب می&zwnj;زنیم ← label taxonomy اصلاح شود</li>
+<li><strong>EC-162 [P1]</strong> feedback منفی self-selected است ← selection bias و propensity بررسی شود</li>
+</ul>
+<h2>OPERATIONS</h2>
+<ul>
+<li><strong>EC-163 [P0]</strong> دیتابیس موقتاً از دسترس خارج می&zwnj;شود ← display degraded و عدم درج تایید جعلی</li>
+<li><strong>EC-164 [P0]</strong> سرویس push خطای ۵۰۳ می&zwnj;دهد ← backoff و TTL deadline اجرا شود</li>
+<li><strong>EC-165 [P0]</strong> job scheduler دوبار اجرا می&zwnj;شود ← idempotency و task cancellation</li>
+<li><strong>EC-166 [P0]</strong> Redis cache با وضعیت DB تضاد دارد ← source of truth و invalidation مشخص</li>
+<li><strong>EC-167 [P0]</strong> یک offer حذف و دوباره ظاهر می&zwnj;شود ← حذف از خروجی معادل stock-out نیست</li>
+<li><strong>EC-168 [P0]</strong> اندازهٔ رویدادها به ده&zwnj;ها میلیون می&zwnj;رسد ← partition و retention plan</li>
+<li><strong>EC-169 [P0]</strong> کارمند فروشگاه دسترسی&zwnj;اش لغو شده ← token revoked و response unauthorized</li>
+<li><strong>EC-170 [P0]</strong> مدل scoring پاسخ نمی&zwnj;دهد ← fallback policy همراه explainability</li>
+<li><strong>EC-171 [P0]</strong> وقتی قیمت/موجودی بسیار نامشخص است ← نمایش unknown و منع ضمانت قطعی</li>
+</ul>
+<h2>PRIVACY</h2>
+<ul>
+<li><strong>EC-172 [P0]</strong> تصویر فاکتور شمارهٔ مشتری دارد ← پوشاندن/نگهداری محدود و حذف درخواست&zwnj;شده</li>
+<li><strong>EC-173 [P0]</strong> مدیر فروشگاه می&zwnj;خواهد نام گزارش&zwnj;دهنده را بداند ← محرمانگی و حداقل افشا رعایت شود</li>
+<li><strong>EC-174 [P0]</strong> GPS دقیق بدون رضایت درخواست می&zwnj;شود ← feature اختیاری و consent required</li>
+<li><strong>EC-175 [P0]</strong> خریدار می&zwnj;خواهد گزارشش حذف شود ← روند درخواست حذف/ناشناس&zwnj;سازی تعریف شود</li>
+<li><strong>EC-176 [P0]</strong> فروشگاه به گزارش ناسازگار اعتراض می&zwnj;کند ← دسترسی منصفانه به شواهد لازم با پوشش PII</li>
+<li><strong>EC-177 [P0]</strong> اطلاعات احراز هویت در لاگ عمومی است ← secret filtering و محدودیت دسترسی</li>
+<li><strong>EC-178 [P0]</strong> تیم ML از متن خام شکایت استفاده می&zwnj;کند ← de-identification و دسترسی کنترل&zwnj;شده</li>
+<li><strong>EC-179 [P0]</strong> نشان بیرونی بدون قرارداد تبلیغاتی استفاده شده ← راستی&zwnj;آزمایی مجوز نمایش/واژه&zwnj;پردازی</li>
+<li><strong>EC-180 [P0]</strong> رابط UI ادعای تضمین قطعی می&zwnj;کند ← ادعای ضمانت فقط با تعهد واقعی مجاز شود</li>
+</ul>
+</section>
+<section id="section-23"><div class="file-path">06_QUALITY/02_Test_Strategy.md</div><h1>۲۱ — استراتژی تست، معیار پذیرش و دادهٔ آزمایشی</h1>
+<h2>لایه&zwnj;های تست</h2>
+<ul>
+<li><strong>Unit:</strong> parse مقدار null رشته&zwnj;ای، timestamp و parse JSON؛ نرمال&zwnj;سازی تومان/ریال/واحد؛ محاسبهٔ سن؛ محاسبهٔ deviation robust؛ ممنوعیت به&zwnj;روزرسانی ناموجودی از عدم پاسخ؛ نگهداری scope.</li>
+<li><strong>Contract:</strong> schema رویداد، source provenance، version، authorization، idempotency، خطای offer_version و expiry.</li>
+<li><strong>Integration:</strong> صف نوتیف، چند دستگاه، پاسخ offline، دوبار delivery، پاسخ متناقض، لغو reminder، شیفت و ساعت استثنایی.</li>
+<li><strong>E2E:</strong> قصد سفر → استعلام → پاسخ دقیق → سفر → گزارش مثبت/منفی → پرونده → اصلاح و امتیاز.</li>
+<li><strong>Data QA:</strong> integrity، no negative/future timestamp بدون flag، drift، تناسب تعداد با محدودیت cap300، duplicate variant و outlier.</li>
+<li><strong>Model QA:</strong> temporal split، عدم leakage، calibration، coverage unknown، cold start و اعتبار در رژیم&zwnj;های متفاوت.</li>
+<li><strong>Chaos/Security:</strong> قطع push، اختلال اینترنت منطقه&zwnj;ای، DB failover، انقضای auth، حملهٔ spam و جعل گزارش.</li>
+</ul>
+<h2>آزمون&zwnj;های پذیرش P0</h2>
+<table>
+<thead>
+<tr>
+  <th>ID</th>
+  <th>سناریو</th>
+  <th>انتظار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>T01</td>
+  <td>price=1</td>
+  <td>quarantine flag؛ عدم ورود به reference قابل&zwnj;خرید</td>
+</tr>
+<tr>
+  <td>T02</td>
+  <td>sku رنگ متفاوت</td>
+  <td>قیمت/موجودی تأیید SKU دیگر منتقل نشود</td>
+</tr>
+<tr>
+  <td>T03</td>
+  <td>offer_version تغییر کرده</td>
+  <td>پاسخ نسخهٔ قدیم تاریخی بماند</td>
+</tr>
+<tr>
+  <td>T04</td>
+  <td>دو درخواست هم&zwnj;معنی همزمان</td>
+  <td>یک inquiry، دو subscriber</td>
+</tr>
+<tr>
+  <td>T05</td>
+  <td>دو دستگاه یک پاسخ را تکرار کنند</td>
+  <td>فقط یک رویداد منطقی</td>
+</tr>
+<tr>
+  <td>T06</td>
+  <td>Push accepted بدون delivery</td>
+  <td>delivery_unknown؛ عدم جریمهٔ فروشگاه</td>
+</tr>
+<tr>
+  <td>T07</td>
+  <td>پاسخ پس از expiry</td>
+  <td>وضعیت فعلی overwrite نشود</td>
+</tr>
+<tr>
+  <td>T08</td>
+  <td>مشتری گزارش ناموجودی تک&zwnj;منبع</td>
+  <td>triage بدون جریمه یا stock=0 قطعی</td>
+</tr>
+<tr>
+  <td>T09</td>
+  <td>گزارش مثبتِ مراجعه</td>
+  <td>شاهد مثبت scopeدار ذخیره شود</td>
+</tr>
+<tr>
+  <td>T10</td>
+  <td>فروشنده توضیح و اعتراض</td>
+  <td>پرونده audit شود و مراحل جدا بماند</td>
+</tr>
+<tr>
+  <td>T11</td>
+  <td>تعطیلی استثنایی و تأیید قبلی بازبودن</td>
+  <td>بازبودن در زمان درست محاسبه شود</td>
+</tr>
+<tr>
+  <td>T12</td>
+  <td>فروشگاه با ۳۰۰ محصول در export</td>
+  <td>نبود محصول به معنی ناموجودی نباشد</td>
+</tr>
+<tr>
+  <td>T13</td>
+  <td>دو ماه قیمت ابتدا/انتها یکسان، مسیر نوسانی</td>
+  <td>تفاوت path-volatility و net-change محفوظ باشد</td>
+</tr>
+<tr>
+  <td>T14</td>
+  <td>بازار شوک و فروشگاه معتبر</td>
+  <td>prior فروشگاه ریسک بازار را صفر نکند</td>
+</tr>
+<tr>
+  <td>T15</td>
+  <td>محصول تازه با دو قیمت برابر</td>
+  <td>uncertainty بالا، ثبات کاذب ممنوع</td>
+</tr>
+<tr>
+  <td>T16</td>
+  <td>قطعی اینترنت ۲۰ فروشگاه</td>
+  <td>عدم پاسخ هم&zwnj;زمان منجر به stock-out همگانی نشود</td>
+</tr>
+<tr>
+  <td>T17</td>
+  <td>فروشنده در خانه پاسخ داده</td>
+  <td>physically_present نامعلوم بماند</td>
+</tr>
+<tr>
+  <td>T18</td>
+  <td>screenshot رسید با اطلاعات شخصی</td>
+  <td>محدودیت دسترسی و redaction در مسیر عمومی</td>
+</tr>
+<tr>
+  <td>T19</td>
+  <td>پرچم «موجود» با وضعیت supplier_only</td>
+  <td>تحویل فوری حضوری false شود</td>
+</tr>
+<tr>
+  <td>T20</td>
+  <td>قیمت بازار از همان فروشگاه که score می&zwnj;گیرد</td>
+  <td>leave-one-shop-out رعایت شود</td>
+</tr>
+<tr>
+  <td>T21</td>
+  <td>دو کارمند دربارهٔ موجودی متناقض&zwnj;اند</td>
+  <td>حالت conflicted و درخواست reconciliation</td>
+</tr>
+<tr>
+  <td>T22</td>
+  <td>فروشگاه معتبر اما نشان بیرونی منقضی</td>
+  <td>وزن نشان به&zwnj;روزرسانی شود</td>
+</tr>
+<tr>
+  <td>T23</td>
+  <td>عدم وقوع خرید با موجودی صحیح</td>
+  <td>به false availability label نشود</td>
+</tr>
+<tr>
+  <td>T24</td>
+  <td>اختلاف نرخ ارز و تغییر قیمت</td>
+  <td>دلار به&zwnj;تنهایی verdict «غلط» ندهد</td>
+</tr>
+<tr>
+  <td>T25</td>
+  <td>استعلام هوشمند فقط موارد مشکوک را انتخاب کرده</td>
+  <td>گزارش نرخ خطای کل بازار از نمونهٔ گزینشی ممنوع</td>
+</tr>
+</tbody>
+</table>
+<h2>داده&zwnj;های سناریویی بازپخش</h2>
+<p>مجموعهٔ <code>09_EXAMPLES/01_Decision_Walkthroughs.md</code> حاوی نمونه&zwnj;های طراحی است؛ در تست اجرا از دادهٔ مصنوعی با timestamps ثابت استفاده شود. خروجی <code>02_DATA/price_audit_candidates_review_only.csv</code> برای inspection دستی و آزمون data quality مناسب است، اما gold labels ندارد.</p>
+<h2>Quality Gates برای انتشار</h2>
+<ul>
+<li>۱۰۰٪ تست&zwnj;های P0 قابل اتوماسیون (با پیاده&zwnj;سازی واقعی)،</li>
+<li>خطای بحرانی در idempotency/نسخه/حریم خصوصی صفر؛</li>
+<li>نتیجهٔ calibration هر مدل احتمال منتشرشده همراه confidence و sample size؛</li>
+<li>خطا/ابهام داده در UI صریح؛</li>
+<li>load test با سناریوهای burst و قطع شبکه؛</li>
+<li>پایش live برای هزینهٔ مزاحمت و شکایت فروشندگان.</li>
+</ul>
+<h2>بازتولید عددها</h2>
+<p><code>python 11_CODE/verify_package.py</code> نسخهٔ بسته را کنترل می&zwnj;کند. محاسبات ممیزی در ابزار همراه <code>11_CODE/reproduce_audit.py</code> از CSV دوباره قابل اجرای محلی است. این بسته اجرای آزمون API واقعی را ادعا نمی&zwnj;کند.</p>
+</section>
+<section id="section-24"><div class="file-path">06_QUALITY/03_Failure_Review_and_Tradeoffs.md</div><h1>۲۲ — تحلیل نقاط شکست و انتخاب&zwnj;های طراحی</h1>
+<h2>Failure Mode and Effects Analysis (کیفی)</h2>
+<table>
+<thead>
+<tr>
+  <th>شکست</th>
+  <th>اثر احتمالی</th>
+  <th>شدت</th>
+  <th>مهار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>SKU اشتباه match می&zwnj;شود</td>
+  <td>قیمت مرجع و موجودی غلط</td>
+  <td>بحرانی</td>
+  <td>entity resolution + scope strict</td>
+</tr>
+<tr>
+  <td>قیمت واقعی خرید از قیمت نمایش فرق دارد</td>
+  <td>اعتماد از بین می&zwnj;رود/رفت&zwnj;وآمد بیهوده</td>
+  <td>بالا</td>
+  <td>price terms و فیدبک تفصیلی</td>
+</tr>
+<tr>
+  <td>موجودی لحظهٔ تأیید تا ETA تمام می&zwnj;شود</td>
+  <td>مراجعه ناموفق با «تأیید درست»</td>
+  <td>بالا</td>
+  <td>hazard at arrival + رزرو اختیاری</td>
+</tr>
+<tr>
+  <td>فروشنده به علت network پاسخ نمی&zwnj;دهد</td>
+  <td>مجازات بی&zwnj;گناه/اعتماد غلط</td>
+  <td>بالا</td>
+  <td>telemetry delivered vs accepted، unknown</td>
+</tr>
+<tr>
+  <td>report جعلی فروشنده را تخریب می&zwnj;کند</td>
+  <td>بی&zwnj;عدالتی/ریسک حقوقی</td>
+  <td>بالا</td>
+  <td>moderation، مستقل، اعتراض</td>
+</tr>
+<tr>
+  <td>سایت مرتب تغییر می&zwnj;کند و سیستم اعتماد کور می&zwnj;کند</td>
+  <td>موجودی و قیمت نادرست</td>
+  <td>بالا</td>
+  <td>اعتماد چندبعدی و sanity check</td>
+</tr>
+<tr>
+  <td>داد&zwnj;هٔ stale بدون نشانگری نمایش داده می&zwnj;شود</td>
+  <td>تصمیم ناآگاهانهٔ مشتری</td>
+  <td>بالا</td>
+  <td>evidence-as-of و خطای منابع</td>
+</tr>
+<tr>
+  <td>الگوریتم فقط مشکوک&zwnj;ها را استعلام می&zwnj;کند</td>
+  <td>برآورد نرخ خطا biased</td>
+  <td>بالا</td>
+  <td>random audit و propensity logging</td>
+</tr>
+<tr>
+  <td>نوتیف زیاد برای فروشنده</td>
+  <td>churn فروشگاه</td>
+  <td>بالا</td>
+  <td>batching, cap, quiet hours</td>
+</tr>
+<tr>
+  <td>آدرس/ساعت مغازه نادرست است</td>
+  <td>سفر بی&zwnj;نتیجه</td>
+  <td>بالا</td>
+  <td>presence/location case workflow</td>
+</tr>
+<tr>
+  <td>بازخوردهای مثبت ثبت نمی&zwnj;شوند</td>
+  <td>مدلِ مغایرت بیش از حد بدبین</td>
+  <td>متوسط</td>
+  <td>نظرسنجی متوازن</td>
+</tr>
+<tr>
+  <td>مدرک خرید با PII نشت می&zwnj;کند</td>
+  <td>آسیب اعتماد/حریم خصوصی</td>
+  <td>بحرانی</td>
+  <td>storage restricted, redaction, retention</td>
+</tr>
+</tbody>
+</table>
+<h2>بده&zwnj;بستان&zwnj;های کلیدی</h2>
+<ul>
+<li><strong>TTL کوتاه ↔ بار اعلان بالا:</strong> آستانهٔ استعلام را با ارزش درخواست و بودجهٔ فروشنده تنظیم کنید.</li>
+<li><strong>نمایش درصد ↔ شفافیت:</strong> قبل از calibration از reason و confidence کیفی استفاده کنید.</li>
+<li><strong>مقیاس گسترده ↔ عمق واریانت:</strong> ابتدا خانواده&zwnj;های منتخب پایلوت؛ عمومیت بدون match درست گمراه&zwnj;کننده است.</li>
+<li><strong>اعتماد بیرونی ↔ حق استقلال:</strong> نشان معتبر prior است، نه اصل حقیقت.</li>
+<li><strong>گزارش فوری ↔ عدالت:</strong> هشدار ملایم پیش از اثبات، پرونده و امکان اعتراض.</li>
+<li><strong>ساده&zwnj;سازی مدل ↔ پیچیدگی داده:</strong> مدل قواعد ساده می&zwnj;تواند خوب باشد اگر events کامل و تفسیر درست باشند؛ مدل پیچیده دادهٔ ناقص را درست نمی&zwnj;کند.</li>
+</ul>
+<h2>فرضیه&zwnj;های قابل رد</h2>
+<p>H1: وجود سوابق تأیید مستقیم، نرخ مغایرت را نسبت به سیاست سن تغییر تنها کاهش می&zwnj;دهد.<br>
+H2: policy مبتنی بر intent و budget، تعداد اعلان به ازای مراجعهٔ موفق را کاهش می&zwnj;دهد.<br>
+H3: اعتبار موضوعی فروشگاه از اعتبار کلی آن در پیش&zwnj;بینی موجودی دقیق&zwnj;تر است.<br>
+H4: معرفی lifecycle و volatility چندبازه&zwnj;ای در محصولات فناوری نسبت به TTL واحد بهبود ایجاد می&zwnj;کند.<br>
+H5: ثبت گزارش مثبت همراه منفی کالیبراسیون را بهتر می&zwnj;کند.</p>
+<p>برای هر فرضیه باید تعریف اندازه&zwnj;گیری، جمعیت، بازهٔ زمانی، کنترل و آستانهٔ موفقیت پیش از آزمایش ثبت شوند.</p>
+</section>
+<section id="section-25"><div class="file-path">07_DELIVERY/01_Roadmap.md</div><h1>۲۳ — نقشهٔ راه پیشنهادی، وابستگی&zwnj;ها و ترتیب ساخت</h1>
+<p><strong>اصل:</strong> تاریخ/هفته&zwnj;های زیر تعهد زمانی نیستند؛ ترتیب پیشنهادی بر اساس وابستگی فنی و داده&zwnj;ای است. زمان&zwnj;بندی پروژه بدون اطلاع از تیم، بودجه و وضعیت اپ فعلی قابل برآورد معتبر نیست.</p>
+<h2>فاز ۰ — آماده&zwnj;سازی داده و مفاهیم</h2>
+<ul>
+<li>قرارداد Offer/SKU/Variant/Branch/Channel/PriceType/StockState و <code>verification_scope</code>؛</li>
+<li>ممیزی داده، برچسب اختلال و کاهش false anomaly؛</li>
+<li>timestampهای <code>seen/changed/verified/observed/ingested</code>؛</li>
+<li>event ledger، versioning، traceability، سیاست retention؛</li>
+<li>تعریف outcome های قیمت، موجودی، مراجعه، آدرس و فیدبک.
+<strong>Definition of Done:</strong> هر مشاهده و اقدام قابل بازپخش تا SKU دقیق، branch و source باشد؛ وضعیت unknown با false تفاوت داشته باشد.</li>
+</ul>
+<h2>فاز ۱ — MVP قابل&zwnj;استفاده</h2>
+<ul>
+<li>baseline data quality و ریسک توضیح&zwnj;پذیر در خانواده&zwnj;های منتخب؛</li>
+<li>seller onboarding و notification inbox/quiet hours/batching؛</li>
+<li>پاسخ قیمت، موجودی و بازبودن جدا؛</li>
+<li>dedupe, retries, expiry, offline sync و عدم جریمهٔ پاسخ ندادن؛</li>
+<li>UI مشتری با آخرین تأیید و مدت اعتبار، درخواست قبل از مراجعه؛</li>
+<li>فیدبک مثبت/منفی و پیگیری اولیه؛</li>
+<li>داشبورد کیفیت، لاگ تصمیم&zwnj;ها، sample audit.
+<strong>گروه&zwnj;های پایلوت:</strong> گوشی، قطعات کامپیوتر، یک دستهٔ صنعتی/کابل. اندازهٔ نمونه باید با پوشش واقعی CSV و مشارکت فروشندگان تعیین شود.</li>
+</ul>
+<h2>فاز ۲ — قابلیت اعتماد داده و مدل&zwnj;های ساده</h2>
+<ul>
+<li>history واقعی snapshots و فروش/شارژ اختیاری؛</li>
+<li>معتبرسازی بیرونی نشان&zwnj;ها همراه تاریخ و دامنه؛</li>
+<li>محاسبهٔ ابعاد اعتبار فروشگاه با prior و shrinkage؛</li>
+<li>فیدبک case management کامل، حق اعتراض و منشأ خطا؛</li>
+<li>قیمت مرجع leave-one-shop-out، volatility و lifecycle اولیه؛</li>
+<li>احتمال&zwnj;های آموزش&zwnj;دیده فقط در گروه&zwnj;های دارای دادهٔ کافی منتشر شوند.
+<strong>Definition of Done:</strong> ارزیابی out-of-time، calibration و گزارش تفکیکی + کاهش بار اعلان.</li>
+</ul>
+<h2>فاز ۳ — هوشمندسازی عمیق</h2>
+<ul>
+<li>survival/hazard قیمت، CTMC/stock replenishment، احتمال در ETA؛</li>
+<li>regime detector، بازار FX و supplier clusters؛</li>
+<li>ارزش اطلاعات و policy adaptation/experimentation؛</li>
+<li>اتصال اختیاری POS و رزرو، بهبود اقدام خودکار کم&zwnj;مزاحمت؛</li>
+<li>مانیتورینگ drift، fairness و incident review.</li>
+</ul>
+<h2>تحویل&zwnj;های پیشنهادی Epic</h2>
+<p>E1 Entity matching; E2 Evidence and snapshots; E3 Merchant app; E4 Inquiry orchestrator; E5 Buyer trust UI; E6 Feedback case workflow; E7 Data audit dashboard; E8 Scoring; E9 Experimentation; E10 Governance/Security. هر epic باید مالک، هزینه، Definition of Done و تست P0 داشته باشد.</p>
+<h2>الزامات قبل از انتشار عمومی</h2>
+<p>بررسی سیاست پلتفرم نوتیفیکیشن، مجوز مصرف نشان/منبع، فرآیند رسیدگی و شکایت، نگهداری شواهد، وضعیت&zwnj;های عدم&zwnj;قطعیت، چند شعبه، SLA عملیاتی و امکان opt-out.</p>
+</section>
+<section id="section-26"><div class="file-path">07_DELIVERY/02_Metrics_and_Experiments.md</div><h1>۲۴ — شاخص&zwnj;های ارزیابی، آزمایش و پایش</h1>
+<h2>North Star</h2>
+<p><strong>نرخ امکان خرید موفقِ واقعی پس از مشاهده/استعلام، با هزینهٔ قابل&zwnj;قبول برای فروشگاه و کاربر</strong>. «خرید انجام شد» به&zwnj;تنهایی هدف مناسب نیست؛ مشتری ممکن است انصراف دهد با اینکه پیشنهاد قابل تحقق بوده است.</p>
+<h2>شاخص&zwnj;های محصول</h2>
+<ul>
+<li><code>verified_price_mismatch_rate</code>: نسبت مغایرت&zwnj;های تأییدشده به فرصت&zwnj;های مشاهدهٔ مستقل واجد شرایط؛</li>
+<li><code>false_in_store_availability_rate</code>: نرخ تأیید موجودی نادرست در زمان مراجعه؛</li>
+<li><code>successful_visit_opportunity_rate</code>: مراجعه&zwnj;هایی که کالا با شرایط اعلامی قابل خرید بوده؛</li>
+<li><code>wrong_address_report_rate</code>: گزارش&zwnj;های معتبر مکان/شعبه؛</li>
+<li><code>case_resolution_time</code>, <code>appeal_reversal_rate</code>, <code>system_fault_fraction</code>؛</li>
+<li>پوشش unknown/contradictory/stale در هر دسته، نه صرفاً متوسط کل.</li>
+</ul>
+<h2>شاخص&zwnj;های استعلام</h2>
+<p><code>requests_per_shop_per_day</code>, <code>duplicates_avoided</code>, <code>batch_size</code>, <code>provider_accept_rate</code>, <code>device_receive_observed_rate</code>, <code>answer_rate_when_delivered</code>, <code>median_time_to_answer</code>, <code>useful_inquiries/100</code>, <code>seller_opt_out</code>, <code>notification_disable_rate</code>, <code>seller_churn</code>.</p>
+<h2>شاخص&zwnj;های ML</h2>
+<p>Brier Score و calibration plot برای probability؛ log loss؛ prediction interval coverage؛ false negative/positive بر مبنای هزینه؛ lift over baseline TTL/age؛ valid temporal evaluation؛ تفاوت دسته، شعبه، تازه&zwnj;وارد/قدیمی، معتبر/کم&zwnj;سابقه، شوک/آرام.</p>
+<h2>A/B / شبه&zwnj;آزمایش</h2>
+<p>A: قاعدهٔ ثابت برای دسته در برابر مدل هوشمند با همان budget.<br>
+B: batch inquiry در برابر push جدا با سقف مساوی.<br>
+C: نمایش شواهد زمان&zwnj;مند در برابر فقط نمرهٔ کلی.<br>
+D: prior چندبعدی فروشگاه در برابر prior کلی.<br>
+E: نمونه&zwnj;گیری تصادفی کنترل&zwnj;شده برای calibration و نمونهٔ گزینشی برای کاربرد عملی.</p>
+<h2>تهدید به استنباط</h2>
+<p>نرخ شکایت به تعداد بازدید/تعداد خرید/حجم استعلام وابسته است؛ مقایسهٔ تعداد شکایت خام ناعادلانه است. تغییرات قیمت/موجودی در بازار پرنوسان با سیستم هم&zwnj;زمان&zwnj;اند؛ اثر محصول را از اثر مدل جدا کنید. برای گروه&zwnj;های با دادهٔ کم بازهٔ اطمینان اعلام کنید.</p>
+<h2>داشبورد پایش</h2>
+<p>نرخ خطا/نامشخص به دسته و شعبه، تأخیر از آخرین مشاهده و تأیید، تعداد پرونده&zwnj;های باز، delivered unknown، احتمال و اعتبار فروشنده، distribution shift، هزینهٔ هر استعلام مفید، سهم پاسخ منفی در گروه&zwnj;ها با اصلاح بایاس.</p>
+</section>
+<section id="section-27"><div class="file-path">07_DELIVERY/03_ADRs_and_Open_Decisions.md</div><h1>۲۵ — تصمیم&zwnj;های معماری، گزینه&zwnj;ها و سؤال&zwnj;های باز</h1>
+<h2>ADR (تصمیم پیشنهادی؛ هنوز مصوب محصول نیست)</h2>
+<table>
+<thead>
+<tr>
+  <th>ADR</th>
+  <th>تصمیم</th>
+  <th>دلیل</th>
+  <th>گزینهٔ کنارگذاشته&zwnj;شده</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>001</td>
+  <td>ماژولار مونولیت در شروع</td>
+  <td>سادگی و یکپارچگی داده</td>
+  <td>مایکروسرویس زودهنگام</td>
+</tr>
+<tr>
+  <td>002</td>
+  <td>event ledger append-only</td>
+  <td>امکان حل تناقض و audit</td>
+  <td>فقط <code>last_status</code></td>
+</tr>
+<tr>
+  <td>003</td>
+  <td>SKU+branch+channel scope</td>
+  <td>جلوگیری از انتقال غلط شواهد</td>
+  <td>فقط product_id</td>
+</tr>
+<tr>
+  <td>004</td>
+  <td>«مشاهده/تغییر/تأیید» مستقل</td>
+  <td>سنجش صحیح تازگی و نوسان</td>
+  <td>فقط changed_at</td>
+</tr>
+<tr>
+  <td>005</td>
+  <td>scoreهای موضوعی فروشگاه</td>
+  <td>قابلیت تفکیک دقت قیمت/موجودی</td>
+  <td>یک نمرهٔ اعتباری مطلق</td>
+</tr>
+<tr>
+  <td>006</td>
+  <td>شروع با قواعد/مدل کالیبره پس از داده</td>
+  <td>عدم قطعیت داده&zwnj;های فعلی</td>
+  <td>درصدهای ساختگی</td>
+</tr>
+<tr>
+  <td>007</td>
+  <td>قیمت مرجع robust و peer مستقل</td>
+  <td>جلوگیری از تورش</td>
+  <td>میانگین خام همهٔ پیشنهادها</td>
+</tr>
+<tr>
+  <td>008</td>
+  <td>CTMC یا حالت دوطرفه برای موجودی</td>
+  <td>امکان شارژ مجدد</td>
+  <td>decay تک&zwnj;جهته همیشگی</td>
+</tr>
+<tr>
+  <td>009</td>
+  <td>پشتیبانی از unknown/conflicted</td>
+  <td>صداقت در نمایش</td>
+  <td>bool همه&zwnj;چیز</td>
+</tr>
+<tr>
+  <td>010</td>
+  <td>مدیریت feedback با case و appeal</td>
+  <td>عدالت و یادگیری</td>
+  <td>جریمهٔ فوری</td>
+</tr>
+<tr>
+  <td>011</td>
+  <td>push معمول، inbox و fallback مجاز</td>
+  <td>محدودیت سیستم&zwnj;عامل</td>
+  <td>شبیه&zwnj;سازی تماس</td>
+</tr>
+<tr>
+  <td>012</td>
+  <td>نمونه&zwnj;گیری کنترل&zwnj;شده</td>
+  <td>تخمین prevalence و ML</td>
+  <td>انتخاب صرفاً پرریسک&zwnj;ها</td>
+</tr>
+<tr>
+  <td>013</td>
+  <td>ETA و fulfillability مستقل</td>
+  <td>رفع شکست مراجعه</td>
+  <td>صرفاً stock now</td>
+</tr>
+<tr>
+  <td>014</td>
+  <td>بودجهٔ اعلان فروشنده</td>
+  <td>جلوگیری از churn</td>
+  <td>استعلام خودکار نامحدود</td>
+</tr>
+<tr>
+  <td>015</td>
+  <td>راستی&zwnj;آزمایی نشان بیرونی</td>
+  <td>جلوگیری از انتقال اعتبار غلط</td>
+  <td>امتیاز پیش&zwnj;فرض دائمی</td>
+</tr>
+</tbody>
+</table>
+<h2>سؤال&zwnj;های باز برای تصمیم تیم</h2>
+<ol>
+<li>منبع واقعی اطلاعات پیشنهادها چیست و قرارداد بازنشر/استفاده چیست؟</li>
+<li>آیا <code>shop_id</code> در دیتاست به واحد/شعبهٔ فیزیکی اشاره دارد یا سازمان؟</li>
+<li>آیا فروشنده مجاز است از طرف شعبهٔ دیگر پاسخ بدهد؟</li>
+<li>آیا فرایند رزرو، پرداخت و تحویل تحت اختیار سامانه هست؟</li>
+<li>آیا دسترسی به timestamp هر crawl و تغییرهای بدون تغییر وجود دارد؟</li>
+<li>نرخ ارز مناسب برای هر خانوادهٔ کالا چیست و چند منبع معتبر داریم؟</li>
+<li>چه نوع اطلاع&zwnj;رسانی/تماس جایگزین مطابق رضایت و سیاست پلتفرم مجاز است؟</li>
+<li>چه سطوح رتبه/نشان بیرونی با مجوز و به&zwnj;صورت قابل&zwnj;راستی&zwnj;آزمایی قابل دریافت است؟</li>
+<li>چه مقدار بار اعلان در هر روز برای فروشنده قابل&zwnj;تحمل است؟</li>
+<li>SLA رسیدگی به گزارش و تیم پشتیبانی چقدر است؟</li>
+<li>چه شواهد مستقلی برای gold label داریم؟ رسید/مراجعه/POS/تماس؟</li>
+<li>هزینهٔ مالی و اعتباری اعلام اشتباه موجودی/قیمت را چطور وزن بدهیم؟</li>
+<li>آیا الگوریتم فقط اطلاعات می&zwnj;دهد یا روی رتبه&zwnj;بندی فروشگاه&zwnj;ها اثر می&zwnj;گذارد؟</li>
+<li>حداقل شواهد لازم برای نمایش درصد احتمال به خریدار چیست؟</li>
+<li>آیا عرضهٔ بین&zwnj;المللی/چندارزی یا صرفاً یک بازار محلی در scope است؟</li>
+<li>مسیر رسیدگی اختلاف و اعتراض در صفحهٔ عمومی چطور طراحی شود؟</li>
+<li>چه اطلاعات مکانی دقیق را <em>واقعاً</em> نیاز داریم و چه چیز اختیاری است؟</li>
+<li>آیا دادهٔ تاریخی قبل از تاریخ فایل&zwnj;های فعلی در backend وجود دارد؟</li>
+</ol>
+<h2>ریسک&zwnj;های باز بزرگ</h2>
+<p>فقدان برچسب حقیقت مستقل، ambiguity واریانت و شرایط فروش، محدودیت بیرونی نشان، آدرس/حضور بدون مشاهده، bias بازخورد، هزینهٔ عملیات پرونده، ضعف پایداری push در شرایط قطع اینترنت، اعتماد بیش از حد به «امتیاز کلی».</p>
+</section>
+<section id="section-28"><div class="file-path">08_REFERENCES/01_Source_Provenance.md</div><h1>۲۶ — منشأ اطلاعات، منابع خارجی و حدود اعتبار</h1>
+<h2>منبع اصلی این مجموعه</h2>
+<ul>
+<li>[داده] <code>10_SOURCE_DATA/shops.csv</code> (۶٬۴۷۶ رکورد)، <code>products.csv</code> (۲۲۵٬۹۰۳)، <code>offers.csv</code> (۳۳۱٬۵۰۶)، <code>README_from_export.txt</code>؛ مرجع قابل محاسبه.</li>
+<li>[گفت&zwnj;وگو] کل سناریوهای کاربر: نصب اپ فروشنده، استعلام قیمت/موجودی/بازبودن، یادآوری ۵/۱۰ دقیقه، اینترنت قطع، reuse تأیید، دسته&zwnj;بندی، نوسان مسیر، دلار، سن عرضه، امتیاز فروشگاه، تأیید بیرونی، فیدبک حضوری و پرونده.</li>
+<li>[پیشنهاد] معماری، معیارهای تصمیم، مدل&zwnj;های hazard/CTMC، سیاست&zwnj;های زمان، case workflow، KPI و API schema؛ هنوز نیازمند اعتبارسنجی میدانی&zwnj;اند.</li>
+<li>[فرض آزمایشی] هر عدد TTL/مهلت/success threshold بیرون از آمار CSV. <strong>هیچ نرخ واقعی بازار از حدس ساخته نشده است.</strong></li>
+</ul>
+<h2>منابع رسمی برای محدودیت&zwnj;های پلتفرم</h2>
+<ol>
+<li><a href="https://developer.android.com/about/versions/14/behavior-changes-14">Android 14 full-screen intent restrictions</a> — مستند رسمی Google Android؛ تأکید بر تماس و آلارم و کاهش مجوز برای اپ&zwnj;های دیگر.</li>
+<li><a href="https://developer.apple.com/documentation/pushkit/responding-to-voip-notifications-from-pushkit">Apple PushKit VoIP notifications</a> — رسمی Apple؛ PushKit برای تماس واقعی VoIP و CallKit.</li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/understand-delivery">Firebase FCM delivery</a> — رسمی Firebase؛ تفکیک <code>MESSAGE_ACCEPTED</code> از <code>MESSAGE_DELIVERED</code> و موانع گزارش&zwnj;شدن تحویل.</li>
+<li><a href="https://developer.android.com/develop/ui/views/notifications/notification-permission">Android notification permission</a> — منبع رسمی برای رفتار مجوز اعلان Android 13+.</li>
+<li><a href="https://torob.com/landings/guarantee/">Torob / guarantee landing</a> — صفحهٔ معرفی ضمانت؛ شرایط و وضعیت باید در زمان استفاده به&zwnj;صورت مجزا راستی&zwnj;آزمایی شوند. <strong>از نشان ترب هیچ رابطه/مجوز فنی یا تضمین موجودی حضوری نتیجه نگیرید.</strong></li>
+</ol>
+<h2>منابع روش&zwnj;شناسی برای مطالعهٔ بیشتر (موضوع، نه نتیجهٔ اندازه&zwnj;گیری داده&zwnj;های ما)</h2>
+<ul>
+<li>Survival analysis و interval censoring: رخداد تغییر بین دو مشاهده.</li>
+<li>Change-point detection / volatility estimation: تشخیص جهش و رژیم بازار.</li>
+<li>Beta-Binomial و hierarchical modeling: اعتبار فروشگاه کم&zwnj;نمونه.</li>
+<li>Calibration / Brier score / temporal validation: ارزیابی کیفیت احتمال&zwnj;ها.</li>
+<li>Contextual bandit و value of information: استعلام هدفمند زیر بودجه.</li>
+</ul>
+<h2>هشدار دربارهٔ دادهٔ بیرونی</h2>
+<p>این بسته هیچ امتیاز رسمی فروشگاه از ترب، هیچ دادهٔ حقیقی نرخ ارز و هیچ نتیجهٔ خرید مشتری را از اینترنت استخراج نکرده است. هر URL صرفاً برای بررسی مستندات/سیاست یا امکان راستی&zwnj;آزمایی آینده است.</p>
+<h2>اعتبار و بازتولید</h2>
+<p>هش SHA256 منبع&zwnj;ها در <code>02_DATA/verified_audit.json</code> ثبت شده است. اعداد بدون منبع صریح در بعضی مثال&zwnj;ها «فرضی» هستند. timestamp مبنای ممیزی ثابت و مستند است. خروجی هشدارهای قیمت فقط کاندیدای بازبینی&zwnj;اند.</p>
+</section>
+<section id="section-29"><div class="file-path">09_EXAMPLES/01_Decision_Walkthroughs.md</div><h1>۲۷ — نمونه&zwnj;های تصمیم&zwnj;گیری از ابتدا تا انتها</h1>
+<p><strong>همهٔ قیمت&zwnj;ها/ساعت&zwnj;ها/رفتارهای این سند فرضی&zwnj;اند؛ سناریوها برای طراحی قوانین هستند و رکوردهای واقعی فروشگاه مشخصی را توصیف نمی&zwnj;کنند.</strong></p>
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>وضعیت</th>
+  <th>شواهد و عدم&zwnj;قطعیت</th>
+  <th>اقدام صحیح</th>
+  <th>پیام به خریدار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>01</td>
+  <td>گوشی تازه وارد بازار، ۲ قیمت مساوی</td>
+  <td>cold-start، نمونه بسیار کم</td>
+  <td>prior خانواده + درخواست تأیید هنگام قصد خرید</td>
+  <td>«تاریخچهٔ کافی نداریم؛ استعلام توصیه می&zwnj;شود»</td>
+</tr>
+<tr>
+  <td>02</td>
+  <td>قیمت گوشی روز اول/شصتم یکسان با ۸ جهش</td>
+  <td>مسیر پرنوسان، net صفر</td>
+  <td>استفاده از volatility و rate change</td>
+  <td>«قیمت قدیمی صرفاً به دلیل برابر بودن قابل اعتماد نیست»</td>
+</tr>
+<tr>
+  <td>03</td>
+  <td>لپ&zwnj;تاپ تأیید امروز، جهش جمعی بازار</td>
+  <td>تأیید تازه اما shock</td>
+  <td>بازبینی پیش از سفر/خرید گران</td>
+  <td>«قیمت اخیراً تأیید شد؛ بازار تغییر کرده»</td>
+</tr>
+<tr>
+  <td>04</td>
+  <td>کارت گرافیک ۵۰٪ ارزان&zwnj;تر، استوک</td>
+  <td>همتایان نو هستند</td>
+  <td>جداکردن condition و reference</td>
+  <td>«این پیشنهاد استوک است؛ با نو قابل مقایسه نیست»</td>
+</tr>
+<tr>
+  <td>05</td>
+  <td>پمپ صنعتی قیمت خالی</td>
+  <td>quote_required</td>
+  <td>تقاضای قیمت روز/شرایط تأمین</td>
+  <td>«برای قیمت و زمان تحویل استعلام بگیرید»</td>
+</tr>
+<tr>
+  <td>06</td>
+  <td>کابل به قیمت متری در کنار حلقه</td>
+  <td>unit mismatch</td>
+  <td>normalize یا incomparable</td>
+  <td>«واحد فروش متفاوت است»</td>
+</tr>
+<tr>
+  <td>07</td>
+  <td>موبایل یک عدد تأیید ۱۰ دقیقه پیش</td>
+  <td>احتمال اتمام تا ETA غیرصفر</td>
+  <td>اگر قصد سفر طولانی است re-confirm/hold optional</td>
+  <td>«موجودی تأیید شده اما رزرو نیست»</td>
+</tr>
+<tr>
+  <td>08</td>
+  <td>کالا دیروز ناموجود و امروز شارژ شده</td>
+  <td>شواهد جدید از همان SKU</td>
+  <td>transition به موجود</td>
+  <td>«امروز دوباره موجودی تأیید شده»</td>
+</tr>
+<tr>
+  <td>09</td>
+  <td>فروشنده پاسخ داده، مغازه بسته</td>
+  <td>پاسخ آنلاین اما presence false</td>
+  <td>open و responsive جدا</td>
+  <td>«فروشگاه برای مراجعه باز نیست»</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td>فروشگاه معتبر و قیمت هفته پیش</td>
+  <td>prior مثبت ولی شواهد قیمت قدیمی</td>
+  <td>ریسک بازار و نوسان را هم بررسی</td>
+  <td>«اعتبار فروشگاه جای تأیید فعلی را نمی&zwnj;گیرد»</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td>فروشگاه با ۱۰۰ آپدیت batch</td>
+  <td>change_count واقعی نامعلوم</td>
+  <td>refresh≠change≠verification</td>
+  <td>«فعالیت ثبت&zwnj;شده، بدون تضمین صحت»</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td>۵ فروشگاه قیمت مشابه از یک منبع</td>
+  <td>استقلال منابع کم</td>
+  <td>کاهش effective seller count</td>
+  <td>«قیمت مرجع با عدم&zwnj;قطعیت بالاتر»</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td>مشتری می&zwnj;گوید محصول ناموجود بود</td>
+  <td>یک گزارش بدون مدرک</td>
+  <td>پرونده و استعلام، عدم مجازات فوری</td>
+  <td>«گزارش شما در دست بررسی است»</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td>۳ گزارش آدرس اشتباه از منابع مستقل</td>
+  <td>شواهد هم&zwnj;راستا</td>
+  <td>بررسی location و هشدار موقت</td>
+  <td>«آدرس فروشگاه در حال بررسی است»</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td>مشتری می&zwnj;گوید قیمت ۱۰٪ بیشتر بوده</td>
+  <td>قیمت فروشنده و شرط کارت/گارانتی بررسی شود</td>
+  <td>گزارش مغایرت + نسخهٔ offer</td>
+  <td>«نتیجهٔ پیگیری اعلام می&zwnj;شود»</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td>مشتری گزارش می&zwnj;دهد همه&zwnj;چیز درست بود</td>
+  <td>شواهد مثبت مشروط</td>
+  <td>ثبت مشاهدهٔ موفق</td>
+  <td>«از گزارش تجربهٔ واقعی سپاس»</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td>سه درخواست یک SKU در یک دقیقه</td>
+  <td>scope یکسان</td>
+  <td>join و batch</td>
+  <td>«استعلام قبلاً ثبت شده؛ نتیجه برای شما هم ارسال می&zwnj;شود»</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td>گوشی فروشنده آفلاین، push پذیرفته</td>
+  <td>تحویل نامعلوم</td>
+  <td>بدون جریمه، expiry/sync</td>
+  <td>«هنوز پاسخی دریافت نشده»</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td>پاسخ بعد از تغییر offer</td>
+  <td>نسخهٔ قبلی</td>
+  <td>historical record و reverify در صورت نیاز</td>
+  <td>«تأیید قدیمی قابل اتکا نیست»</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td>مشتری به شعبهٔ اشتباه رفت</td>
+  <td>گزارش branch mismatch</td>
+  <td>resolve شعبه، نه نفی کل chain</td>
+  <td>«موقعیت شعبهٔ صحیح را بررسی می&zwnj;کنیم»</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td>فروشنده پاسخ «نمی&zwnj;دانم» می&zwnj;دهد</td>
+  <td>پاسخ صادقانه unknown</td>
+  <td>بدون امتیاز منفی صحت اطلاعات</td>
+  <td>«موجودی هنوز تأیید نشده»</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td>فروشگاه تازه بدون امتیاز</td>
+  <td>عدم&zwnj;قطعیت زیاد؛ نه خطای اثبات&zwnj;شده</td>
+  <td>کنترل موردی، prior محتاط</td>
+  <td>«سابقهٔ تأیید محدود است»</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td>فروشگاه ممتاز افت کیفیت اخیر</td>
+  <td>drift</td>
+  <td>بازبینی و کاهش اعتبار موضوعی</td>
+  <td>«اطلاعات این دسته دوباره بررسی می&zwnj;شود»</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td>موجودی فقط نزد تأمین&zwnj;کننده</td>
+  <td>در شعبه sellable نیست</td>
+  <td>جداکردن supplier availability</td>
+  <td>«قابل سفارش؛ تحویل حضوری فوری تأیید نشده»</td>
+</tr>
+</tbody>
+</table>
+<h2>آزمون «سناریو → تصمیم»</h2>
+<p>هر نمونه باید برای تست واقعی به ورودی&zwnj;های نسخه&zwnj;دار و خروجی <code>action</code>, <code>reason_codes</code>, <code>evidence</code>, <code>scope</code>, <code>policy_version</code> تبدیل شود. نمونه&zwnj;ها برای آموزش/توضیح&zwnj;اند، نه benchmark نتایج مدل.</p>
+</section></main><a class="toplink" href="#top">↑ فهرست</a><script>
+const q=document.getElementById('query');q.addEventListener('input',()=>{const v=q.value.toLocaleLowerCase();document.querySelectorAll('aside a').forEach(a=>{a.style.display=a.textContent.toLocaleLowerCase().includes(v)?'block':'none'})});
+</script>
+<script>globalThis.__codexVisualizationInitialGlobals={"statePersistence":"none","stateModelContext":"none","visualizationStyleVariables":{"--accent":"rgb(31, 78, 37)","--accent-foreground":"rgb(72, 160, 76)","--background":"rgb(0, 0, 0)","--border":"rgba(255, 255, 255, 0.15)","--border-strong":"rgba(255, 255, 255, 0.2)","--card":"color-mix(in oklab, rgb(237, 237, 237) 5%, transparent)","--card-foreground":"rgb(237, 237, 237)","--corner-shape":"round","--control-spacing":"12px","--cursor-interaction":"pointer","--destructive":"rgb(255, 133, 73)","--font-mono":"ui-monospace, SFMono-Regular, \"SF Mono\", menlo, consolas, \"Liberation Mono\", monospace","--font-sans":"-apple-system-body, ui-sans-serif, -apple-system, system-ui, \"Segoe UI\", Helvetica, \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\"","--font-size-base":"16px","--font-weight-normal":"400","--foreground":"rgb(237, 237, 237)","--input":"rgba(255, 255, 255, 0.2)","--muted":"color-mix(in srgb, rgb(237, 237, 237) 10%, transparent)","--muted-foreground":"rgb(175, 175, 175)","--popover":"rgb(48, 48, 48)","--popover-foreground":"rgb(237, 237, 237)","--primary":"rgb(72, 160, 76)","--primary-foreground":"rgb(13, 13, 13)","--radius":"8px","--radius-2xl":"16px","--radius-lg":"8px","--radius-md":"6px","--radius-sm":"4px","--ring":"rgb(83, 181, 89)","--secondary":"rgb(48, 48, 48)","--secondary-foreground":"rgb(237, 237, 237)","--blue":"rgb(83, 181, 89)","--orange":"rgb(251, 106, 34)","--green":"rgb(64, 201, 119)","--red":"rgb(255, 103, 100)","--purple":"rgb(173, 123, 249)","--yellow":"rgb(255, 210, 64)","--visualize-paint-gutter":"0px","--viz-series-1":"rgb(72, 160, 76)","--viz-series-2":"#f18ec0","--viz-series-3":"#6ba3fe","--viz-series-4":"#f79952","--viz-series-5":"#55cbc2","--viz-series-6":"#f6d45b"},"visualizationTheme":"dark"};</script>
+<style id="codex-visualization-host-theme">:root {}</style>
+<script>
+(() => {
+  // Host colors are defaults; later authored styles can give the same names
+  // their own meaning (for example, --muted as a chart's label color).
+  const hostStyles = document.getElementById("codex-visualization-host-theme");
+  const hostStyle = hostStyles.sheet.cssRules[0].style;
+  // Typography, geometry and interaction cursors still follow the host.
+  const styleForProperty = (property) =>
+    /^--(?:font-|radius|corner-shape$|control-spacing$|cursor-interaction$|icon-size$|visualize-paint-gutter$)/.test(property)
+      ? document.documentElement.style
+      : hostStyle;
+  const initialGlobals =
+    globalThis.__codexVisualizationInitialGlobals ?? globalThis.openai;
+  delete globalThis.__codexVisualizationInitialGlobals;
+  if (initialGlobals?.statePersistence != null) {
+    globalThis.openai ??= {};
+    globalThis.openai.statePersistence = initialGlobals.statePersistence;
+    globalThis.openai.stateModelContext = initialGlobals.stateModelContext ?? "none";
+  }
+  if (!false) {
+    return;
+  }
+  let appliedProperties = [];
+  const applyHostStyleVariables = (styleVariables) => {
+    if (styleVariables == null || typeof styleVariables !== "object") {
+      return;
+    }
+    for (const property of appliedProperties) {
+      styleForProperty(property).removeProperty(property);
+    }
+    appliedProperties = [];
+    for (const [property, value] of Object.entries(styleVariables)) {
+      if (property.startsWith("--") && typeof value === "string") {
+        styleForProperty(property).setProperty(property, value);
+        appliedProperties.push(property);
+      }
+    }
+  };
+
+  const syncHostStyles = (globals) => {
+    applyHostStyleVariables(globals?.visualizationStyleVariables);
+    const sandboxDocument = globalThis.frameElement?.ownerDocument;
+    if (sandboxDocument != null && globals?.visualizationTheme != null) {
+      let colorSchemeMeta = sandboxDocument.querySelector(
+        'meta[name="color-scheme"]',
+      );
+      if (colorSchemeMeta == null) {
+        colorSchemeMeta = sandboxDocument.createElement("meta");
+        colorSchemeMeta.name = "color-scheme";
+        sandboxDocument.head.appendChild(colorSchemeMeta);
+      }
+      colorSchemeMeta.content = globals.visualizationTheme;
+      sandboxDocument.documentElement.style.colorScheme =
+        globals.visualizationTheme;
+      // Paint the host surface behind transparent saved visualization documents.
+      sandboxDocument.documentElement.style.backgroundColor =
+        hostStyle.getPropertyValue("--background");
+    }
+  };
+
+  syncHostStyles(initialGlobals);
+  globalThis.addEventListener("openai:set_globals", (event) => {
+    syncHostStyles(event.detail?.globals);
+  });
+})();
+</script>
+<script>
+(() => {
+  const reportEnvironmentError = (value) => {
+    const error = value instanceof Error ? value : new Error(String(value));
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_error__",
+        {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+        },
+      )
+      .catch(() => {});
+  };
+
+  globalThis.addEventListener("error", (event) => {
+    if (event.target?.localName === "script") {
+      // A script's own onerror may render a fallback or load an alternative.
+      // Let that handler run; failures it throws still reach the global error path.
+      const handlesError = typeof event.target.onerror === "function";
+      globalThis.queueMicrotask(() => {
+        if (!handlesError && !event.defaultPrevented) {
+          reportEnvironmentError("Visualization script could not be loaded");
+        }
+      });
+    } else if (event.target === globalThis) {
+      reportEnvironmentError(event.error ?? event.message);
+    }
+  }, true);
+  globalThis.addEventListener("unhandledrejection", (event) => {
+    reportEnvironmentError(event.reason);
+  });
+})();
+</script>
+<script id="codex-visualization-variants">
+(() => {
+  let previousSnapshot = "[]";
+  let roots = [];
+  const report = () => {
+    roots = Array.from(
+      document.querySelectorAll(".viz-carousel[data-active-variant]"),
+    ).slice(0, 32);
+    const selectedVariants = roots.flatMap((root, carousel) => {
+      const variant = root.dataset.activeVariant;
+      const label = root.getAttribute("aria-label")?.slice(0, 256);
+      return variant ? [{
+        carousel,
+        ...(label == null ? {} : { label }),
+        variant: variant.slice(0, 256),
+      }] : [];
+    });
+    const snapshot = JSON.stringify(selectedVariants);
+    if (snapshot !== previousSnapshot) {
+      previousSnapshot = snapshot;
+      void globalThis.openai.callTool("__codex_visualization_annotations__", {
+        type: "variants",
+        selectedVariants,
+      }).catch(() => {});
+    }
+  };
+  const observer = new MutationObserver((records) => {
+    if (records.some((record) => record.type === "attributes") || roots.some((root) => !root.isConnected)) {
+      report();
+    }
+  });
+  observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["data-active-variant"],
+  });
+  report();
+  globalThis.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+})();
+</script>
+<script>
+(() => {
+  let isHovering = false;
+  let isTouch = false;
+  const reportHover = (nextIsHovering, nextIsTouch = false) => {
+    if (nextIsHovering === isHovering && nextIsTouch === isTouch) {
+      return;
+    }
+    isHovering = nextIsHovering;
+    isTouch = nextIsTouch;
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_hover__",
+        isTouch ? { isHovering, pointerType: "touch" } : { isHovering },
+      )
+      .catch(() => {});
+  };
+
+  globalThis.addEventListener(
+    "pointerover",
+    (event) =>
+      reportHover(event.pointerType !== "touch", event.pointerType === "touch"),
+    { capture: true },
+  );
+  globalThis.addEventListener(
+    "pointerout",
+    (event) => {
+      if (event.pointerType !== "touch" && event.relatedTarget == null) {
+        reportHover(false);
+      }
+    },
+    { capture: true },
+  );
+})();
+</script>
+<script>
+(() => {
+  const report = (method) => {
+    void globalThis.openai.callTool("__codex_inline_visualization_input__", { method }).catch(() => {});
+  };
+  globalThis.addEventListener("pointerdown", () => report("pointer"), { capture: true });
+  globalThis.addEventListener("keydown", (event) => {
+    if (!event.isComposing && event.key !== "Shift" && !event.altKey && !event.ctrlKey && !event.metaKey) {
+      report(["Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(event.key) ? "keyboard-navigation" : "keyboard");
+    }
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  const bubbledClicks = new WeakSet();
+  const interactiveSelector = [
+    "button", "input", "select", "textarea", "label", "summary", "a[href]",
+    "audio[controls]", "video[controls]", "[onclick]", "[data-visualization-interactive]",
+    '[contenteditable]:not([contenteditable="false"])',
+    ...[
+      "button", "checkbox", "combobox", "gridcell", "link", "listbox",
+      "menuitem", "menuitemcheckbox", "menuitemradio", "option", "radio",
+      "scrollbar", "searchbox", "slider", "spinbutton", "switch", "tab",
+      "textbox", "treeitem",
+    ].map((role) => '[role~="' + role + '"]'),
+  ].join(",");
+
+  globalThis.addEventListener("click", (event) => bubbledClicks.add(event));
+  globalThis.addEventListener("click", (event) => {
+    // Capture the path before a control can remove itself. Custom delegated
+    // controls can opt in with data-visualization-interactive.
+    const elements = event.composedPath().filter((target) => target instanceof Element);
+    const isInteractiveTarget = elements.some((element) =>
+      element.matches(interactiveSelector) ||
+      (element.hasAttribute("tabindex") && element.tabIndex >= 0)) ||
+      (elements[0] != null && getComputedStyle(elements[0]).cursor === "pointer");
+    // Use a task, not a microtask: native dispatch can run microtasks between
+    // listeners. Propagation flags are reset when dispatch finishes:
+    // https://dom.spec.whatwg.org/#concept-event-dispatch
+    globalThis.setTimeout(() => {
+      void globalThis.openai.callTool("__codex_inline_visualization_click__", {
+        isInteractive: isInteractiveTarget || event.defaultPrevented ||
+          (event.bubbles && !bubbledClicks.has(event)),
+      }).catch(() => {});
+    }, 0);
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  globalThis.addEventListener("keydown", (event) => {
+    if (event.isComposing || event.altKey || event.ctrlKey || event.metaKey ||
+      event.shiftKey || !["ArrowLeft", "ArrowRight", "Escape"].includes(event.key)) {
+      return;
+    }
+    const target = event.composedPath().find((element) => element instanceof HTMLElement);
+    const editable = target?.closest("[contenteditable]");
+    const editing = target && (target.isContentEditable ||
+      (editable && editable.getAttribute("contenteditable") !== "false") ||
+      target.closest('input, textarea, select, [role="slider"], [role="spinbutton"], [role="combobox"], [role="listbox"], [role="grid"], [role="tree"], [role="tablist"], [role="menu"]'));
+    if (event.key !== "Escape" && editing) { return; }
+    // Let the widget handle the key before forwarding it across the sandbox.
+    globalThis.setTimeout(() => {
+      if (!event.defaultPrevented && globalThis.openai?.displayMode === "fullscreen") {
+        void globalThis.openai.callTool("__codex_inline_visualization_preview_key__", {
+          key: event.key,
+        }).catch(() => {});
+      }
+    }, 0);
+  });
+})();
+</script>
+
+
+
+
+<script>
+(() => {
+  const contentRange = document.createRange();
+  let previousMeasurement = null;
+  let heightReportTimer = null;
+  const reportHeight = () => {
+    const bodyChildren = Array.from(document.body.children).filter(
+      (element) =>
+        element.tagName !== "SCRIPT" &&
+        element.tagName !== "STYLE" &&
+        element.getAttribute("role") !== "tooltip",
+    );
+    const bodyStyle = globalThis.getComputedStyle(document.body);
+    const contentWidth = Math.max(
+      0,
+      Math.round(
+        globalThis.innerWidth -
+          parseFloat(bodyStyle.paddingLeft) -
+          parseFloat(bodyStyle.paddingRight),
+      ),
+    );
+    let contentHeight;
+    if (bodyChildren.length === 0) {
+      contentRange.selectNodeContents(document.body);
+      contentHeight = contentRange.getBoundingClientRect().height;
+    } else if (bodyChildren.length === 1) {
+      const [bodyChild] = bodyChildren;
+      const childRect = bodyChild.getBoundingClientRect();
+      // Child margins can collapse above the root without adding to its height.
+      // The host adds body padding separately.
+      contentHeight =
+        Math.max(bodyChild.scrollHeight, childRect.height) +
+        Math.max(
+          0,
+          childRect.top -
+            document.body.getBoundingClientRect().top -
+            parseFloat(bodyStyle.paddingTop),
+        );
+    } else {
+      const bodyTop = document.body.getBoundingClientRect().top;
+      contentHeight = Math.max(
+        ...bodyChildren.map(
+          (bodyChild) => bodyChild.getBoundingClientRect().bottom - bodyTop,
+        ),
+      );
+    }
+    const viewportHeight = globalThis.innerHeight;
+    const previous = previousMeasurement;
+    previousMeasurement = { contentHeight, contentWidth, viewportHeight };
+    if (
+      previous != null &&
+      contentWidth === previous.contentWidth &&
+      contentHeight - previous.contentHeight ===
+        viewportHeight - previous.viewportHeight
+    ) {
+      return;
+    }
+
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_height__",
+        { height: contentHeight, width: contentWidth },
+      )
+      .catch(() => {});
+  };
+  const scheduleHeightReport = () => {
+    if (heightReportTimer != null) {
+      return;
+    }
+    // Offscreen frames can suspend animation callbacks while their content loads.
+    heightReportTimer = globalThis.setTimeout(() => {
+      heightReportTimer = null;
+      reportHeight();
+    }, 0);
+  };
+
+  const resizeObserver = new ResizeObserver(scheduleHeightReport);
+  const observeBodyChildren = () => {
+    for (const element of document.body.children) {
+      resizeObserver.observe(element);
+    }
+  };
+  resizeObserver.observe(document.body);
+  observeBodyChildren();
+  new MutationObserver(() => {
+    observeBodyChildren();
+    scheduleHeightReport();
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["style", "class", "height", "width"],
+  });
+  globalThis.addEventListener("resize", scheduleHeightReport);
+  reportHeight();
+})();
+</script>
+<style id="codex-visualization-document-scrollbar">html,body{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important}</style>
+
+</body></html>

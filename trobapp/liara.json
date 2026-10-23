@@ -1,0 +1,6 @@
+{
+  "platform": "next",
+  "app": "torobmap",
+  "port": 3000,
+  "build": { "location": "germany" }
+}

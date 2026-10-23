@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> created
+  created --> queued
+  queued --> active
+  active --> answered: valid response in time
+  active --> expired: deadline reached
+  active --> cancelled: duplicate/superseded
+  answered --> [*]
+  expired --> [*]
+  cancelled --> [*]
+  note right of active
+    Delivery attempts and customer subscribers are separate.
+    Push accepted is not device received.
+  end note

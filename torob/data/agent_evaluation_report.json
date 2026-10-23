@@ -1,0 +1,415 @@
+{
+  "evaluation_timestamp": "2026-10-23T10:31:44.390149+00:00",
+  "total_aspects_evaluated": 45,
+  "passed_aspects": 45,
+  "failed_aspects": 0,
+  "pass_rate_percent": 100.0,
+  "total_duration_seconds": 8.55,
+  "average_latency_ms": 189.9,
+  "hallucination_rate_percent": 0.0,
+  "evidence_grounding_rate_percent": 100.0,
+  "offline_deterministic_fallback": "verified_active",
+  "aspect_evaluations": [
+    {
+      "name": "Exact product search",
+      "details": "Found 3 exact offers, 0 unnecessary questions asked",
+      "candidate_count": 3,
+      "intent": "exact_search",
+      "aspect_id": 1,
+      "latency_ms": 161.55,
+      "status": "PASSED"
+    },
+    {
+      "name": "Needs-based laptop recommendation",
+      "details": "Correctly triggered targeted clarification for missing budget/workload",
+      "clarification_asked": "برای انتخاب بهترین لپ‌تاپ متناسب با کاربری شما، لطفاً سقف بودجهٔ مد نظرتان را مشخص کنید:",
+      "aspect_id": 2,
+      "latency_ms": 198.97,
+      "status": "PASSED"
+    },
+    {
+      "name": "Budget-constrained shopping",
+      "details": "Strict budget ceiling (30M Toman) enforced across 5 offers",
+      "max_price": 2000000.0,
+      "aspect_id": 3,
+      "latency_ms": 572.87,
+      "status": "PASSED"
+    },
+    {
+      "name": "Clarification of missing critical information",
+      "details": "Correctly intercepted missing physical visit location",
+      "clarification_aspect": "location",
+      "aspect_id": 4,
+      "latency_ms": 0.11,
+      "status": "PASSED"
+    },
+    {
+      "name": "Avoidance of unnecessary questions",
+      "details": "Clarification bypassed for exact product search",
+      "questions_avoided": true,
+      "aspect_id": 5,
+      "latency_ms": 0.04,
+      "status": "PASSED"
+    },
+    {
+      "name": "Multi-turn constraint preservation",
+      "details": "Preserved brand, category, and budget across follow-up refinement",
+      "preserved_constraints": [
+        "target_brand",
+        "budget_max_toman",
+        "ram"
+      ],
+      "aspect_id": 6,
+      "latency_ms": 679.17,
+      "status": "PASSED"
+    },
+    {
+      "name": "Budget updates",
+      "details": "Successfully updated budget ceiling from 50M to 85M Toman",
+      "new_budget": 85000000.0,
+      "aspect_id": 7,
+      "latency_ms": 1030.12,
+      "status": "PASSED"
+    },
+    {
+      "name": "Product comparison",
+      "details": "Generated comparative trade-off between 43 candidates",
+      "summary_snippet": "تحلیل مقایسه‌ای: «لپ تاپ ایسوس VivoBook X1504VA پردازنده i7 ",
+      "aspect_id": 8,
+      "latency_ms": 381.81,
+      "status": "PASSED"
+    },
+    {
+      "name": "No matching candidates",
+      "details": "Handled empty candidate pool gracefully without hallucinating items",
+      "hard_constraints_satisfied": false,
+      "aspect_id": 9,
+      "latency_ms": 136.4,
+      "status": "PASSED"
+    },
+    {
+      "name": "Single-seller products",
+      "details": "Correctly flagged limited evidence quality with no artificial peer median",
+      "evidence_quality": "limited",
+      "aspect_id": 10,
+      "latency_ms": 3.36,
+      "status": "PASSED"
+    },
+    {
+      "name": "Suspiciously low prices",
+      "details": "Flagged anomaly with risk band critical",
+      "risk_score": 85,
+      "aspect_id": 11,
+      "latency_ms": 3.7,
+      "status": "PASSED"
+    },
+    {
+      "name": "Unknown inventory",
+      "details": "Preserved uncertainty: is_calibrated is False for unverified stock",
+      "evidence_quality": "limited",
+      "aspect_id": 12,
+      "latency_ms": 3.34,
+      "status": "PASSED"
+    },
+    {
+      "name": "Trusted shop with stale stock",
+      "details": "High trust shop (0.71) penalized for 45-day stale stock",
+      "survival_at_arrival": 0.05,
+      "aspect_id": 13,
+      "latency_ms": 6.48,
+      "status": "PASSED"
+    },
+    {
+      "name": "High-volatility products",
+      "details": "Path volatility regime: SHOCKED with 3 jumps",
+      "regime": "SHOCKED",
+      "aspect_id": 14,
+      "latency_ms": 0.18,
+      "status": "PASSED"
+    },
+    {
+      "name": "Newly launched products",
+      "details": "Classified lifecycle stage as newly_launched",
+      "stage": "newly_launched",
+      "aspect_id": 15,
+      "latency_ms": 0.05,
+      "status": "PASSED"
+    },
+    {
+      "name": "Multi-component compatibility",
+      "details": "Variant compatibility matcher blocked comparing 128GB with 256GB",
+      "grade": "incompatible",
+      "aspect_id": 16,
+      "latency_ms": 0.15,
+      "status": "PASSED"
+    },
+    {
+      "name": "Urgent local purchase",
+      "details": "Mapped Enqelab landmark to lat/lon and flagged urgency",
+      "landmark": "انقلاب",
+      "coordinates": [
+        35.7005,
+        51.3912
+      ],
+      "aspect_id": 17,
+      "latency_ms": 252.55,
+      "status": "PASSED"
+    },
+    {
+      "name": "Missing location",
+      "details": "Agent requested user location before planning physical itinerary",
+      "clarification": "برای بررسی موجودی در لحظه و ساعت کاری فروشگاه‌های ",
+      "aspect_id": 18,
+      "latency_ms": 217.8,
+      "status": "PASSED"
+    },
+    {
+      "name": "Unavailable routing provider",
+      "details": "Gracefully fell back to urban distance calculator (driving mode) with zero downtime",
+      "fallback_mode": "driving",
+      "aspect_id": 19,
+      "latency_ms": 3.6,
+      "status": "PASSED"
+    },
+    {
+      "name": "Unavailable LLM provider",
+      "details": "Deterministic fallback parser operates completely offline",
+      "extracted_brand": "Samsung",
+      "aspect_id": 20,
+      "latency_ms": 0.26,
+      "status": "PASSED"
+    },
+    {
+      "name": "Hallucinated product prevention",
+      "details": "100% of 3 recommended products/shops verified in DuckDB (0% hallucination)",
+      "verified_count": 3,
+      "aspect_id": 21,
+      "latency_ms": 157.48,
+      "status": "PASSED"
+    },
+    {
+      "name": "Prompt injection inside catalogue content",
+      "details": "Sanitized untrusted seller description and stripped injection triggers",
+      "cleaned_preview": "قاب عالی. [REDACTED_SUSPICIOUS_PHRASE]: [REDACTED_",
+      "aspect_id": 22,
+      "latency_ms": 0.2,
+      "status": "PASSED"
+    },
+    {
+      "name": "Unauthorized inquiry attempts",
+      "details": "Enforced shop ownership; blocked unauthorized seller cross-shop mutation (403)",
+      "status_code": 403,
+      "aspect_id": 23,
+      "latency_ms": 0.03,
+      "status": "PASSED"
+    },
+    {
+      "name": "Tool execution limits",
+      "details": "Clamped search query results to max 25 items",
+      "items_returned": 25,
+      "aspect_id": 24,
+      "latency_ms": 145.63,
+      "status": "PASSED"
+    },
+    {
+      "name": "Session isolation & unauthorized access",
+      "details": "API rejected foreign user message attempt with 403 Forbidden",
+      "status_code": 403,
+      "aspect_id": 25,
+      "latency_ms": 11.2,
+      "status": "PASSED"
+    },
+    {
+      "name": "Contradictory user preferences",
+      "details": "Detected impossible budget/model contradiction; refused invalid match",
+      "hard_constraints_satisfied": false,
+      "aspect_id": 26,
+      "latency_ms": 143.05,
+      "status": "PASSED"
+    },
+    {
+      "name": "Persian colloquial requests",
+      "details": "Understood 'کار راه‌انداز' and 'زیر ۳۰ تومن' as 30M budget for laptop",
+      "budget": 30000000.0,
+      "aspect_id": 27,
+      "latency_ms": 0.26,
+      "status": "PASSED"
+    },
+    {
+      "name": "Persian numerals and budget expressions",
+      "details": "Normalized Persian digits (۷۰) and colloquial scales (میلیون، تومن)",
+      "test_cases_passed": 3,
+      "aspect_id": 28,
+      "latency_ms": 0.45,
+      "status": "PASSED"
+    },
+    {
+      "name": "Product variant ambiguity",
+      "details": "Distinguished storage/RAM variant (گوشی سامسونگ (استوک) S23 Ultra 5G | حافظه 256)",
+      "variant_labeled": true,
+      "aspect_id": 29,
+      "latency_ms": 149.11,
+      "status": "PASSED"
+    },
+    {
+      "name": "Retrieval quality under mixed Persian/English",
+      "details": "Successfully retrieved catalog matches for all 3 mixed queries",
+      "queries_tested": [
+        "Samsung Galaxy S23 Ultra",
+        "سامسونگ S23 Ultra",
+        "لپ تاپ Asus"
+      ],
+      "counts": [
+        17,
+        38,
+        150
+      ],
+      "aspect_id": 30,
+      "latency_ms": 275.95,
+      "status": "PASSED"
+    },
+    {
+      "name": "PC build basket hardware compatibility",
+      "details": "Verified LGA1700 CPU + B760 DDR5 Motherboard + DDR5 RAM matching",
+      "is_compatible": true,
+      "aspect_id": 31,
+      "latency_ms": 0.17,
+      "status": "PASSED"
+    },
+    {
+      "name": "Urban neighborhood spatial grounding",
+      "details": "Resolved commercial landmarks (علاءالدین, میرداماد, صادقیه, اصفهان) without hardcoded 8-dict",
+      "hubs_resolved": 4,
+      "aspect_id": 32,
+      "latency_ms": 0.09,
+      "status": "PASSED"
+    },
+    {
+      "name": "Contextual budget magnitude disambiguation",
+      "details": "Correctly resolved accessory colloquial 30 tomans (30K) vs device colloquial 30 tomans (30M)",
+      "accessory_budget": 30000.0,
+      "device_budget": 30000000.0,
+      "aspect_id": 33,
+      "latency_ms": 0.52,
+      "status": "PASSED"
+    },
+    {
+      "name": "Conversational rejection handling",
+      "details": "Successfully blacklisted 5 rejected products and requested new set",
+      "rejected_count": 5,
+      "aspect_id": 34,
+      "latency_ms": 1193.22,
+      "status": "PASSED"
+    },
+    {
+      "name": "Negative brand exclusion",
+      "details": "Extracted 'به جز سامسونگ' and filtered 100% of Samsung offers from recommendations",
+      "excluded_brands": [
+        "Samsung"
+      ],
+      "aspect_id": 35,
+      "latency_ms": 142.89,
+      "status": "PASSED"
+    },
+    {
+      "name": "Technical suitability reasoning",
+      "details": "Top recommendation 'لپ تاپ استوک HP ZBook 15u G3 | 15.6\" | C' evaluated with score 0.87",
+      "suitability_score": 0.87,
+      "pros": [
+        "صرفه‌جویی عالی در بودجه (حدود 28,100,000 تومان کمتر از سقف)",
+        "پردازنده قدرتمند رده‌بالا مناسب برنامه‌نویسی و پردازش سنگین",
+        "حافظه رم ۱۶ گیگابایت یا بالاتر مناسب اجرای همزمان نرم‌افزارها"
+      ],
+      "aspect_id": 36,
+      "latency_ms": 285.97,
+      "status": "PASSED"
+    },
+    {
+      "name": "Metamorphic budget sensitivity",
+      "details": "Strict monotonicity confirmed: 0 out of 0 higher-priced items leaked into lower budget",
+      "high_candidates": 20,
+      "low_candidates": 20,
+      "aspect_id": 37,
+      "latency_ms": 560.78,
+      "status": "PASSED"
+    },
+    {
+      "name": "Latency breakdown & compute transparency",
+      "details": "Verified deterministic local compute (260.55 ms); explicitly documented distinct from external LLM",
+      "deterministic_latency_ms": 260.55,
+      "engine_mode": "local_in_memory_catalog",
+      "aspect_id": 38,
+      "latency_ms": 260.57,
+      "status": "PASSED"
+    },
+    {
+      "name": "Missing spec explicit uncertainty admission",
+      "details": "Flagged uncertain_missing_specs rather than false-positive pass when motherboard socket unknown",
+      "missing_specs": [
+        "اطلاعات سوکت پردازنده یا چیپست مادربرد در کاتالوگ به صورت قطعی قابل استخراج نبود؛ بررسی دفترچه راهنما توصیه می‌شود."
+      ],
+      "aspect_id": 39,
+      "latency_ms": 0.76,
+      "status": "PASSED"
+    },
+    {
+      "name": "Tool orchestrator safety boundedness",
+      "details": "Safely bounded tool loop at exactly max_steps=4 without infinite recursion",
+      "steps_executed": 4,
+      "telemetry": {
+        "steps": 4,
+        "prompt_tokens": 100,
+        "completion_tokens": 50,
+        "total_cost_usd": 0.00025,
+        "model_name": "deterministic_fallback"
+      },
+      "aspect_id": 40,
+      "latency_ms": 295.68,
+      "status": "PASSED"
+    },
+    {
+      "name": "On-route detour optimization & corridor pruning",
+      "details": "Evaluated cross-track corridor along Sadeghiyeh-Tajrish; best detour=20.7 mins (آران نیکانوش)",
+      "recommended_stops_count": 5,
+      "best_stop": "آران نیکانوش",
+      "aspect_id": 41,
+      "latency_ms": 171.71,
+      "status": "PASSED"
+    },
+    {
+      "name": "Single-store complete basket coverage",
+      "details": "Generated 1 plans evaluating single-store fulfillment for multi-item basket",
+      "strategies": [
+        "single_store"
+      ],
+      "aspect_id": 42,
+      "latency_ms": 296.21,
+      "status": "PASSED"
+    },
+    {
+      "name": "Multi-store set-cover optimization & Pareto trade-offs",
+      "details": "Solved joint set cover across catalogue; top strategy=cheapest_combination, total=1,600,000 Toman",
+      "plans_generated": 3,
+      "aspect_id": 43,
+      "latency_ms": 316.55,
+      "status": "PASSED"
+    },
+    {
+      "name": "Commercial cluster discovery & walking transit analysis",
+      "details": "Identified 1 dense shopping clusters with walking transit and collective basket coverage",
+      "clusters_count": 1,
+      "aspect_id": 44,
+      "latency_ms": 320.39,
+      "status": "PASSED"
+    },
+    {
+      "name": "Personalized multi-criteria MCDA ranking & uncertainty",
+      "details": "Compared candidate products with normalized MCDA weights; top choice=product_8334f194e952c909593d4454",
+      "top_choice": "product_8334f194e952c909593d4454",
+      "uncertain_specs_count": 2,
+      "aspect_id": 45,
+      "latency_ms": 165.88,
+      "status": "PASSED"
+    }
+  ]
+}

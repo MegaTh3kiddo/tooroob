@@ -1,0 +1,48 @@
+# سیاست صرفاً آزمایشی؛ زمان‌ها از دیتاست برآورد نشده‌اند.
+policy_version: "proposal-0.1"
+probability_claim_allowed: false
+confidence_output: [unknown, low_evidence, medium_evidence, well_supported]
+match:
+  require_exact_variant: true
+  require_condition_unit_channel: true
+  leave_one_shop_out: true
+  min_independent_peer_shops_for_market_reference: 3
+  unavailable_peer_action: show_uncertainty
+price:
+  block_sentinel_values: [1]
+  review_if_missing: true
+  review_if_above_toman: 1000000000000
+  relative_peer_median_review_multiplier: 3
+  reference_age_time_unit: hours
+  never_infer_validity_from_last_price_changed_at_only: true
+stock:
+  separate_states: [in_store_sellable, own_warehouse, supplier_available, preorder, reserved, display_only, out_of_stock, unknown]
+  stock_unavailable_is_not_permanent: true
+  never_use_no_response_as_out_of_stock: true
+  eta_aware_confirmation: true
+shop:
+  independent_dimensions: [identity, commercial_trust, price_accuracy, stock_accuracy, response_quality, physical_presence, address_accuracy]
+  external_badge_requires_verification: true
+  evidence_refresh_on_regime_change: true
+notifications:
+  requires_permission: true
+  never_use_fake_call_ui: true
+  allow_fullscreen_inquiry_notification: false
+  initial_delay_seconds: 0
+  reminder_after_seconds: [300, 600]
+  inquiry_expire_after_seconds: 900
+  max_daily_reminders_per_shop: 10
+  quiet_hours_respected: true
+  require_seller_opt_in_for_fallback: true
+feedback:
+  accept_positive_reports: true
+  accept_negative_reports: true
+  negative_report_direct_penalty: false
+  case_and_appeal_required: true
+  require_exact_scope_when_available: true
+  disclose_reporter_identity_to_shop: false
+experimentation:
+  exploration_rate: 0.05
+  log_propensity: true
+  time_heldout_evaluation: true
+  require_calibration_for_public_probabilities: true

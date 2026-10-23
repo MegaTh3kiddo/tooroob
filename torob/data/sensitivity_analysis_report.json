@@ -1,0 +1,316 @@
+{
+  "timestamp": "2026-10-23T17:31:51.495956+00:00",
+  "execution_duration_ms": 696.79,
+  "price_sensitivity": [
+    {
+      "price_toman": 50000.0,
+      "action": "show_warning",
+      "priority": "low",
+      "expected_benefit_slp": -5.25,
+      "loss_price_slp": 0.35
+    },
+    {
+      "price_toman": 150000.0,
+      "action": "show_warning",
+      "priority": "low",
+      "expected_benefit_slp": -4.55,
+      "loss_price_slp": 1.05
+    },
+    {
+      "price_toman": 500000.0,
+      "action": "show_warning",
+      "priority": "low",
+      "expected_benefit_slp": -2.12,
+      "loss_price_slp": 3.47
+    },
+    {
+      "price_toman": 2000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 7.96,
+      "loss_price_slp": 13.47
+    },
+    {
+      "price_toman": 10000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 54.59,
+      "loss_price_slp": 58.88
+    },
+    {
+      "price_toman": 25000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "urgent",
+      "expected_benefit_slp": 121.57,
+      "loss_price_slp": 121.3
+    },
+    {
+      "price_toman": 65000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "urgent",
+      "expected_benefit_slp": 214.15,
+      "loss_price_slp": 224.16
+    },
+    {
+      "price_toman": 100000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "urgent",
+      "expected_benefit_slp": 265.89,
+      "loss_price_slp": 281.65
+    },
+    {
+      "price_toman": 150000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "urgent",
+      "expected_benefit_slp": 318.88,
+      "loss_price_slp": 340.53
+    },
+    {
+      "price_toman": 300000000.0,
+      "action": "enqueue_inquiry",
+      "priority": "urgent",
+      "expected_benefit_slp": 416.38,
+      "loss_price_slp": 448.87
+    }
+  ],
+  "risk_score_sensitivity": [
+    {
+      "risk_score": 0,
+      "risk_band": "low",
+      "action": "no_action",
+      "expected_benefit_slp": 0.0
+    },
+    {
+      "risk_score": 15,
+      "risk_band": "low",
+      "action": "no_action",
+      "expected_benefit_slp": 0.0
+    },
+    {
+      "risk_score": 30,
+      "risk_band": "medium",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 14.39
+    },
+    {
+      "risk_score": 45,
+      "risk_band": "medium",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 27.09
+    },
+    {
+      "risk_score": 60,
+      "risk_band": "medium",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 39.78
+    },
+    {
+      "risk_score": 75,
+      "risk_band": "high",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 94.8
+    },
+    {
+      "risk_score": 90,
+      "risk_band": "high",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 115.96
+    },
+    {
+      "risk_score": 100,
+      "risk_band": "high",
+      "action": "enqueue_inquiry",
+      "expected_benefit_slp": 130.07
+    }
+  ],
+  "intent_and_travel_sensitivity": [
+    {
+      "intent": "browse",
+      "detour_minutes": 0.0,
+      "action": "show_warning",
+      "priority": "low",
+      "expected_benefit_slp": -6.6,
+      "loss_stock_slp": 10.0
+    },
+    {
+      "intent": "browse",
+      "detour_minutes": 30.0,
+      "action": "show_warning",
+      "priority": "low",
+      "expected_benefit_slp": -6.1,
+      "loss_stock_slp": 12.4
+    },
+    {
+      "intent": "buy",
+      "detour_minutes": 0.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 6.59,
+      "loss_stock_slp": 10.0
+    },
+    {
+      "intent": "buy",
+      "detour_minutes": 30.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 8.61,
+      "loss_stock_slp": 12.4
+    },
+    {
+      "intent": "visit",
+      "detour_minutes": 0.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 12.45,
+      "loss_stock_slp": 10.0
+    },
+    {
+      "intent": "visit",
+      "detour_minutes": 15.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 13.8,
+      "loss_stock_slp": 11.2
+    },
+    {
+      "intent": "visit",
+      "detour_minutes": 30.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 15.14,
+      "loss_stock_slp": 12.4
+    },
+    {
+      "intent": "visit",
+      "detour_minutes": 60.0,
+      "action": "enqueue_inquiry",
+      "priority": "high",
+      "expected_benefit_slp": 17.83,
+      "loss_stock_slp": 14.8
+    }
+  ],
+  "evidence_decay_and_kish": [
+    {
+      "age_days": 0,
+      "single_event_weight": 1.0,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 10.0,
+      "bounded_effective_n": 10.0,
+      "posterior_price_fidelity": 0.933,
+      "quality_tier": "moderate"
+    },
+    {
+      "age_days": 15,
+      "single_event_weight": 0.8409,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 8.41,
+      "bounded_effective_n": 8.41,
+      "posterior_price_fidelity": 0.925,
+      "quality_tier": "moderate"
+    },
+    {
+      "age_days": 30,
+      "single_event_weight": 0.7071,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 7.07,
+      "bounded_effective_n": 7.07,
+      "posterior_price_fidelity": 0.917,
+      "quality_tier": "moderate"
+    },
+    {
+      "age_days": 60,
+      "single_event_weight": 0.5,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 5.0,
+      "bounded_effective_n": 5.0,
+      "posterior_price_fidelity": 0.9,
+      "quality_tier": "moderate"
+    },
+    {
+      "age_days": 90,
+      "single_event_weight": 0.3536,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 3.54,
+      "bounded_effective_n": 3.54,
+      "posterior_price_fidelity": 0.883,
+      "quality_tier": "moderate"
+    },
+    {
+      "age_days": 120,
+      "single_event_weight": 0.25,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 2.5,
+      "bounded_effective_n": 2.5,
+      "posterior_price_fidelity": 0.867,
+      "quality_tier": "limited"
+    },
+    {
+      "age_days": 180,
+      "single_event_weight": 0.125,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 1.25,
+      "bounded_effective_n": 1.25,
+      "posterior_price_fidelity": 0.84,
+      "quality_tier": "limited"
+    },
+    {
+      "age_days": 360,
+      "single_event_weight": 0.0156,
+      "unaged_kish_ratio": 10.0,
+      "decayed_weight_sum": 0.16,
+      "bounded_effective_n": 0.16,
+      "posterior_price_fidelity": 0.806,
+      "quality_tier": "limited"
+    }
+  ],
+  "fatigue_budget_limits": [
+    {
+      "inquiries_today": 0,
+      "action": "enqueue_inquiry",
+      "cost_slp": 10.0,
+      "trigger": "user_purchase_intent"
+    },
+    {
+      "inquiries_today": 3,
+      "action": "enqueue_inquiry",
+      "cost_slp": 14.5,
+      "trigger": "user_purchase_intent"
+    },
+    {
+      "inquiries_today": 5,
+      "action": "enqueue_inquiry",
+      "cost_slp": 17.5,
+      "trigger": "user_purchase_intent"
+    },
+    {
+      "inquiries_today": 10,
+      "action": "enqueue_inquiry",
+      "cost_slp": 25.0,
+      "trigger": "user_purchase_intent"
+    },
+    {
+      "inquiries_today": 14,
+      "action": "enqueue_inquiry",
+      "cost_slp": 31.0,
+      "trigger": "user_purchase_intent"
+    },
+    {
+      "inquiries_today": 15,
+      "action": "decline_or_defer",
+      "cost_slp": 50.0,
+      "trigger": "daily_budget"
+    },
+    {
+      "inquiries_today": 16,
+      "action": "decline_or_defer",
+      "cost_slp": 50.0,
+      "trigger": "daily_budget"
+    },
+    {
+      "inquiries_today": 20,
+      "action": "decline_or_defer",
+      "cost_slp": 50.0,
+      "trigger": "daily_budget"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+# ==========================================
+# TorobMap Monorepo - Git Ignore Rules
+# ==========================================
+
+# --- Environment & Secrets (Be careful with env) ---
+.env
+.env*
+*.env
+*.env.*
+*.key
+*.pem
+*.token
+*.secret
+*credentials*
+service-account*.json
+google-services.json
+!.env.example
+!*.env.example
+
+# --- Databases & Large Data (db files) ---
+*.db
+*.db-wal
+*.db-shm
+*.duckdb
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+torob/data/*.csv
+torob/data/*.csv.gz
+
+# --- Test Files & Test Directories (test files) ---
+tests/
+**/tests/
+**/test/
+test_*.py
+!torob/src/torob/storage/test_shop.py
+*_test.py
+*.test.js
+*.test.ts
+*.test.jsx
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.jsx
+*.spec.tsx
+conftest.py
+run_acceptance_tests.py
+test_baseline.py
+synthetic_scenarios.py
+
+# --- Next.js, Caches & Build Outputs (.next and... cache) ---
+.next/
+**/.next/
+.cache/
+**/.cache/
+.pytest_cache/
+**/.pytest_cache/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.coverage
+*.coverage
+htmlcov/
+.turbo/
+.parcel-cache/
+.npm/
+
+# --- Dependencies & Virtual Environments ---
+node_modules/
+**/node_modules/
+.venv/
+venv/
+env/
+ENV/
+
+# --- Build & Output Artifacts ---
+dist/
+out/
+build/
+**/build/
+.gradle/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+local.properties
+.externalNativeBuild/
+.cxx/
+captures/
+
+# --- Logs & OS/IDE Artifacts ---
+*.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.iml

@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Torob Seller</string>
+    <string name="app_title_persian">ترب فروشندگان</string>
+    <string name="channel_inquiries_name">استعلام‌های جدید خریداران</string>
+    <string name="channel_inquiries_desc">اطلاع‌رسانی فوری برای استعلام قیمت و موجودی کالاها</string>
+
+    <string name="login_title">ورود به پنل فروشندگان</string>
+    <string name="phone_label">شماره همراه فروشنده</string>
+    <string name="phone_hint">۰۹۱۲۳۴۵۶۷۸۹</string>
+    <string name="btn_request_otp">دریافت کد تایید</string>
+    <string name="otp_title">تایید شماره تلفن</string>
+    <string name="otp_hint">کد ۵ رقمی پیامک‌شده</string>
+    <string name="btn_verify_otp">ورود به حساب</string>
+
+    <string name="nav_inquiries">استعلام‌ها</string>
+    <string name="nav_history">تاریخچه پاسخ</string>
+    <string name="nav_metrics">عملکرد</string>
+    <string name="nav_store">فروشگاه</string>
+    <string name="nav_settings">تنظیمات</string>
+
+    <string name="status_connected">متصل به سرور</string>
+    <string name="status_offline">عدم اتصال به شبکه (حالت آفلاین)</string>
+    <string name="status_saved_locally">ذخیره روی حافظه گوشی (در انتظار ارسال)</string>
+    <string name="status_synced">ثبت موفق در سرور ترب</string>
+
+    <string name="tab_active">جدید و فعال</string>
+    <string name="tab_answered">پاسخ‌داده‌شده</string>
+    <string name="tab_expired">منقضی‌شده</string>
+
+    <string name="inquiry_detail_title">جزئیات استعلام</string>
+    <string name="recorded_price_label">قیمت ثبت‌شده مرجع:</string>
+    <string name="offer_price_label">قیمت پیشنهادی جدید (تومان):</string>
+    <string name="stock_available">موجود در انبار</string>
+    <string name="stock_out">عدم موجودی</string>
+    <string name="notes_hint">توضیحات تکمیلی (رنگ، نوع گارانتی، ارسال فوری و ...)</string>
+    <string name="btn_submit_response">ثبت و ارسال پاسخ</string>
+
+    <string name="notification_permission_title">دریافت لحظه‌ای استعلام‌ها</string>
+    <string name="notification_permission_desc">برای اینکه به محض درخواست خریدار باخبر شوید و فرصت ۵ دقیقه‌ای را از دست ندهید، مجوز اعلان‌ها را فعال نمایید.</string>
+    <string name="btn_enable_permission">فعال‌سازی اعلان‌ها</string>
+</resources>

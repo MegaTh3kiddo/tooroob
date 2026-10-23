@@ -1,0 +1,25 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "title":"Evidence Event Envelope v1 - design proposal",
+ "type":"object",
+ "additionalProperties":false,
+ "required":["event_id","event_type","event_version","scope","source_code","ingested_at","payload"],
+ "properties":{
+   "event_id":{"type":"string","minLength":1},
+   "event_type":{"enum":["OfferObserved","OfferPriceChanged","PriceVerified","StockObserved","PresenceVerified","InquiryAnswered","CustomerFeedbackReported","CaseResolved","ExternalTrustSignalVerified"]},
+   "event_version":{"type":"integer","minimum":1},
+   "source_code":{"type":"string","minLength":1},
+   "actor_id":{"type":["string","null"]},
+   "observed_at":{"type":["string","null"],"format":"date-time"},
+   "ingested_at":{"type":"string","format":"date-time"},
+   "scope":{"type":"object","required":["shop_id","channel"],"properties":{
+      "shop_id":{"type":"string"}, "branch_id":{"type":["string","null"]},
+      "product_id":{"type":["string","null"]}, "sku_variant_id":{"type":["string","null"]},
+      "offer_id":{"type":["string","null"]},"offer_version":{"type":["integer","null"]},
+      "channel":{"type":"string"}, "terms_hash":{"type":["string","null"]}},"additionalProperties":true},
+   "payload":{"type":"object"},
+   "external_event_id":{"type":["string","null"]},
+   "correlation_id":{"type":["string","null"]},
+   "consent":{"type":["object","null"]}
+ }
+}

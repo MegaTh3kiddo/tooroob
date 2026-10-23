@@ -1,0 +1,160 @@
+{
+  "reference_datetime_local": "2026-10-23T00:00:00+03:30",
+  "observation_caveat": "Snapshot export; not a price time series, confirmed stock, verified business-hours or Torob official shop scores",
+  "counts": {
+    "shops": 6476,
+    "products": 225903,
+    "offers": 331506,
+    "categories": 3428,
+    "shops_with_offers": 3792,
+    "shops_without_offers": 2684,
+    "offers_distinct_shop_product_pairs": 311191,
+    "pairs_with_multiple_offers": 9557,
+    "pairs_with_multiple_distinct_numeric_prices": 5355,
+    "products_with_offers": 225903,
+    "products_with_at_least_2_sellers": 35254,
+    "products_single_seller": 190649,
+    "products_without_offers": 0
+  },
+  "integrity": {
+    "duplicate_shop_ids": 0,
+    "duplicate_product_ids": 0,
+    "duplicate_offer_ids": 0,
+    "offers_missing_shop_join": 0,
+    "offers_missing_product_join": 0
+  },
+  "prices": {
+    "null_or_non_numeric": 15083,
+    "zero": 0,
+    "exactly_one_toman": 635,
+    "positive_below_1000": 1645,
+    "above_1_trillion_toman": 126,
+    "negative": 0,
+    "numeric_count": 316423,
+    "positive_median": 3640000.0
+  },
+  "timestamps": {
+    "null_or_invalid": 769,
+    "future_relative_to_as_of": 0,
+    "min": "2020-12-03 08:51:32.129814+00:00",
+    "max": "2026-10-13 00:02:35.297834+00:00",
+    "age_median_days": 31.26,
+    "age_p90_days": 170.14,
+    "age_p95_days": 241.31,
+    "age_0_to_14": 42765,
+    "age_14_to_30": 118825,
+    "age_30_to_90": 88767,
+    "age_90_to_180": 54029,
+    "age_ge_180": 26351
+  },
+  "shop_fields": {
+    "shops_with_website": 90,
+    "shops_with_empty_weekly_hours": 2003,
+    "shops_with_any_weekly_hours": 4473,
+    "shops_at_exact_export_cap_300_distinct_products": 461,
+    "shops_with_lat_lon": 6476
+  },
+  "product_fields": {
+    "model_nonempty": 4056,
+    "specs_nonempty": 144599
+  },
+  "selected_categories": {
+    "گوشی موبایل": {
+      "offers": 2122.0,
+      "shops": 134.0,
+      "products": 814.0,
+      "price_known": 2087.0,
+      "price_changed_within_14_days": 897.0,
+      "price_changed_within_30_days": 1815.0,
+      "share_last_changed_14d": 0.4227,
+      "share_last_changed_30d": 0.8553
+    },
+    "لپ تاپ و نوت بوک": {
+      "offers": 833.0,
+      "shops": 24.0,
+      "products": 505.0,
+      "price_known": 833.0,
+      "price_changed_within_14_days": 586.0,
+      "price_changed_within_30_days": 815.0,
+      "share_last_changed_14d": 0.7035,
+      "share_last_changed_30d": 0.9784
+    },
+    "کارت گرافیک": {
+      "offers": 54.0,
+      "shops": 11.0,
+      "products": 52.0,
+      "price_known": 39.0,
+      "price_changed_within_14_days": 4.0,
+      "price_changed_within_30_days": 35.0,
+      "share_last_changed_14d": 0.0741,
+      "share_last_changed_30d": 0.6481
+    },
+    "حافظه SSD": {
+      "offers": 128.0,
+      "shops": 35.0,
+      "products": 103.0,
+      "price_known": 127.0,
+      "price_changed_within_14_days": 11.0,
+      "price_changed_within_30_days": 102.0,
+      "share_last_changed_14d": 0.0859,
+      "share_last_changed_30d": 0.7969
+    },
+    "هارد دیسک اینترنال": {
+      "offers": 768.0,
+      "shops": 77.0,
+      "products": 471.0,
+      "price_known": 748.0,
+      "price_changed_within_14_days": 151.0,
+      "price_changed_within_30_days": 543.0,
+      "share_last_changed_14d": 0.1966,
+      "share_last_changed_30d": 0.707
+    },
+    "کیف و کاور گوشی": {
+      "offers": 2396.0,
+      "shops": 88.0,
+      "products": 2176.0,
+      "price_known": 2308.0,
+      "price_changed_within_14_days": 117.0,
+      "price_changed_within_30_days": 765.0,
+      "share_last_changed_14d": 0.0488,
+      "share_last_changed_30d": 0.3193
+    },
+    "سیم و کابل برق ساختمان": {
+      "offers": 7837.0,
+      "shops": 274.0,
+      "products": 5274.0,
+      "price_known": 7696.0,
+      "price_changed_within_14_days": 1326.0,
+      "price_changed_within_30_days": 3294.0,
+      "share_last_changed_14d": 0.1692,
+      "share_last_changed_30d": 0.4203
+    },
+    "پمپ خانگی و صنعتی": {
+      "offers": 3093.0,
+      "shops": 151.0,
+      "products": 1732.0,
+      "price_known": 2233.0,
+      "price_changed_within_14_days": 195.0,
+      "price_changed_within_30_days": 1082.0,
+      "share_last_changed_14d": 0.063,
+      "share_last_changed_30d": 0.3498
+    },
+    "مادربرد": {
+      "offers": 24.0,
+      "shops": 5.0,
+      "products": 24.0,
+      "price_known": 24.0,
+      "price_changed_within_14_days": 1.0,
+      "price_changed_within_30_days": 17.0,
+      "share_last_changed_14d": 0.0417,
+      "share_last_changed_30d": 0.7083
+    }
+  },
+  "source_sha256": {
+    "README.txt": "65b4be1918b526d35da5e01314647c8fe048401d6cc2fa5b673a5a7d4b36bd87",
+    "shops.csv": "1a292d6180e2a28cd0bbec57b1bb575a440e5afcc3ec3f5af5b1e13172aebaa1",
+    "products.csv": "e4a9749529d1e032c1dc2c4e275a8793a1edd702a194cb8de9abafc0649cc9c9",
+    "offers.csv": "664d256ed04b37cfb268d89eb605afda4a3b76179324b39d2dbaef21439f09b9",
+    "price_audit_candidates.csv": "610d6bc4ce4ef59aea95a61875b13b305d6224407c73853e395d30a5aea3a6c0"
+  }
+}

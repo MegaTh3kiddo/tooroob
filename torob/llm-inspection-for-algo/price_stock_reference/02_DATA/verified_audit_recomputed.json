@@ -1,0 +1,21 @@
+{
+  "shops": 6476,
+  "products": 225903,
+  "offers": 331506,
+  "categories": 3428,
+  "shops_with_offers": 3792,
+  "missing_price": 15083,
+  "one_toman": 635,
+  "below_1000_positive": 1645,
+  "price_above_1e12": 126,
+  "missing_timestamp": 769,
+  "timestamp_max": "2026-10-13 00:02:35.297834+00:00",
+  "age_median_days": 31.26,
+  "age_p90_days": 170.14,
+  "shop_product_pairs": 311191,
+  "pairs_multiple_offers": 9557,
+  "products_2plus_shops": 35254,
+  "shops_websites": 90,
+  "shops_empty_weekly_hours": 2003,
+  "shops_exactly_300_products": 461
+}

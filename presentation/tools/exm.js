@@ -1,0 +1,12 @@
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch({args:['--no-sandbox']});
+const p=await b.newPage({viewport:{width:390,height:844}});
+const logs=[]; p.on('console',m=>logs.push(m.text())); p.on('pageerror',e=>logs.push('ERR '+e.message));
+await p.goto('http://127.0.0.1:3000/#agent'); await p.waitForTimeout(1500);
+await p.click('.view-tab[data-view="list"]'); await p.waitForTimeout(900);
+await p.locator('#q').click(); await p.keyboard.type('هدفون',{delay:140}); await p.waitForTimeout(1200);
+await p.locator('#q').blur(); await p.waitForTimeout(500);
+await p.locator('#prods .prod-main').nth(1).click({delay:90}); await p.waitForTimeout(1500);
+console.log(await p.evaluate(()=>document.querySelectorAll('#cards li').length+' cards; prods '+document.querySelectorAll('#prods .prod-main').length), logs.slice(0,3));
+await p.screenshot({path:'x/m4.png'});
+await b.close();})();

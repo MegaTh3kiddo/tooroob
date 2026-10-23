@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-10-23T10:34:16.954522+00:00",
+  "total": 10,
+  "passed": 10,
+  "avg_latency_ms": 311.55,
+  "results": [
+    {
+      "scenario": "Scenario A: On-Route Detour & Dwell Decoupling",
+      "status": "PASS",
+      "latency_ms": 183.3,
+      "category": "Automated Check",
+      "details": "Detour: 20.7m pure driving, 10.0m dwell. Routing quality: approximate_heuristic",
+      "human_inspectable": "Shop: آران نیکانوش | Product: لپ تاپ لنوو  IdeaPad Slim 3 |  | Total Add: 30.7m"
+    },
+    {
+      "scenario": "Scenario B: Single-Store Unverified Stock Semantics",
+      "status": "PASS",
+      "latency_ms": 291.6,
+      "category": "Automated Check",
+      "details": "Guarantee status: complete_catalog_coverage_unverified_stock. Stock state preserved as stock_unknown without false guarantee.",
+      "human_inspectable": "Store: روورا نوینا | Basket Cost: 2,000,000 Toman"
+    },
+    {
+      "scenario": "Scenario C: Adaptive Replanning After Seller Rejection",
+      "status": "PASS",
+      "latency_ms": 701.5,
+      "category": "Automated Check",
+      "details": "Successfully replaced کیبورد without discarding unaffected items. Revised plan v2.",
+      "human_inspectable": "🔄 برنامه خرید بازنگری شد: با توجه به عدم موجودی کالا در فروشگاه «روورا نوینا»، کالای ریموت کنترل ایر..."
+    },
+    {
+      "scenario": "Scenario D: Conversational Multi-Turn Priority Pivot",
+      "status": "PASS",
+      "latency_ms": 1718.0,
+      "category": "Automated Check",
+      "details": "3 turns completed. Invariant budget (50M) and basket items preserved while priority shifted to fastest.",
+      "human_inspectable": "امکان تامین سبد خرید با شرایط و محدودیت‌های مشخص‌شده وجود ندارد...."
+    },
+    {
+      "scenario": "Scenario E: Restocking Restoring Invalidated Plan",
+      "status": "PASS",
+      "latency_ms": 55.5,
+      "category": "Automated Check",
+      "details": "Invalidated plan restored to 100% covered and seller_confirmed_in_store upon restocking.",
+      "human_inspectable": "🎉 خوشبختانه کالای «ریموت کنترل ایرماوس مدل M» در فروشگاه مجدداً موجود شد. برنامه خرید اولیه با موفقی..."
+    },
+    {
+      "scenario": "Scenario F: Infeasible Request Refusal (No Hallucination)",
+      "status": "PASS",
+      "latency_ms": 146.7,
+      "category": "Automated Check",
+      "details": "Strictly refused impossible 3-second detour constraint without relaxing limits or fabricating shops.",
+      "human_inspectable": "هیچ فروشگاه معتبری در مسیر مستقیم مبدا تا مقصد با شرایط درخواستی یافت نشد. افزایش سقف انحراف از مسیر پیشنهاد می‌شود."
+    },
+    {
+      "scenario": "Scenario G: Geometric Proximity vs Road Network Detour",
+      "status": "PASS",
+      "latency_ms": 3.4,
+      "category": "Automated Check",
+      "details": "Air distance 181m across barrier correctly requires 6.6km road detour loop.",
+      "human_inspectable": "Air: 181m | Road: 6.6km (9.9 min)"
+    },
+    {
+      "scenario": "Scenario H: Missing-Price Non-Misleading Basket Total",
+      "status": "PASS",
+      "latency_ms": 0.1,
+      "category": "Automated Check",
+      "details": "Plan with unknown price item flagged is_total_price_complete=False to prevent false guarantees.",
+      "human_inspectable": "Listed total: 500,000 | Complete: False"
+    },
+    {
+      "scenario": "Scenario I: Metamorphic Constraints & Injection Safety",
+      "status": "PASS",
+      "latency_ms": 15.2,
+      "category": "Automated Check",
+      "details": "Foreign tenant access blocked with 403 Forbidden. User prompt injection safely neutralized.",
+      "human_inspectable": "Session owner: valid_user_42 | Attacker status: 403 Forbidden"
+    },
+    {
+      "scenario": "Scenario J: Small Fixture Exact Combinatorial Validation",
+      "status": "PASS",
+      "latency_ms": 0.2,
+      "category": "Automated Check",
+      "details": "Exact brute-force subset enumeration over 4 candidate shops matched global minimum cost of 51 Toman ({S2, S4}).",
+      "human_inspectable": "Exact optimal cost: 51 | Optimal subset: S2 + S4"
+    }
+  ]
+}

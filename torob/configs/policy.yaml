@@ -1,0 +1,79 @@
+# Torob Intelligence Engine - Production Policy Configuration
+policy_version: "1.0.0"
+probability_claim_allowed: false
+
+evidence_levels:
+  - unknown
+  - low_evidence
+  - medium_evidence
+  - well_supported
+
+matching:
+  require_exact_variant: true
+  leave_one_shop_out: true
+  min_independent_peer_shops_for_reference: 3
+  unavailable_peer_action: "show_uncertainty"
+
+pricing:
+  block_sentinel_values: [0, 1]
+  extreme_absolute_max_toman: 1000000000000 # 1 Trillion Toman
+  extreme_absolute_min_toman: 1000          # Below 1000 Toman is suspect
+  relative_peer_deviation_high_multiplier: 3.0
+  relative_peer_deviation_low_multiplier: 0.3333
+  stale_warning_threshold_days: 30
+  stale_critical_threshold_days: 90
+  currency_unit_mismatch_ratio: 10.0        # Detect potential Rial vs Toman factor of 10
+
+stock:
+  states:
+    - in_store_sellable
+    - in_other_warehouse
+    - supplier_available
+    - preorder
+    - reserved
+    - display_only
+    - defective
+    - out_of_stock
+    - unknown
+  never_use_no_response_as_out_of_stock: true
+  eta_aware_confirmation: true
+  default_depletion_rate_per_hour: 0.05      # 5% hourly hazard rate for single/low stock items
+  default_replenishment_rate_per_day: 0.2    # 20% daily replenishment rate
+
+shop_reliability:
+  dimensions:
+    - commercial_trust
+    - price_fidelity
+    - stock_accuracy
+    - physical_presence
+    - inquiry_responsiveness
+    - address_accuracy
+  prior_weight_observations: 5               # Bayesian shrinkage parameter for new shops
+  external_badge_requires_verification: true
+
+notifications:
+  requires_permission: true
+  never_use_fake_call_ui: true
+  allow_fullscreen_inquiry_notification: false
+  initial_delay_seconds: 0
+  reminder_after_seconds: [300, 600]        # 5m and 10m reminders
+  inquiry_expire_after_seconds: 900          # 15m expiration
+  max_daily_inquiries_per_shop: 15
+  cooldown_between_inquiries_seconds: 120   # 2 minutes cooldown between inquiries
+  quiet_hours_start: 22                     # 22:00
+  quiet_hours_end: 9                        # 09:00
+
+feedback:
+  accept_positive_reports: true
+  accept_negative_reports: true
+  negative_report_direct_penalty: false
+  case_and_appeal_required: true
+  disclose_reporter_identity_to_shop: false
+  min_reports_for_automated_flag: 3
+
+routing:
+  road_distance_multiplier: 1.3             # Multiplier applied to Haversine distance
+  walking_speed_kmh: 5.0                    # 12 min per km
+  driving_speed_kmh: 25.0                   # Urban Tehran average
+  dwell_time_minutes_per_stop: 10
+  closing_soon_warning_minutes: 60

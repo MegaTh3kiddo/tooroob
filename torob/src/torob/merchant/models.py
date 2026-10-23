@@ -1,0 +1,203 @@
+from pydantic import BaseModel, Field
+from typing import Optional, List
+
+
+# --- Auth Models ---
+class RequestOtpRequest(BaseModel):
+    phone_number: str = Field(..., example="09123456789")
+
+
+class RequestOtpResponse(BaseModel):
+    success: bool
+    message: str
+    demo_otp: Optional[str] = None
+    delivery_method: str = "sms"
+
+
+class VerifyOtpRequest(BaseModel):
+    phone_number: str = Field(..., example="09123456789")
+    otp_code: str = Field(..., example="12345")
+
+
+class SellerDto(BaseModel):
+    seller_id: str
+    phone_number: str
+    shop_id: str
+    full_name: Optional[str] = None
+    is_active: bool = True
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    seller: SellerDto
+
+
+# --- Shop Models ---
+class ShopDto(BaseModel):
+    shop_id: str
+    shop_name: str
+    address: str
+    phone: str
+    is_open: bool
+    open_time: str
+    close_time: str
+    accept_inquiries: bool
+    holiday_mode: bool
+    manual_is_open: bool = True
+    is_within_working_hours: bool = True
+    status_message: Optional[str] = None
+    voice_reminders_enabled: bool = True
+
+
+class ShopUpdateDto(BaseModel):
+    shop_name: Optional[str] = None
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    is_open: Optional[bool] = None
+    open_time: Optional[str] = None
+    close_time: Optional[str] = None
+    accept_inquiries: Optional[bool] = None
+    holiday_mode: Optional[bool] = None
+    voice_reminders_enabled: Optional[bool] = None
+
+
+class ShopChangeRequestCreateDto(BaseModel):
+    requested_shop_name: Optional[str] = None
+    requested_phone: Optional[str] = None
+    requested_address: Optional[str] = None
+    requested_open_time: Optional[str] = None
+    requested_close_time: Optional[str] = None
+    reason: Optional[str] = None
+
+
+class ShopChangeRequestDto(BaseModel):
+    request_id: str
+    shop_id: str
+    seller_id: str
+    requested_shop_name: Optional[str] = None
+    requested_phone: Optional[str] = None
+    requested_address: Optional[str] = None
+    requested_open_time: Optional[str] = None
+    requested_close_time: Optional[str] = None
+    reason: Optional[str] = None
+    status: str
+    created_at: str
+    reviewed_at: Optional[str] = None
+    review_notes: Optional[str] = None
+
+
+class ShopChangeRequestReviewDto(BaseModel):
+    action: str = Field(..., description="'approve' or 'reject'")
+    review_notes: Optional[str] = None
+
+
+# --- Inquiry Models ---
+class InquiryDto(BaseModel):
+    inquiry_id: str
+    tracking_code: str
+    shop_id: str
+    product_id: Optional[str] = None
+    product_title: str
+    product_image_url: Optional[str] = None
+    category_name: Optional[str] = None
+    recorded_price_toman: int
+    customer_name: str
+    customer_phone: Optional[str] = None
+    inquiry_type: str
+    user_note: Optional[str] = None
+    status: str
+    created_at: str
+    expires_at: str
+    remaining_seconds: int = 0
+    decline_reason: Optional[str] = None
+    response_price: Optional[int] = None
+    response_in_stock: Optional[bool] = None
+    response_notes: Optional[str] = None
+
+
+class InquiryResponseRequest(BaseModel):
+    client_response_id: str = Field(..., description="Unique client UUID for idempotency")
+    offered_price_toman: int = Field(..., ge=0)
+    is_in_stock: bool
+    stock_count: Optional[int] = 1
+    notes: Optional[str] = None
+    status: Optional[str] = None
+    decline_reason: Optional[str] = None
+    submitted_at: str = Field(..., description="ISO timestamp recorded on mobile device")
+
+
+class InquiryResponseDto(BaseModel):
+    response_id: str
+    client_response_id: str
+    inquiry_id: str
+    offered_price_toman: int
+    is_in_stock: bool
+    stock_count: int = 1
+    notes: Optional[str] = None
+    status: Optional[str] = None
+    decline_reason: Optional[str] = None
+    submitted_at: str
+    received_at: str
+    is_duplicate: bool = False
+
+
+class BatchSyncItem(BaseModel):
+    inquiry_id: str
+    client_response_id: str
+    offered_price_toman: int
+    is_in_stock: bool
+    stock_count: Optional[int] = 1
+    notes: Optional[str] = None
+    status: Optional[str] = None
+    decline_reason: Optional[str] = None
+    submitted_at: str
+
+
+class BatchSyncRequest(BaseModel):
+    items: List[BatchSyncItem]
+
+
+class BatchSyncResponse(BaseModel):
+    total_processed: int
+    synced_count: int
+    duplicate_count: int
+    results: List[InquiryResponseDto]
+
+
+# --- Push Models ---
+class PushTokenRegisterRequest(BaseModel):
+    fcm_token: str
+    device_model: Optional[str] = None
+    os_version: Optional[str] = None
+    app_version: Optional[str] = None
+    notifications_enabled: bool = True
+
+
+class PushPreferenceRequest(BaseModel):
+    notifications_enabled: bool
+
+
+class PushLogDto(BaseModel):
+    log_id: str
+    inquiry_id: Optional[str] = None
+    shop_id: Optional[str] = None
+    fcm_token: Optional[str] = None
+    notification_type: str
+    title: str
+    body: str
+    status: str
+    error_detail: Optional[str] = None
+    dispatched_at: str
+
+
+# --- Metrics Models ---
+class MetricsDto(BaseModel):
+    shop_id: str
+    total_inquiries: int
+    answered_inquiries: int
+    expired_inquiries: int
+    active_inquiries: int
+    response_rate_percent: float
+    average_response_time_seconds: int
+    average_response_time_formatted: str

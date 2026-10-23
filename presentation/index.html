@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ترب مپ — ارائهٔ هکاتون</title>
+<style>
+@font-face{font-family:Vazirmatn;font-weight:400;src:url(assets/fonts/vazirmatn-arabic-400-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE80-FEFC}
+@font-face{font-family:Vazirmatn;font-weight:600;src:url(assets/fonts/vazirmatn-arabic-600-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE80-FEFC}
+@font-face{font-family:Vazirmatn;font-weight:800;src:url(assets/fonts/vazirmatn-arabic-800-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE80-FEFC}
+@font-face{font-family:Vazirmatn;font-weight:400;src:url(assets/fonts/vazirmatn-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:Vazirmatn;font-weight:600 800;src:url(assets/fonts/vazirmatn-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+
+:root{
+  --bg:#0F1117; --bg2:#15181F; --card:#1A1E27; --card2:#222733; --line:#2A2E38; --line2:#3C4250;
+  --fg:#ECECF1; --muted:#9AA0AC; --brand:#EF4056; --brand2:#F26A7D; --brand-soft:rgb(239 64 86 / .14);
+  --green:#2FBF71; --amber:#F5B33D; --blue:#4C8DFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#07080c;overflow:hidden;font-family:Vazirmatn,system-ui,sans-serif;color:var(--fg)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;background:var(--bg);overflow:hidden;direction:rtl}
+.slide{position:absolute;inset:0;padding:96px 120px 90px;opacity:0;visibility:hidden;transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);transform:translateX(-60px);pointer-events:none}
+.slide.active{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.slide.past{transform:translateX(60px)}
+/* ambient background */
+.bg-glow{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(900px 600px at 85% -10%, rgb(239 64 86 / .22), transparent 60%),
+  radial-gradient(800px 600px at 0% 110%, rgb(76 141 255 / .12), transparent 60%)}
+.bg-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(circle at 50% 40%,#000 0,transparent 70%);-webkit-mask-image:radial-gradient(circle at 50% 40%,#000 0,transparent 70%);opacity:.22}
+.slide>*{position:relative}
+
+/* chrome */
+.chrome{position:absolute;top:34px;right:120px;left:120px;display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none}
+.brand{display:flex;align-items:center;gap:14px;font-weight:800;font-size:28px}
+.brand .lg{width:46px;height:46px;border-radius:13px;overflow:hidden;box-shadow:0 6px 20px rgb(239 64 86 / .45)}
+.part{font-size:22px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:12px}
+.part b{color:var(--brand2)}
+#bar{position:absolute;bottom:0;right:0;height:5px;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .5s;z-index:10}
+#count{position:absolute;bottom:26px;left:120px;color:var(--muted);font-size:22px;z-index:5}
+.hint{position:absolute;bottom:26px;right:120px;color:#5b6272;font-size:20px;z-index:5}
+
+/* type */
+h1{font-size:112px;font-weight:800;line-height:1.15}
+h2{font-size:68px;font-weight:800;line-height:1.25;margin-bottom:10px}
+h2 em,h1 em{font-style:normal;color:var(--brand)}
+.sub{font-size:32px;color:var(--muted);line-height:1.7;max-width:1300px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:24px;font-weight:700;color:var(--brand2);background:var(--brand-soft);padding:8px 20px;border-radius:999px;margin-bottom:22px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:999px;background:var(--card2);border:1px solid var(--line2);font-size:24px;font-weight:600}
+.pill.g{background:rgb(47 191 113 / .14);border-color:rgb(47 191 113 / .5);color:#7be0a8}
+.pill.r{background:var(--brand-soft);border-color:rgb(239 64 86 / .5);color:var(--brand2)}
+.pill.a{background:rgb(245 179 61 / .14);border-color:rgb(245 179 61 / .5);color:#f7cf84}
+.pill.b{background:rgb(76 141 255 / .14);border-color:rgb(76 141 255 / .5);color:#9cc0ff}
+.card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:28px;padding:34px}
+.latin{font-family:Vazirmatn,monospace;direction:ltr;unicode-bidi:isolate}
+code{font-family:ui-monospace,Menlo,monospace;direction:ltr;unicode-bidi:isolate;background:#0b0d12;border:1px solid var(--line);padding:2px 10px;border-radius:8px;font-size:.8em;color:#ffb3bd}
+
+/* entrance animations: active slide reveals .a elements in sequence */
+.a{opacity:0;transform:translateY(34px)}
+.slide.active .a{animation:up .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--d,0)*1s + .15s)}
+.a.l{transform:translateX(60px)} .slide.active .a.l{animation-name:inl}
+.a.z{transform:scale(.88)} .slide.active .a.z{animation-name:zoom}
+@keyframes up{to{opacity:1;transform:none}}
+@keyframes inl{to{opacity:1;transform:none}}
+@keyframes zoom{to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgb(239 64 86 / .55)}70%{box-shadow:0 0 0 26px rgb(239 64 86 / 0)}}
+@keyframes shake{0%,100%{transform:rotate(0)}15%{transform:rotate(-3deg) translateX(-5px)}30%{transform:rotate(3deg) translateX(5px)}45%{transform:rotate(-2deg)}60%{transform:rotate(2deg)}75%{transform:rotate(0)}}
+@keyframes wave{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.28);opacity:0}}
+@keyframes dash{to{stroke-dashoffset:0}}
+@keyframes flow{to{stroke-dashoffset:-40}}
+@keyframes blink{50%{opacity:.25}}
+
+/* screenshots in a browser frame */
+.browser{border-radius:22px;overflow:hidden;background:#0b0d12;border:1px solid var(--line2);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px #000}
+.browser .tb{height:44px;background:#1b1f29;display:flex;align-items:center;gap:9px;padding:0 18px;direction:ltr}
+.browser .tb i{width:13px;height:13px;border-radius:50%;background:#444}
+.browser .tb i:nth-child(1){background:#ff5f57}.browser .tb i:nth-child(2){background:#febc2e}.browser .tb i:nth-child(3){background:#28c840}
+.browser .tb span{margin-left:18px;color:#7c8394;font-size:17px;background:#0f1117;border-radius:8px;padding:3px 18px;flex:1;max-width:520px}
+.browser img{display:block;width:100%}
+/* phone frame */
+.phone{width:330px;border-radius:50px;padding:12px;background:#0a0a0c;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 2px #3a3d46,inset 0 0 0 2px #1d1f26;position:relative}
+.phone img{display:block;width:100%;border-radius:40px}
+.phone.ring{animation:shake .6s infinite}
+.phone .w{position:absolute;inset:-8px;border-radius:58px;border:4px solid var(--brand);opacity:0;animation:wave 1.4s infinite}
+.phone .w.w2{animation-delay:.45s}
+.cap{margin-top:22px;text-align:center;font-size:25px;font-weight:700}
+.cap small{display:block;color:var(--muted);font-weight:400;font-size:21px;margin-top:6px;line-height:1.6}
+
+.phones{display:flex;gap:34px;align-items:flex-start;justify-content:center}
+.phone video{display:block}
+.list{list-style:none;display:flex;flex-direction:column;gap:20px}
+.list li{display:flex;gap:18px;align-items:flex-start;font-size:31px;line-height:1.6}
+.list li>span{flex:1}
+.list li::before{content:"";flex:none;width:14px;height:14px;margin-top:17px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 6px var(--brand-soft)}
+.list li b{color:#fff}
+.row{display:flex;gap:40px}
+.grow{flex:1}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+svg text{font-family:Vazirmatn,sans-serif}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="chrome">
+    <div class="brand"><span class="lg"><img src="assets/brand/torob-logo.svg" alt="" width="46" height="46"></span><span>ترب مپ</span></div>
+    <div class="part" id="partLabel"></div>
+  </div>
+
+  <!-- ============== PART 1 · PRODUCT ============== -->
+
+  <!-- 1 · Title -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div><div class="bg-grid"></div>
+    <div class="a z" style="--d:.9;position:absolute;left:110px;top:250px;transform:rotate(-7deg)"><div class="phone ring" style="width:270px"><i class="w"></i><i class="w w2"></i><img src="assets/merchant/12-URGENT-CALL-incoming.png" alt=""></div></div>
+    <div class="a z" style="--d:.7;position:absolute;right:110px;top:250px;transform:rotate(7deg)"><div class="phone" style="width:270px"><img src="assets/mobile/shots/04_chat_results.png" alt=""></div></div>
+    <div class="center" style="height:100%;gap:26px">
+      <div class="a z" style="--d:0"><div style="width:190px;height:190px;border-radius:50px;overflow:hidden;box-shadow:0 30px 90px rgb(239 64 86 / .55);animation:float 5s ease-in-out infinite"><img src="assets/brand/torob-logo.svg" width="190" height="190" alt=""></div></div>
+      <h1 class="a" style="--d:.15">ترب مپ <em>+</em> تربچت</h1>
+      <p class="sub a" style="--d:.3;text-align:center;max-width:1000px;font-size:38px;color:#d4d7de">دستیار هوشمند خرید حضوری در پاساژها و فروشگاه‌های تهران؛<br>از «کجا ارزان‌تر است؟» تا «مطمئنم که الان موجود است»</p>
+      <div class="a" style="--d:.5;display:flex;gap:16px;margin-top:20px;align-items:center">
+        <span class="pill r"><img src="assets/brand/torobchat.png" width="30" height="30" alt="" style="image-rendering:pixelated">تربچت · دستیار گفتگو</span>
+        <span class="pill b">وب‌اپ ریسپانسیو فارسی</span>
+        <span class="pill g">اپ اندروید فروشنده</span>
+        <span class="pill a">موتور شواهد‌محور</span>
+      </div>
+      <div class="a" style="--d:.7;margin-top:34px;color:var(--muted);font-size:26px">چالش «دستیار هوشمند خرید حضوری» · هکاتون استارکوچ</div>
+    </div>
+  </section>
+
+  <!-- 2 · Problem -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">مسئله</span>
+    <h2 class="a" style="--d:.1">رفتی مغازه… و <em>همه‌چیز فرق داشت</em></h2>
+    <p class="sub a" style="--d:.2">قیمت آنلاین تا وقتی به پاساژ برسی کهنه شده؛ نمی‌دانی کالا هنوز هست یا نه؛ و زنگ زدن به ده مغازه وقت می‌گیرد.</p>
+    <div class="row" style="margin-top:64px;gap:30px">
+      <div class="card grow a" style="--d:.35"><div style="font-size:74px">🏷️</div><h3 style="font-size:40px;margin:12px 0 8px">قیمت فرق دارد</h3><p class="sub" style="font-size:27px">قیمت ثبت‌شده با قیمت پشت ویترین یکی نیست و تاریخش معلوم نیست.</p></div>
+      <div class="card grow a" style="--d:.5"><div style="font-size:74px">📦</div><h3 style="font-size:40px;margin:12px 0 8px">موجودی نامعلوم</h3><p class="sub" style="font-size:27px">«دسته‌بندی فعالیت مغازه» یعنی موجود بودن کالا نیست؛ باید پرسید.</p></div>
+      <div class="card grow a" style="--d:.65"><div style="font-size:74px">🕘</div><h3 style="font-size:40px;margin:12px 0 8px">مغازه بسته است</h3><p class="sub" style="font-size:27px">رسیدی که مغازه تازه بسته شده؛ یا مسیری که با ساعت کاری جور نیست.</p></div>
+      <div class="card grow a" style="--d:.8"><div style="font-size:74px">📞</div><h3 style="font-size:40px;margin:12px 0 8px">پیگیری سخت</h3><p class="sub" style="font-size:27px">زنگ‌زدن دستی، بی‌پاسخ ماندن، و نبودن جایگزین وقتی کالا تمام شده.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 · Four steps -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">راه‌حل ما</span>
+    <h2 class="a" style="--d:.1">چهار گام چالش، <em>هر چهار گام کار می‌کند</em></h2>
+    <svg width="1680" height="40" style="margin:28px 0 -6px"><line x1="1560" y1="20" x2="120" y2="20" stroke="#3C4250" stroke-width="4" stroke-dasharray="14 14"/><line x1="1560" y1="20" x2="120" y2="20" stroke="#EF4056" stroke-width="4" stroke-dasharray="1500" stroke-dashoffset="1500" style="animation:dash 2.4s .5s ease forwards"/></svg>
+    <div class="row" style="gap:28px">
+      <div class="card grow a" style="--d:.4"><span class="pill r">۱</span><h3 style="font-size:42px;margin:18px 0 10px">جستجوی محصول</h3><p class="sub" style="font-size:27px">چت تربچت، جستجو و دسته‌های سریع؛ روی ۲۲۵٬۹۰۳ محصول واقعی.</p></div>
+      <div class="card grow a" style="--d:.7"><span class="pill r">۲</span><h3 style="font-size:42px;margin:18px 0 10px">مقایسهٔ گزینه‌ها</h3><p class="sub" style="font-size:27px">برچسب‌های «بهترین انتخاب / اقتصادی / مطمئن‌ترین» و مقایسهٔ دو فروشگاه کنار هم.</p></div>
+      <div class="card grow a" style="--d:1"><span class="pill r">۳</span><h3 style="font-size:42px;margin:18px 0 10px">فروشندهٔ نزدیک</h3><p class="sub" style="font-size:27px">نقشهٔ تهران، فاصله و زمان سفر، ساعت کاری و برنامهٔ سر زدن چندمغازه‌ای.</p></div>
+      <div class="card grow a" style="--d:1.3;border-color:rgb(239 64 86 / .6);box-shadow:0 0 0 1px rgb(239 64 86 / .3),0 20px 60px rgb(239 64 86 / .18)"><span class="pill r">۴</span><h3 style="font-size:42px;margin:18px 0 10px">پیگیری و استعلام</h3><p class="sub" style="font-size:27px">ترب از فروشنده می‌پرسد؛ پاسخ واقعی، با کد پیگیری و مهلت، برمی‌گردد.</p></div>
+    </div>
+    <p class="a" style="--d:1.8;margin-top:56px;font-size:30px;color:#cfd2da">و همه‌چیز لازم نیست از چت بگذرد: کارت، فیلتر و دکمه کنار گفتگو هستند.</p>
+  </section>
+
+  <!-- 4 · TorobChat -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:50px;align-items:center;height:100%">
+      <div style="width:600px">
+        <span class="kicker a" style="--d:0"><img src="assets/brand/torobchat.png" width="28" height="28" alt="" style="image-rendering:pixelated">تربچت</span>
+        <h2 class="a" style="--d:.1">گفتگو که <em>سؤال درست</em> می‌پرسد</h2>
+        <ul class="list" style="margin-top:30px">
+          <li class="a" style="--d:.4" ><span>نیاز را می‌فهمد: <b>بودجه</b>، برند، مقایسه، «همین الان»</span></li>
+          <li class="a" style="--d:.6"><span>فقط وقتی لازم است <b>حداکثر ۲ سؤال</b>؛ برای کالای دقیق هیچ</span></li>
+          <li class="a" style="--d:.8"><span>اعداد محاوره‌ای فارسی: «زیر ۳۰ تومن»، «۷۰ میلیون»</span></li>
+          <li class="a" style="--d:1"><span>هر پیشنهاد دلیل دارد: قیمت نسبت به بازار، اعتماد، احتمال موجودی</span></li>
+        </ul>
+      </div>
+      <div class="phones" style="flex:1">
+        <div class="a z" style="--d:0.5;margin-top:100px"><div class="phone "><img src="assets/mobile/shots/03_chat_clarify.png" alt=""></div><div class="cap">سؤال هوشمند<small>بودجه با یک لمس</small></div></div>
+        <div class="a z" style="--d:0.8;margin-top:0px"><div class="phone " style="width:372px"><img src="assets/mobile/shots/04_chat_results.png" alt=""></div><div class="cap">پیشنهاد با شواهد<small>قیمت · اعتماد · موجودی</small></div></div>
+        <div class="a z" style="--d:1.1;margin-top:100px"><div class="phone "><img src="assets/mobile/shots/05_chat_results_bottom.png" alt=""></div><div class="cap">استعلام از همان کارت<small>بی‌نیاز از تماس دستی</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · List & compare -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:50px;align-items:center;height:100%">
+      <div style="width:600px">
+        <span class="kicker a" style="--d:0">فهرست و مقایسه</span>
+        <h2 class="a" style="--d:.1">بدون گفتگو هم <em>کار پیش می‌رود</em></h2>
+        <ul class="list" style="margin-top:30px">
+          <li class="a" style="--d:.4"><span>ارزان‌ترین · نزدیک‌ترین · پیشنهادی</span></li>
+          <li class="a" style="--d:.6"><span>فیلتر بودجه، ترب‌پی، ضمانت، ارسال فوری، ساعت کاری</span></li>
+          <li class="a" style="--d:.8"><span>مقایسهٔ <b>دو فروشگاه</b> ستون‌به‌ستون</span></li>
+          <li class="a" style="--d:1"><span>تماس، مسیریابی، ذخیره در «برنامهٔ سر زدن»</span></li>
+        </ul>
+      </div>
+      <div class="phones" style="flex:1">
+        <div class="a z" style="--d:0.5;margin-top:100px"><div class="phone "><img src="assets/mobile/shots/06_list_products.png" alt=""></div><div class="cap">جستجو و دسته‌ها<small>حتی بدون چت</small></div></div>
+        <div class="a z" style="--d:0.8;margin-top:0px"><div class="phone " style="width:372px"><img src="assets/mobile/shots/07_list_stores.png" alt=""></div><div class="cap">فروشگاه‌های دارای کالا<small>قیمت · فاصله · نشان‌ها</small></div></div>
+        <div class="a z" style="--d:1.1;margin-top:100px"><div class="phone "><img src="assets/mobile/shots/09_store_card_open.png" alt=""></div><div class="cap">اطلاعات فروشگاه<small>ساعت کاری · تماس · استعلام</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Map -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:70px;align-items:center;height:100%">
+      <div class="phones" style="flex:1;gap:60px">
+        <div class="a z" style="--d:0.4;margin-top:0px"><div class="phone " style="width:390px"><img src="assets/mobile/shots/08_map.png" alt=""></div><div class="cap">نقشهٔ تهران<small>پین قیمت روی هر فروشگاه</small></div></div>
+        <div class="a z" style="--d:0.8;margin-top:100px"><div class="phone "><img src="assets/mobile/shots/12_inquiries_pending.png" alt=""></div><div class="cap">برنامهٔ سر زدن و پیگیری<small>استعلام‌های در جریان</small></div></div>
+      </div>
+      <div style="width:620px">
+        <span class="kicker a" style="--d:.1">نقشه و برنامهٔ سر زدن</span>
+        <h2 class="a" style="--d:.2">فروشندهٔ <em>نزدیک</em> را ببین</h2>
+        <ul class="list" style="margin-top:30px">
+          <li class="a" style="--d:.5"><span>پین قیمت و نام فروشگاه روی نقشهٔ واقعی</span></li>
+          <li class="a" style="--d:.7"><span>محدودهٔ دلخواه، فاصله و زمان سفر (پیاده، ماشین، مترو)</span></li>
+          <li class="a" style="--d:.9"><span>مسیر چندایستگاهی با هشدار <b>نزدیک بسته‌شدن</b> مغازه</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Transparency -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">شفافیت اطلاعات</span>
+    <h2 class="a" style="--d:.1">سه چیزِ <em>جدا</em> را یکی نمی‌گیریم</h2>
+    <p class="sub a" style="--d:.2">قیمت ثبت‌شده، زمان تغییر قیمت و موجودی تأییدشده هر کدام جدا و با برچسب نشان داده می‌شوند؛ هرچه نامشخص است، صریح می‌گوییم نامشخص.</p>
+    <div class="row" style="margin-top:56px;gap:34px">
+      <div class="card grow a" style="--d:.4"><span class="pill b">قیمت ثبت‌شده</span><p class="sub" style="font-size:30px;margin-top:22px;color:#e6e8ee">آنچه فروشگاه در ترب ثبت کرده؛ <b>نه</b> قیمت تأییدشدهٔ امروز.</p><div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap"><span class="pill">قیمت در بازار (میانهٔ همتایان)</span><span class="pill a">هشدار قیمت غیرعادی</span></div></div>
+      <div class="card grow a" style="--d:.7"><span class="pill a">زمان آخرین تغییر</span><p class="sub" style="font-size:30px;margin-top:22px;color:#e6e8ee">«کهنگی» قیمت جداست؛ با گذشت زمان اعتبارش کم می‌شود.</p><div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap"><span class="pill">تازه</span><span class="pill">کهنه (۳۰ روز)</span><span class="pill a">خیلی کهنه (۹۰ روز)</span></div></div>
+      <div class="card grow a" style="--d:1;border-color:rgb(47 191 113 / .5)"><span class="pill g">موجودی تأییدشده</span><p class="sub" style="font-size:30px;margin-top:22px;color:#e6e8ee">فقط وقتی فروشنده <b>خودش</b> جواب داده؛ همراه با زمان تأیید.</p><div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap"><span class="pill g">موجود</span><span class="pill r">ناموجود</span><span class="pill">نامشخص</span></div></div>
+    </div>
+    <p class="a" style="--d:1.5;margin-top:50px;font-size:30px;color:#cfd2da">هیچ پاسخ فروشنده‌ای ساخته نمی‌شود. اگر سرور در دسترس نباشد، پاسخ شبیه‌سازی‌شده صریحاً برچسب «نمونه» می‌خورد.</p>
+  </section>
+
+  <!-- 8 · Inquiry hero -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">سیستم استعلام</span>
+    <h2 class="a" style="--d:.1">«ترب برایم <em>استعلام بگیرد</em>»</h2>
+    <p class="sub a" style="--d:.2">یک ضربه روی وب؛ گوشی فروشنده زنگ می‌خورد؛ یک ضربه آنجا؛ جواب واقعی برمی‌گردد.</p>
+
+    <svg viewBox="0 0 1680 430" width="1680" height="430" style="margin-top:30px;overflow:visible">
+      <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#EF4056"/></marker></defs>
+      <!-- connectors (RTL: customer at right) -->
+      <g fill="none" stroke="#EF4056" stroke-width="4" stroke-dasharray="14 12" marker-end="url(#ar)" style="animation:flow 1.2s linear infinite">
+        <path d="M1380 190 H1205"/><path d="M1010 190 H835"/><path d="M640 190 H455"/><path d="M260 190 H225"/>
+      </g>
+      <g fill="none" stroke="#2FBF71" stroke-width="4" stroke-dasharray="14 12" marker-end="url(#arg)" opacity=".9"><path d="M360 300 C 360 400, 1480 400, 1480 300"/></g>
+      <defs><marker id="arg" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2FBF71"/></marker></defs>
+      <!-- nodes -->
+      <g font-size="30" font-weight="700" text-anchor="middle" fill="#ECECF1">
+        <g class="a" style="--d:.5"><rect x="1390" y="90" width="260" height="200" rx="28" fill="#1A1E27" stroke="#3C4250"/><text x="1520" y="160">🧑 مشتری</text><text x="1520" y="205" font-size="23" fill="#9AA0AC" font-weight="400">وب‌اپ ترب مپ</text><text x="1520" y="245" font-size="23" fill="#9AA0AC" font-weight="400">«استعلام قیمت»</text></g>
+        <g class="a" style="--d:.9"><rect x="1010" y="70" width="190" height="240" rx="28" fill="#1A1E27" stroke="#EF4056" stroke-width="2"/><text x="1105" y="140">🧠</text><text x="1105" y="185" font-size="27">دروازهٔ ارزش</text><text x="1105" y="222" font-size="22" fill="#9AA0AC" font-weight="400">آیا ارزش پرسیدن</text><text x="1105" y="252" font-size="22" fill="#9AA0AC" font-weight="400">دارد؟ (VoI)</text></g>
+        <g class="a" style="--d:1.3"><rect x="640" y="90" width="190" height="200" rx="28" fill="#1A1E27" stroke="#3C4250"/><text x="735" y="160">🔔</text><text x="735" y="205" font-size="27">سرور + Push</text><text x="735" y="245" font-size="22" fill="#9AA0AC" font-weight="400">دفتر شواهد</text></g>
+        <g class="a" style="--d:1.7"><rect x="260" y="90" width="190" height="200" rx="28" fill="#1A1E27" stroke="#3C4250"/><text x="355" y="160">📱</text><text x="355" y="205" font-size="27">اپ فروشنده</text><text x="355" y="245" font-size="22" fill="#9AA0AC" font-weight="400">زنگ + پاسخ</text></g>
+        <g class="a" style="--d:2.2"><rect x="30" y="90" width="190" height="200" rx="28" fill="#12261b" stroke="#2FBF71"/><text x="125" y="160">✅</text><text x="125" y="205" font-size="27">پاسخ واقعی</text><text x="125" y="245" font-size="22" fill="#7be0a8" font-weight="400">قیمت · موجودی</text></g>
+      </g>
+      <text x="920" y="418" text-anchor="middle" font-size="25" fill="#7be0a8" class="a" style="--d:2.5">پاسخ با کد پیگیری و زمان برای مشتری نمایش داده می‌شود</text>
+    </svg>
+
+    <div class="a" style="--d:2.7;display:flex;gap:14px;margin-top:6px;align-items:center;flex-wrap:wrap">
+      <span class="pill">۰ دقیقه: پوش اولیه</span><span class="pill a">+۵ دقیقه: یادآوری</span><span class="pill r">۲ دقیقه مانده: تماس فوری</span><span class="pill">۱۰ دقیقه: انقضا + پیشنهاد فروشگاه جایگزین</span>
+    </div>
+  </section>
+
+  <!-- 8b · Storyboard on two phones -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">یک استعلام، دو گوشی</span>
+    <h2 class="a" style="--d:.1">از لمس مشتری تا <em>جواب فروشنده</em></h2>
+    <div class="row" style="gap:26px;justify-content:center;margin-top:20px;align-items:flex-start">
+      <div class="a z" style="--d:.4"><div class="phone" style="width:278px"><img src="assets/mobile/shots/10_inquiry_dialog.png" alt=""></div><div class="cap"><span class="pill b" style="font-size:21px;padding:4px 16px">گوشی مشتری</span><br><span style="display:block;margin-top:8px">۱ · «ترب برایم استعلام بگیرد»</span></div></div>
+      <div class="a" style="--d:.7;align-self:center;font-size:70px;color:var(--brand);margin-top:-60px">←</div>
+      <div class="a z" style="--d:.9"><div class="phone ring" style="width:278px"><i class="w"></i><i class="w w2"></i><img src="assets/merchant/12-URGENT-CALL-incoming.png" alt=""></div><div class="cap"><span class="pill r" style="font-size:21px;padding:4px 16px">گوشی فروشنده</span><br><span style="display:block;margin-top:8px">۲ · گوشی زنگ می‌خورد</span></div></div>
+      <div class="a" style="--d:1.2;align-self:center;font-size:70px;color:var(--brand);margin-top:-60px">←</div>
+      <div class="a z" style="--d:1.4"><div class="phone" style="width:278px"><img src="assets/merchant/11-respond-form.png" alt=""></div><div class="cap"><span class="pill r" style="font-size:21px;padding:4px 16px">گوشی فروشنده</span><br><span style="display:block;margin-top:8px">۳ · قیمت، تعداد دقیق، موجودی</span></div></div>
+      <div class="a" style="--d:1.7;align-self:center;font-size:70px;color:var(--brand);margin-top:-60px">←</div>
+      <div class="a z" style="--d:1.9"><div class="phone" style="width:278px"><img src="assets/mobile/shots/14_inquiry_answered.png" alt=""></div><div class="cap"><span class="pill g" style="font-size:21px;padding:4px 16px">گوشی مشتری</span><br><span style="display:block;margin-top:8px">۴ · پاسخ واقعی با کد پیگیری</span></div></div>
+    </div>
+  </section>
+
+  <!-- 9 · Merchant app -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:50px;align-items:center;height:100%">
+      <div style="width:600px">
+        <span class="kicker a" style="--d:0">اپ اندروید فروشنده</span>
+        <h2 class="a" style="--d:.1">گوشی <em>زنگ می‌خورد</em></h2>
+        <ul class="list" style="margin-top:30px">
+          <li class="a" style="--d:.5">صفحهٔ تماس تمام‌صفحه با <b>شمارندهٔ فرصت</b> (مثلاً ۱:۵۷)</li>
+          <li class="a" style="--d:.7">سه اقدام یک‌لمسی: اعلام قیمت، تأیید قیمت قبلی، «ناموجود»</li>
+          <li class="a" style="--d:.9">رد کردن فقط با <b>دلیل</b>؛ هر نه‌گفتن شواهد ساخت‌یافته است</li>
+          <li class="a" style="--d:1.1">پاسخ آفلاین هم صف می‌شود و بدون تکرار همگام می‌شود</li>
+        </ul>
+      </div>
+      <div class="row" style="gap:36px;align-items:flex-start;flex:1;justify-content:center">
+        <div class="a" style="--d:.6;margin-top:80px"><div class="phone" style="width:290px"><img src="assets/merchant/13-URGENT-decline-reason.png" alt=""></div><div class="cap">دلیل رد استعلام<small>رد = شواهد، نه بی‌پاسخی</small></div></div>
+        <div class="a z" style="--d:.9"><div class="phone ring" style="width:320px"><i class="w"></i><i class="w w2"></i><img src="assets/merchant/12-URGENT-CALL-incoming.png" alt=""></div><div class="cap" style="color:var(--brand2)">📞 استعلام لحظه‌ای خریدار<small>صفحهٔ زنگ‌خوردن</small></div></div>
+        <div class="a" style="--d:1.2;margin-top:80px"><div class="phone" style="width:290px"><img src="assets/merchant/11-respond-form.png" alt=""></div><div class="cap">فرم پاسخ<small>تعداد دقیق؛ صفر همان صفر</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · Live demo video -->
+  <section class="slide" data-part="1" id="videoSlide">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:80px;align-items:center;height:100%;justify-content:center">
+      <div style="width:560px">
+        <span class="kicker a" style="--d:0">نمایش زنده</span>
+        <h2 class="a" style="--d:.1">همین حالا، <em>روی دو گوشی</em></h2>
+        <ul class="list" style="margin-top:30px">
+          <li class="a" style="--d:.4"><span>سمت راست: مشتری، چت ← فهرست ← نقشه ← استعلام</span></li>
+          <li class="a" style="--d:.6"><span>سمت چپ: گوشی فروشنده در لحظه زنگ می‌خورد</span></li>
+          <li class="a" style="--d:.8"><span>پاسخ فروشنده، زنده روی گوشی مشتری می‌نشیند</span></li>
+        </ul>
+        <div id="vstate" class="a" style="--d:1;margin-top:30px"><span class="pill" id="vpill">در حال پخش…</span></div>
+      </div>
+      <div class="a z" style="--d:.3"><div class="phone" style="width:420px"><video id="demoVid" muted playsinline preload="auto" style="display:block;width:100%;aspect-ratio:585/1266;object-fit:cover;border-radius:40px;background:#fff"><source src="assets/mobile/app-demo.mp4" type="video/mp4"><source src="assets/mobile/app-demo.webm" type="video/webm"></video></div><div class="cap"><span class="pill b" style="font-size:21px;padding:4px 16px">گوشی مشتری</span></div></div>
+      <div class="a z" style="--d:.5"><div class="phone" id="mph" style="width:420px"><i class="w"></i><i class="w w2"></i><img id="mimg" src="assets/merchant/02-history.png" alt=""></div><div class="cap"><span class="pill r" style="font-size:21px;padding:4px 16px">گوشی فروشنده</span></div></div>
+    </div>
+  </section>
+
+  <!-- 11 · Jimbo & deploy -->
+  <section class="slide" data-part="1">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">آمادهٔ ارائه و استقرار</span>
+    <h2 class="a" style="--d:.1">فروشگاه آزمایشی <em>جیمبو</em> و استقرار دوتایی</h2>
+    <div class="row" style="margin-top:50px;gap:34px">
+      <div class="card grow a" style="--d:.4"><div style="display:flex;align-items:center;gap:20px"><div style="width:84px;height:84px;border-radius:24px;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:44px">🏪</div><div><h3 style="font-size:44px">فروشگاه جیمبو</h3><p class="sub" style="font-size:25px">فروشگاه آزمایشی در کاتالوگ واقعی</p></div></div>
+        <ul class="list" style="margin-top:30px"><li style="font-size:28px">۱۷ کالای واقعی: گوشی، هدفون، شارژر، پاوربانک، ساعت هوشمند</li><li style="font-size:28px">قیمت آزمایشی نزدیک میانهٔ بازار، با برچسب «تستی»</li><li style="font-size:28px">با اپ فروشنده وصل است: ورود با شمارهٔ فروشنده و استعلام زنده</li></ul></div>
+      <div class="card grow a" style="--d:.7"><h3 style="font-size:44px">دو اپلیکیشن مستقل</h3><p class="sub" style="font-size:25px;margin-bottom:22px">روی لیارا، هرکدام جدا مقیاس می‌گیرند</p>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="pill b" style="justify-content:space-between;font-size:26px;padding:16px 26px"><span>وب‌اپ · Next.js</span><span class="latin" style="color:#9AA0AC">torobmap</span></div>
+          <div class="pill g" style="justify-content:space-between;font-size:26px;padding:16px 26px"><span>API · FastAPI + Docker</span><span class="latin" style="color:#9AA0AC">torobmap-api</span></div>
+          <div class="pill" style="justify-content:space-between;font-size:26px;padding:16px 26px"><span>دیسک پایدار برای دفتر شواهد</span><span class="latin" style="color:#9AA0AC">/data</span></div>
+        </div></div>
+    </div>
+  </section>
+
+  <!-- ============== PART 2 · SYSTEM DESIGN ============== -->
+
+  <!-- 12 · Architecture -->
+  <section class="slide" data-part="2">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">طراحی سیستم</span>
+    <h2 class="a" style="--d:.1">معماری: <em>شواهد</em> در مرکز</h2>
+    <svg viewBox="0 0 1680 640" width="1680" height="640" style="margin-top:10px;overflow:visible">
+      <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b7385"/></marker><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#EF4056"/></marker></defs>
+      <g fill="none" stroke="#6b7385" stroke-width="3" marker-end="url(#a2)">
+        <path d="M1440 160 H1250"/><path d="M1000 160 H820"/><path d="M570 170 L400 120" /><path d="M570 200 L400 290"/><path d="M770 240 V398"/><path d="M400 340 C 520 340 520 480 588 480"/>
+      </g>
+      <g fill="none" stroke="#EF4056" stroke-width="3" stroke-dasharray="12 10" marker-end="url(#a3)" style="animation:flow 1.4s linear infinite">
+        <path d="M950 485 H995"/><path d="M1252 450 C 1330 420 1390 380 1440 345"/>
+      </g>
+      <g font-size="28" font-weight="700" text-anchor="middle" fill="#ECECF1">
+        <g class="a" style="--d:.4"><rect x="1440" y="90" width="210" height="140" rx="24" fill="#1A1E27" stroke="#3C4250"/><text x="1545" y="150">وب‌اپ</text><text x="1545" y="190" font-size="21" fill="#9AA0AC" font-weight="400">Next.js · RTL</text></g>
+        <g class="a" style="--d:.7"><rect x="1000" y="70" width="250" height="180" rx="24" fill="#1A1E27" stroke="#EF4056" stroke-width="2"/><text x="1125" y="140">FastAPI</text><text x="1125" y="180" font-size="21" fill="#9AA0AC" font-weight="400">قراردادهای v1 · RBAC</text><text x="1125" y="212" font-size="21" fill="#9AA0AC" font-weight="400">تربچت · استعلام · برنامه</text></g>
+        <g class="a" style="--d:1"><rect x="570" y="90" width="250" height="150" rx="24" fill="#1A1E27" stroke="#3C4250"/><text x="695" y="150">موتور هوش</text><text x="695" y="190" font-size="21" fill="#9AA0AC" font-weight="400">قیمت · موجودی · اعتماد</text></g>
+        <g class="a" style="--d:1.3"><rect x="150" y="40" width="250" height="150" rx="24" fill="#10201a" stroke="#2FBF71"/><text x="275" y="100">DuckDB</text><text x="275" y="140" font-size="21" fill="#7be0a8" font-weight="400">کاتالوگ ۵۶۰ هزار ردیف</text></g>
+        <g class="a" style="--d:1.5"><rect x="150" y="250" width="250" height="150" rx="24" fill="#10201a" stroke="#2FBF71"/><text x="275" y="310">SQLite</text><text x="275" y="350" font-size="21" fill="#7be0a8" font-weight="400">دفتر شواهد · استعلام‌ها</text></g>
+        <g class="a" style="--d:1.7"><rect x="590" y="400" width="360" height="170" rx="24" fill="#1A1E27" stroke="#EF4056" stroke-width="2"/><text x="770" y="460">دفتر شواهد (ledger)</text><text x="770" y="500" font-size="21" fill="#9AA0AC" font-weight="400">فقط‌افزودنی · هر رویداد یک مدرک</text><text x="770" y="535" font-size="21" fill="#f7a1ac" font-weight="400">↺ به موتور هوش برمی‌گردد</text></g>
+        <g class="a" style="--d:1.9"><rect x="1000" y="400" width="250" height="150" rx="24" fill="#1A1E27" stroke="#3C4250"/><text x="1125" y="455">Push · FCM</text><text x="1125" y="495" font-size="21" fill="#9AA0AC" font-weight="400">یادآوری و تماس فوری</text></g>
+        <g class="a" style="--d:2.1"><rect x="1400" y="250" width="250" height="150" rx="24" fill="#1A1E27" stroke="#3C4250"/><text x="1525" y="305">اپ فروشنده</text><text x="1525" y="345" font-size="21" fill="#9AA0AC" font-weight="400">Kotlin · Compose · Room</text></g>
+      </g>
+    </svg>
+    <div class="a" style="--d:2.4;display:flex;gap:14px;flex-wrap:wrap;margin-top:6px"><span class="pill">هر پاسخ فروشنده ← رویداد شواهد ← اعتماد فروشگاه و احتمال موجودی به‌روز می‌شود</span></div>
+  </section>
+
+  <!-- 13 · Stock algorithm -->
+  <section class="slide" data-part="2" id="stockSlide">
+    <div class="bg-glow"></div>
+    <div class="row" style="gap:60px;align-items:center;height:100%">
+      <div style="width:680px">
+        <span class="kicker a" style="--d:0">الگوریتم موجودی</span>
+        <h2 class="a" style="--d:.1">تا برسی، <em>هنوز هست؟</em></h2>
+        <p class="sub a" style="--d:.3;font-size:28px">«موجود» یک بله/خیر نیست؛ احتمالی است که با زمان می‌ریزد. هرچه تعداد کمتر و راه طولانی‌تر، احتمال کمتر.</p>
+        <div class="card a" style="--d:.5;margin-top:28px;direction:ltr;text-align:center;font-size:38px;padding:26px 20px"><span style="color:var(--brand2)">S</span>(t) = exp( −λ₀ · m<sub>q</sub> · (Δt<sub>verify</sub> + ETA) )<div style="font-size:21px;color:var(--muted);margin-top:10px">λ₀ = 0.05/h · m<sub>q</sub>: ۱ عدد 2.5 · ۲–۵ عدد 1.0 · بیش از ۵ عدد 0.3</div></div>
+        <div class="a" style="--d:.8;display:flex;gap:12px;margin-top:24px;flex-wrap:wrap"><span class="pill g">in_store_sellable</span><span class="pill">unknown</span><span class="pill r">out_of_stock → ۰</span></div>
+      </div>
+      <div class="card a l" style="--d:.5;flex:1;padding:28px">
+        <svg id="stockSvg" viewBox="0 0 900 560" width="100%"></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · Inquiry policy -->
+  <section class="slide" data-part="2">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">روش استعلام</span>
+    <h2 class="a" style="--d:.1">فقط وقتی <em>می‌ارزد</em>، فروشنده را اذیت می‌کنیم</h2>
+    <div class="row" style="margin-top:36px;gap:34px">
+      <div class="card grow a" style="--d:.4"><h3 style="font-size:36px;margin-bottom:16px">۱ · دروازه‌های سخت</h3><ul class="list"><li style="font-size:29px">ساعت سکوت ۲۲:۰۰ تا ۰۹:۰۰</li><li style="font-size:29px">سقف روزانه: ۱۵ استعلام برای هر مغازه</li><li style="font-size:29px">دورهٔ خنک‌سازی ۱۲۰ ثانیه</li><li style="font-size:29px">ادغام استعلام‌های تکراری (کلید shop:product:offer)</li></ul></div>
+      <div class="card grow a" style="--d:.7"><h3 style="font-size:36px;margin-bottom:16px">۲ · ارزش اطلاعات (VoI)</h3><div style="direction:ltr;text-align:left;font-size:22px;line-height:2;color:#e6e8ee"><div>L<sub>price</sub> = P₀·ln(1+p/P₀)·risk·0.10</div><div>L<sub>stock</sub> = (15 + 0.2·travel + …)·0.40</div><div style="color:var(--brand2);font-weight:700">VoI = ΣL·w<sub>intent</sub>·P(useful) − nuisance</div></div><p class="sub" style="font-size:27px;margin-top:14px">پاسخگویی گذشتهٔ فروشگاه همان <b>P(useful)</b> است؛ بی‌پاسخ‌ها کمتر پرسیده می‌شوند.</p></div>
+      <div class="card grow a" style="--d:1"><h3 style="font-size:36px;margin-bottom:16px">۳ · چرخهٔ SLA</h3><ul class="list"><li style="font-size:29px">پاسخ <b>idempotent</b> با <code>client_response_id</code></li><li style="font-size:29px">صف آفلاین Room ← batch-sync بدون تکرار</li><li style="font-size:29px"><code>stock_count = 0</code> همان صفر می‌ماند</li><li style="font-size:29px">منقضی ← جایگزین پیشنهاد می‌شود</li></ul></div>
+    </div>
+    <div class="a" style="--d:1.4;display:flex;gap:14px;margin-top:40px;align-items:center;flex-wrap:wrap"><span style="font-size:27px;color:var(--muted)">خط زمانی هر استعلام:</span><span class="pill g">۰ · ثبت و پوش اولیه</span><span class="pill a">+۵ دقیقه · یادآوری</span><span class="pill r">۲ دقیقه مانده · تماس فوری صوتی</span><span class="pill">+۱۰ دقیقه · انقضا، «بی‌پاسخ» به‌عنوان شاهد، فروشگاه جایگزین</span></div>
+  </section>
+
+  <!-- 15 · Price + trust -->
+  <section class="slide" data-part="2">
+    <div class="bg-glow"></div>
+    <span class="kicker a" style="--d:0">قیمت و اعتماد</span>
+    <h2 class="a" style="--d:.1">باور نمی‌کنیم، <em>اندازه می‌گیریم</em></h2>
+    <div class="row" style="margin-top:40px;gap:40px">
+      <div class="card grow a" style="--d:.4"><h3 style="font-size:38px;margin-bottom:20px">هوش قیمت</h3>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="pill" style="justify-content:flex-start;font-size:26px">۱ · حذف قیمت‌های پوچ: ۱ تومان، تهی، بالای ۱۰¹²</div>
+          <div class="pill" style="justify-content:flex-start;font-size:26px">۲ · میانهٔ همتایان بدون خودِ فروشگاه (LOSO)</div>
+          <div class="pill a" style="justify-content:flex-start;font-size:26px">۳ · خطای ریال/تومان: باندهای ×۱۰ و ×۰٫۱</div>
+          <div class="pill" style="justify-content:flex-start;font-size:26px">۴ · نوسان مسیر قیمت و کهنگی ۳۰/۹۰ روز</div>
+          <div class="pill r" style="justify-content:flex-start;font-size:26px">۵ · امتیاز ریسک ← باندهای ۲۵ / ۵۰ / ۷۵</div>
+        </div></div>
+      <div class="card grow a" style="--d:.8"><h3 style="font-size:38px;margin-bottom:20px">اعتماد چندبعدی فروشگاه</h3>
+        <div style="direction:ltr;font-size:25px;color:#e6e8ee;margin-bottom:18px">Beta(α₀+s, β₀+f) · prior = ۵ مشاهده · نیمه‌عمر ۶۰ روز</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:14px;font-size:25px"><span style="width:230px">صحت قیمت</span><div style="flex:1;height:18px;border-radius:9px;background:var(--card2);overflow:hidden"><div class="bar" style="width:90%;height:100%;background:var(--brand)"></div></div><b>۰٫۲۵</b></div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:25px"><span style="width:230px">صحت موجودی</span><div style="flex:1;height:18px;border-radius:9px;background:var(--card2);overflow:hidden"><div class="bar" style="width:90%;height:100%;background:var(--brand)"></div></div><b>۰٫۲۵</b></div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:25px"><span style="width:230px">حضور فیزیکی</span><div style="flex:1;height:18px;border-radius:9px;background:var(--card2);overflow:hidden"><div class="bar" style="width:72%;height:100%;background:var(--brand2)"></div></div><b>۰٫۲۰</b></div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:25px"><span style="width:230px">اعتبار تجاری</span><div style="flex:1;height:18px;border-radius:9px;background:var(--card2);overflow:hidden"><div class="bar" style="width:54%;height:100%;background:var(--amber)"></div></div><b>۰٫۱۵</b></div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:25px"><span style="width:230px">پاسخ‌گویی</span><div style="flex:1;height:18px;border-radius:9px;background:var(--card2);overflow:hidden"><div class="bar" style="width:54%;height:100%;background:var(--green)"></div></div><b>۰٫۱۵</b></div>
+        </div>
+        <p class="sub" style="font-size:23px;margin-top:20px">وزن هر بعد در امتیاز ترکیبی. مغازهٔ تازه به‌ناحق جریمه نمی‌شود (shrinkage).</p></div>
+    </div>
+  </section>
+
+  <!-- 16 · Closing -->
+  <section class="slide" data-part="2" id="endSlide">
+    <div class="bg-glow"></div><div class="bg-grid"></div>
+    <div class="center" style="height:100%;gap:30px">
+      <h2 class="a" style="--d:0;font-size:84px">صادق با داده، <em>سخاوتمند با کاربر</em></h2>
+      <div class="row" style="gap:24px;margin-top:20px">
+        <div class="card a z" style="--d:.3;min-width:330px;text-align:center"><div class="num" data-to="225903" style="font-size:78px;font-weight:800;color:var(--brand2)">۰</div><div class="sub" style="font-size:25px">محصول یکتا در کاتالوگ</div></div>
+        <div class="card a z" style="--d:.5;min-width:330px;text-align:center"><div class="num" data-to="331506" style="font-size:78px;font-weight:800;color:var(--brand2)">۰</div><div class="sub" style="font-size:25px">آفر قیمت</div></div>
+        <div class="card a z" style="--d:.7;min-width:330px;text-align:center"><div class="num" data-to="6476" style="font-size:78px;font-weight:800;color:var(--brand2)">۰</div><div class="sub" style="font-size:25px">فروشگاه تهران</div></div>
+        <div class="card a z" style="--d:.9;min-width:330px;text-align:center"><div class="num" data-to="157" style="font-size:78px;font-weight:800;color:var(--green)">۰</div><div class="sub" style="font-size:25px">آزمون خودکار موفق</div></div>
+      </div>
+      <p class="sub a" style="--d:1.2;text-align:center;max-width:1300px;font-size:32px;color:#d4d7de">هیچ پاسخی جعل نمی‌شود · هر احتمال برچسب «مدل اکتشافی» دارد · هر پاسخ فروشنده به دفتر شواهد برمی‌گردد و خودش دقت سیستم را بالا می‌برد</p>
+      <div class="a" style="--d:1.5;display:flex;align-items:center;gap:18px;margin-top:20px"><span class="lg" style="width:70px;height:70px;border-radius:20px;overflow:hidden;display:inline-block"><img src="assets/brand/torob-logo.svg" width="70" height="70" alt=""></span><span style="font-size:48px;font-weight:800">ممنون از توجه شما</span></div>
+    </div>
+  </section>
+
+  <div id="bar"></div><div id="count"></div><div class="hint">← → · F تمام‌صفحه</div>
+</div>
+
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var cur = -1;
+  var FA = '۰۱۲۳۴۵۶۷۸۹';
+  var fa = function (n) { return String(n).replace(/\d/g, function (d) { return FA[+d]; }); };
+
+  function fit() {
+    var s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  addEventListener('resize', fit); fit();
+
+  /* stock-survival chart: S(t)=exp(-0.05*m*t) for different quantity buckets */
+  function drawStock() {
+    var svg = document.getElementById('stockSvg'); if (svg.dataset.done) return; svg.dataset.done = 1;
+    var W = 900, H = 560, L = 70, R = 30, T = 30, B = 80, T_MAX = 12;
+    var x = function (t) { return W - R - (t / T_MAX) * (W - L - R); };   // RTL: time grows to the left
+    var y = function (p) { return T + (1 - p) * (H - T - B); };
+    var ns = 'http://www.w3.org/2000/svg', g = '';
+    for (var i = 0; i <= 4; i++) { var p = i / 4; g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(p) + '" y2="' + y(p) + '" stroke="#2A2E38"/><text x="' + (W - R + 6) + '" y="' + (y(p) + 6) + '" font-size="20" fill="#9AA0AC">' + fa(Math.round(p * 100)) + '٪</text>'; }
+    for (var t = 0; t <= T_MAX; t += 2) g += '<text x="' + x(t) + '" y="' + (H - B + 36) + '" font-size="20" fill="#9AA0AC" text-anchor="middle">' + fa(t) + '</text>';
+    g += '<text x="' + (W / 2) + '" y="' + (H - 12) + '" font-size="22" fill="#9AA0AC" text-anchor="middle">زمان تا رسیدن به مغازه (ساعت: تأیید + سفر)</text>';
+    var curves = [{ m: 2.5, c: '#EF4056', n: 'فقط ۱ عدد' }, { m: 1.0, c: '#F5B33D', n: '۲ تا ۵ عدد' }, { m: 0.3, c: '#2FBF71', n: 'بیش از ۵ عدد' }];
+    curves.forEach(function (cv, k) {
+      var d = ''; for (var t2 = 0; t2 <= T_MAX; t2 += .25) { var p2 = Math.min(.99, Math.max(.05, Math.exp(-0.05 * cv.m * t2))); d += (d ? 'L' : 'M') + x(t2).toFixed(1) + ' ' + y(p2).toFixed(1); }
+      g += '<path d="' + d + '" fill="none" stroke="' + cv.c + '" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" style="animation:dash 2s ' + (1 + k * .6) + 's ease forwards"/>';
+      g += '<g transform="translate(' + 400 + ',' + (385 + k * 44) + ')"><rect width="22" height="22" rx="6" fill="' + cv.c + '"/><text x="-12" y="19" font-size="23" fill="#ECECF1" text-anchor="start">' + cv.n + '</text></g>';
+    });
+    svg.innerHTML = g;
+  }
+
+  function countUp(root) {
+    [].forEach.call(root.querySelectorAll('.num'), function (el, i) {
+      var to = +el.dataset.to, t0 = performance.now() + 400 + i * 200, dur = 1600;
+      (function tick(now) { var k = Math.min(1, Math.max(0, (now - t0) / dur)); var e = 1 - Math.pow(1 - k, 3); el.textContent = fa(Math.round(to * e).toLocaleString('en-US')).replace(/,/g, '٬'); if (k < 1) requestAnimationFrame(tick); })(performance.now());
+    });
+  }
+  function bars(root) { [].forEach.call(root.querySelectorAll('.bar'), function (b, i) { var w = b.style.width; b.style.width = '0'; b.style.transition = 'width 1.2s ' + (.8 + i * .12) + 's cubic-bezier(.2,.8,.2,1)'; requestAnimationFrame(function () { requestAnimationFrame(function () { b.style.width = w; }); }); }); }
+
+
+  var TL = { sent: 40.8, answered: 48.96 };   // marks from tools/record-mobile.js (assets/mobile/timeline.json)
+  var mstate = '';
+  function setM(state) {
+    if (state === mstate) return; mstate = state;
+    var img = document.getElementById('mimg'), ph = document.getElementById('mph'), pill = document.getElementById('vpill');
+    var map = { idle: ['assets/merchant/02-history.png', false, 'فروشنده آماده است', ''], ring: ['assets/merchant/12-URGENT-CALL-incoming.png', true, '📞 استعلام رسید؛ گوشی زنگ می‌خورد', 'r'], respond: ['assets/merchant/11-respond-form.png', false, 'فروشنده قیمت و موجودی را ثبت می‌کند', 'a'], done: ['assets/merchant/09-respond-answered.png', false, '✅ پاسخ برای مشتری ارسال شد', 'g'] };
+    var m = map[state]; img.src = m[0]; ph.classList.toggle('ring', m[1]); pill.textContent = m[2]; pill.className = 'pill ' + m[3];
+  }
+  function syncMerchant() {
+    var v = document.getElementById('demoVid'); mstate = ''; setM('idle');
+    v.ontimeupdate = function () {
+      if (!TL) return; var t = v.currentTime;
+      var ring = TL.sent + 0.8, resp = TL.answered - 2.6;
+      setM(t < ring ? 'idle' : t < resp ? 'ring' : t < TL.answered ? 'respond' : 'done');
+    };
+    v.onended = function () { setTimeout(function () { v.currentTime = 0; v.play().catch(function () {}); }, 1800); };
+  }
+
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n)); if (n === cur) return;
+    slides.forEach(function (s, i) {
+      s.classList.toggle('active', i === n); s.classList.toggle('past', i < n);
+      if (i === n) { // restart animations
+        var kids = s.querySelectorAll('.a'); [].forEach.call(kids, function (k) { k.style.animation = 'none'; void k.offsetWidth; k.style.animation = ''; });
+      }
+    });
+    cur = n;
+    var s = slides[n], part = s.dataset.part;
+    document.getElementById('partLabel').innerHTML = part === '1' ? '<b>بخش ۱</b> · آنچه ساختیم' : '<b>بخش ۲</b> · طراحی سیستم';
+    document.getElementById('bar').style.width = ((n + 1) / slides.length * 100) + '%';
+    document.getElementById('count').textContent = fa(n + 1) + ' / ' + fa(slides.length);
+    var v = document.getElementById('demoVid'); if (v) { if (s.id === 'videoSlide') { v.currentTime = 0; v.play().catch(function () {}); syncMerchant(); } else { v.pause(); } }
+    if (s.id === 'stockSlide') { var sv = document.getElementById('stockSvg'); sv.dataset.done = ''; sv.innerHTML = ''; setTimeout(drawStock, 400); }
+    if (s.id === 'endSlide') countUp(s);
+    bars(s);
+    try { history.replaceState(null, '', '#' + (n + 1)); } catch (e) {}
+  }
+  var next = function () { go(cur + 1); }, prev = function () { go(cur - 1); };
+  addEventListener('keydown', function (e) {
+    if (['ArrowLeft', 'PageDown', ' ', 'Enter'].indexOf(e.key) > -1) { e.preventDefault(); next(); }
+    else if (['ArrowRight', 'PageUp', 'Backspace'].indexOf(e.key) > -1) { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') go(0); else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+  });
+  var sx = null;
+  addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) (dx < 0 ? next : prev)(); sx = null; });
+  addEventListener('click', function (e) { if (e.target.closest('a,button,video')) return; (e.clientX < innerWidth / 2 ? next : prev)(); });
+  go(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+})();
+</script>
+</body>
+</html>

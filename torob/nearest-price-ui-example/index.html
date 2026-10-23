@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>نزدیک‌ترین قیمت</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet (نقشهٔ واقعی) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect class="logo-bg" width="32" height="32" rx="9"/><path class="logo-pin" d="M16 6.5c-3.6 0-6.3 2.7-6.3 6.1 0 4.4 6.3 12 6.3 12s6.3-7.6 6.3-12c0-3.4-2.7-6.1-6.3-6.1z"/><circle class="logo-dot" cx="16" cy="12.7" r="2.4"/></svg>
+      <h1 class="brand-name">نزدیک‌ترین قیمت</h1>
+      <span class="demo-tag">نمونهٔ آزمایشی</span>
+      <div class="brand-tools">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر حالت روشن/تاریک" title="تغییر حالت روشن/تاریک">
+          <svg class="i-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="i-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+    </div>
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <label class="sr" for="q">جستجوی محصول</label>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="q" type="text" inputmode="search" enterkeyhint="search" placeholder="دنبال چه محصولی می‌گردید؟" value="هدفون بی‌سیم">
+      <button class="clear" id="clearQ" type="button" aria-label="پاک کردن جستجو">×</button>
+    </form>
+    <div class="chips" id="chips" role="group" aria-label="محصولات پیشنهادی"></div>
+  </header>
+
+  <section class="list" aria-label="فروشگاه‌ها">
+    <div class="tabs" role="tablist" aria-label="نمایش">
+      <button class="tab" id="tabResults" type="button" role="tab" aria-selected="true">نتایج جستجو</button>
+      <button class="tab" id="tabPlan" type="button" role="tab" aria-selected="false">برنامهٔ سر زدن <span class="cnt" id="planCount">۰</span></button>
+    </div>
+
+    <!-- محصولِ انتخاب‌شده (بعد از انتخاب مدل، منوی محصولات جمع می‌شود و این نوار می‌ماند) -->
+    <div class="pickbar" id="pickBar" hidden></div>
+
+    <div class="toolbar" id="toolbar">
+      <p class="summary" id="summary" aria-live="polite"></p>
+      <div class="seg" id="sort" role="radiogroup" aria-label="مرتب‌سازی">
+        <button type="button" role="radio" data-sort="price" aria-checked="true">ارزان‌ترین</button>
+        <button type="button" role="radio" data-sort="near" aria-checked="false">نزدیک‌ترین</button>
+        <button type="button" role="radio" data-sort="smart" aria-checked="false">پیشنهادی</button>
+      </div>
+      <div class="opts">
+        <label class="check"><input type="checkbox" id="onlyOk"> فقط موجودیِ تأییدشده</label>
+        <button class="cmp-ic bordered" id="cmpToggle" type="button" aria-pressed="false" aria-label="مقایسهٔ دو فروشگاه" title="مقایسهٔ دو فروشگاه"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3l4 4-4 4"/><path d="M20 7H8"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h12"/></svg></button>
+      </div>
+    </div>
+    <div class="scroll" id="scroll">
+      <div id="pcmp"></div>
+      <ul class="prods" id="prods" aria-label="محصولات"></ul>
+      <div id="cmp"></div>
+      <ul class="cards" id="cards"></ul>
+    </div>
+
+    <!-- برنامهٔ سر زدن -->
+    <div class="planbar" id="planbar" hidden>
+      <p class="summary" id="planSummary" aria-live="polite"></p>
+      <div class="seg" id="planSort" role="radiogroup" aria-label="ترتیب سر زدن">
+        <button type="button" role="radio" data-pmode="near" aria-checked="false">نزدیک‌ترین اول</button>
+        <button type="button" role="radio" data-pmode="closing" aria-checked="false">زودتر می‌بندد</button>
+        <button type="button" role="radio" data-pmode="smart" aria-checked="false">مسیر هوشمند</button>
+      </div>
+      <div class="opts">
+        <div class="timebox">
+          <label for="departTime">ساعت حرکت</label>
+          <input type="time" id="departTime">
+          <button type="button" class="mini-btn" id="departNow" aria-pressed="true">اکنون</button>
+        </div>
+        <button type="button" class="link-btn" id="planClear">پاک‌کردن همه</button>
+      </div>
+      <p class="plan-alert" id="planAlert" role="status" hidden></p>
+    </div>
+    <div class="scroll" id="planScroll" hidden>
+      <ul class="plan-list" id="planList"></ul>
+    </div>
+  </section>
+
+  <section class="map" id="map" aria-label="نقشهٔ فروشگاه‌ها">
+    <div id="lmap"></div>
+
+    <div class="ctl">
+      <button type="button" id="zin" aria-label="بزرگ‌نمایی">+</button>
+      <button type="button" id="zout" aria-label="کوچک‌نمایی">−</button>
+      <button type="button" id="zfit" aria-label="نمایش همهٔ نتایج"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+      <button type="button" id="zloc" aria-label="موقعیت من"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg></button>
+    </div>
+    <p class="hint" id="hint">نقطهٔ «شما» را بکشید تا موقعیت عوض شود</p>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+      <span class="toast-ic" id="toastIc" aria-hidden="true"></span>
+      <p class="toast-msg" id="toastMsg"></p>
+      <button class="toast-x" id="toastX" type="button" aria-label="بستن پیام" title="بستن (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <i class="toast-bar" aria-hidden="true"></i>
+    </div>
+    <div class="legend">
+      <span class="lg"><i class="l-best"></i>ارزان‌ترین</span>
+      <span class="lg"><i></i>موجود</span>
+      <span class="lg"><i class="l-unsure"></i>تأییدنشده</span>
+      <span class="lg"><i class="l-out"></i>ناموجود</span>
+      <span class="lg lg-note">قیمت روی نقشه به هزار تومان</span>
+    </div>
+  </section>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/map.js"></script>
+<script src="js/plan.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

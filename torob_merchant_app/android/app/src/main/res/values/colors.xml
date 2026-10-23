@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="torob_red">#D32F2F</color>
+    <color name="torob_dark_red">#B71C1C</color>
+    <color name="torob_light_red">#FFEBEE</color>
+    <color name="torob_green">#2E7D32</color>
+    <color name="torob_light_green">#E8F5E9</color>
+    <color name="torob_amber">#F57F17</color>
+    <color name="torob_light_amber">#FFFDE7</color>
+    <color name="slate_900">#0F172A</color>
+    <color name="slate_800">#1E293B</color>
+    <color name="slate_700">#334155</color>
+    <color name="slate_500">#64748B</color>
+    <color name="slate_200">#E2E8F0</color>
+    <color name="slate_100">#F1F5F9</color>
+    <color name="slate_50">#F8FAFC</color>
+    <color name="white">#FFFFFF</color>
+</resources>

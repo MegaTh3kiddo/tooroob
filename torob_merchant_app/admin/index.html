@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پنل مدیریت استعلام‌ها و نوتیفیکیشن فروشندگان ترب</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            torob: {
+              red: '#D32F2F',
+              darkRed: '#B71C1C',
+              lightRed: '#FFEBEE',
+              green: '#2E7D32',
+              lightGreen: '#E8F5E9',
+              dark: '#1E293B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Vazirmatn', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-torob-red flex items-center justify-center text-white font-bold text-xl shadow-md shadow-red-200">
+          ت
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg text-slate-900">پنل مدیریت و پایش استعلام‌های ترب</h1>
+          <p class="text-xs text-slate-500">هاب مرکزی نوتیفیکیشن، زمان‌بندی (۰، ۵ و ۱۰ دقیقه) و فروشگاه‌ها</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-semibold border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          سرویس سرور فعال است
+        </div>
+        <button onclick="refreshData()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          بروزرسانی داده‌ها
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div class="flex border-b border-slate-200 gap-2">
+      <button onclick="switchTab('inquiries')" id="tab-btn-inquiries" class="tab-btn py-3 px-5 font-bold text-sm border-b-2 border-torob-red text-torob-red">
+        📋 تالار استعلام‌ها و تایم‌لاین
+      </button>
+      <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="tab-btn py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-900 border-b-2 border-transparent">
+        🚀 شبیه‌ساز ارسال استعلام مشتری
+      </button>
+      <button onclick="switchTab('pushlogs')" id="tab-btn-pushlogs" class="tab-btn py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-900 border-b-2 border-transparent">
+        🔔 لاگ ارسال پوش‌نوتیفیکیشن
+      </button>
+      <button onclick="switchTab('settings')" id="tab-btn-settings" class="tab-btn py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-900 border-b-2 border-transparent">
+        ⚙️ تنظیمات زمان‌بندی و فروشگاه‌ها
+      </button>
+      <button onclick="switchTab('changerequests')" id="tab-btn-changerequests" class="tab-btn py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-900 border-b-2 border-transparent flex items-center gap-2">
+        <span>📝 درخواست‌های تغییر اطلاعات فروشگاه</span>
+        <span id="pending-requests-badge" class="hidden px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">۰</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Tab 1: Inquiries -->
+    <section id="tab-inquiries" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-semibold text-slate-500">کل استعلام‌های ثبت‌شده</div>
+          <div id="stat-total" class="text-2xl font-black text-slate-800 mt-2">۰</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/30 shadow-sm">
+          <div class="text-xs font-semibold text-amber-700">در انتظار پاسخ (فعال)</div>
+          <div id="stat-active" class="text-2xl font-black text-amber-600 mt-2">۰</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/30 shadow-sm">
+          <div class="text-xs font-semibold text-emerald-700">پاسخ‌داده‌شده توسط فروشنده</div>
+          <div id="stat-answered" class="text-2xl font-black text-emerald-600 mt-2">۰</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-rose-200 bg-rose-50/30 shadow-sm">
+          <div class="text-xs font-semibold text-rose-700">منقضی‌شده (۱۰ دقیقه)</div>
+          <div id="stat-expired" class="text-2xl font-black text-rose-600 mt-2">۰</div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <h2 class="font-bold text-slate-800 text-sm">لیست استعلام‌ها با وضعیت زمان‌بندی سرور</h2>
+          <span class="text-xs text-slate-500">بروزرسانی خودکار هر ۵ ثانیه</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-500 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">کد رهگیری</th>
+                <th class="py-3 px-4">نام کالا و استعلام</th>
+                <th class="py-3 px-4">فروشگاه مقصد</th>
+                <th class="py-3 px-4">قیمت مرجع</th>
+                <th class="py-3 px-4">مشتری</th>
+                <th class="py-3 px-4">مهلت باقی‌مانده</th>
+                <th class="py-3 px-4">وضعیت</th>
+                <th class="py-3 px-4">زمان ثبت</th>
+              </tr>
+            </thead>
+            <tbody id="inquiries-table-body" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="8" class="text-center py-8 text-slate-400">در حال دریافت استعلام‌ها...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Test Simulator -->
+    <section id="tab-simulator" class="hidden space-y-6">
+      <div class="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="mb-6">
+          <h2 class="font-black text-lg text-slate-900">شبیه‌ساز ارسال استعلام خریدار</h2>
+          <p class="text-xs text-slate-500 mt-1">
+            با ارسال این فرم، استعلام در سرور ثبت شده و سناریوی زمانی آغاز می‌شود:
+            <br>
+            <strong class="text-slate-700">دقیقه ۰:</strong> ارسال پوش‌نوتیفیکیشن آنی به اپلیکیشن اندروید فروشنده
+            <br>
+            <strong class="text-slate-700">دقیقه ۵:</strong> در صورت عدم پاسخ، ارسال نوتیفیکیشن یادآوری فوری
+            <br>
+            <strong class="text-slate-700">دقیقه ۱۰:</strong> انقضای استعلام و انتخاب فروشگاه جایگزین
+          </p>
+        </div>
+
+        <form id="simulator-form" onsubmit="submitTestInquiry(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">فروشگاه هدف</label>
+            <select id="sim-shop-id" class="w-full text-xs p-3 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-none">
+              <!-- Injected dynamically -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">نام محصول مورد استعلام</label>
+            <input type="text" id="sim-product-title" required value="گوشی موبایل سامسونگ Galaxy A55 5G - حافظه ۲۵۶ گیگابایت" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">قیمت ثبت‌شده مرجع (تومان)</label>
+              <input type="number" id="sim-price" required value="18900000" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">دسته‌بندی</label>
+              <input type="text" id="sim-category" value="گوشی موبایل" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">نام خریدار</label>
+              <input type="text" id="sim-customer-name" value="سارا محمدی" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">تلفن خریدار</label>
+              <input type="text" id="sim-customer-phone" value="۰۹۱۲۱۱۱۴۴۵۵" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">یادداشت و سوال خریدار</label>
+            <textarea id="sim-user-note" rows="2" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">سلام، رنگ یاسی یا مشکی موجود دارید؟ امکان تحویل حضوری تا ساعت ۱۸ هست؟</textarea>
+          </div>
+
+          <button type="submit" id="sim-submit-btn" class="w-full py-3.5 bg-torob-red hover:bg-torob-darkRed text-white font-bold rounded-xl text-sm transition shadow-lg shadow-red-200">
+            ارسال استعلام و فعال‌سازی پوش‌نوتیفیکیشن
+          </button>
+        </form>
+
+        <div id="sim-success-alert" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs">
+          ✅ استعلام با موفقیت ارسال شد و پوش‌نوتیفیکیشن ثانیه صفر به دستگاه متصل مخابره گردید!
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Push Logs -->
+    <section id="tab-pushlogs" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm">ردگیری و مانیتورینگ پوش‌نوتیفیکیشن‌های ارسالی (FCM Audit Log)</h2>
+            <p class="text-xs text-slate-500">شامل زمان دقیق تلاش، وضعیت بازخورد سرویس و متن پیام</p>
+          </div>
+          <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-semibold">پشتیبانی از FCM HTTP v1</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-500 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">نوع نوتیفیکیشن</th>
+                <th class="py-3 px-4">عنوان و متن</th>
+                <th class="py-3 px-4">فروشگاه</th>
+                <th class="py-3 px-4">توکن دستگاه</th>
+                <th class="py-3 px-4">وضعیت مخابره</th>
+                <th class="py-3 px-4">جزئیات خطا / شبیه‌سازی</th>
+                <th class="py-3 px-4">زمان ارسال</th>
+              </tr>
+            </thead>
+            <tbody id="push-logs-table-body" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="7" class="text-center py-8 text-slate-400">در حال دریافت لاگ‌ها...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Settings & Stores -->
+    <section id="tab-settings" class="hidden space-y-6">
+      <!-- Scheduler Config -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-2xl">
+        <h2 class="font-bold text-slate-900 text-sm mb-4">⏱️ تنظیم بازه‌های زمانی زمان‌بندی سرور</h2>
+        <form onsubmit="updateSchedulerConfig(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">زمان یادآوری به ثانیه (پیش‌فرض: ۳۰۰ = ۵ دقیقه)</label>
+              <input type="number" id="cfg-reminder-seconds" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">زمان انقضا به ثانیه (پیش‌فرض: ۶۰۰ = ۱۰ دقیقه)</label>
+              <input type="number" id="cfg-expiration-seconds" class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+          <button type="submit" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
+            ذخیره تنظیمات زمان‌بندی
+          </button>
+        </form>
+      </div>
+
+      <!-- Stores Overview -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200">
+          <h2 class="font-bold text-slate-800 text-sm">وضعیت فروشگاه‌های فعال و دستگاه‌های متصل</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-500 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">شناسه فروشگاه</th>
+                <th class="py-3 px-4">نام فروشگاه</th>
+                <th class="py-3 px-4">آدرس</th>
+                <th class="py-3 px-4">تلفن</th>
+                <th class="py-3 px-4">وضعیت</th>
+                <th class="py-3 px-4">دستگاه‌های اندروید فعال</th>
+              </tr>
+            </thead>
+            <tbody id="stores-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Dynamically loaded -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 5: Shop Change Requests -->
+    <section id="tab-changerequests" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm">درخواست‌های رسمی تغییر مشخصات عمومی و ساعات کاری فروشگاه‌ها</h2>
+            <p class="text-xs text-slate-500">بررسی، تایید یا رد تغییرات درخواستی فروشندگان جهت حفظ امنیت داده‌ها</p>
+          </div>
+          <button onclick="loadShopChangeRequests()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition">
+            بروزرسانی لیست
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-500 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">شناسه درخواست</th>
+                <th class="py-3 px-4">شناسه فروشگاه</th>
+                <th class="py-3 px-4">مشخصات درخواستی جدید</th>
+                <th class="py-3 px-4">علت درخواست فروشنده</th>
+                <th class="py-3 px-4">وضعیت</th>
+                <th class="py-3 px-4">تاریخ ثبت</th>
+                <th class="py-3 px-4">عملیات پشتیبانی</th>
+              </tr>
+            </thead>
+            <tbody id="change-requests-table-body" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="7" class="text-center py-8 text-slate-400">در حال دریافت درخواست‌ها...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/app.js"></script>
+</body>
+</html>

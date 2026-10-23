@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment and secrets
+.env
+*.local
+*.key
+*.token
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Large raw datasets (products.csv is ~196MB, exceeding GitHub's 100MB limit)
+data/*.csv
+
+# Local operational and analytical database files
+*.db
+*.db-wal
+*.db-shm
+*.duckdb
+
+data/*.csv.gz

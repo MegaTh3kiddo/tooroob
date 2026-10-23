@@ -1,0 +1,47 @@
+PACKAGE REVIEW SUMMARY 45 checks
+PASS raw source present: shops.csv
+PASS shops.csv row count expected 6476, got 6476
+PASS shops.csv checksum matches audit
+PASS raw source present: products.csv
+PASS products.csv row count expected 225903, got 225903
+PASS products.csv checksum matches audit
+PASS raw source present: offers.csv
+PASS offers.csv row count expected 331506, got 331506
+PASS offers.csv checksum matches audit
+PASS raw source present: README.txt
+PASS README.txt checksum matches audit
+PASS raw source present: price_audit_candidates.csv
+PASS price_audit_candidates.csv checksum matches audit
+PASS 180 edge cases (got 180)
+PASS edge IDs unique
+PASS 20 edge domains
+PASS edge scenario, expected behavior, acceptance text nonempty
+PASS price audit review list 19458 rows (got 19458)
+PASS markdown document count >=28: 30
+PASS no empty docs
+PASS full readable HTML present
+PASS code present: baseline_reference.py
+PASS code present: schema.sql
+PASS code present: sample_policy.yaml
+PASS code present: evidence.schema.json
+PASS code present: reproduce_audit.py
+PASS code present: test_baseline.py
+PASS JSON event schema parse
+PASS MVP cannot expose uncalibrated probabilities
+PASS no response not treated as stock-out
+PASS topic traceability: نوسان
+PASS topic traceability: محصول تازه
+PASS topic traceability: دلار
+PASS topic traceability: نشان بیرونی
+PASS topic traceability: فیدبک
+PASS topic traceability: بازبودن
+PASS topic traceability: استعلام
+PASS topic traceability: پاسخ
+PASS topic traceability: شارژ
+PASS topic traceability: آدرس
+PASS topic traceability: گارانتی
+PASS audit counts match sources
+PASS missing timestamps explicitly audited
+PASS multi-offer pair evidence
+PASS overlap of flags understood
+ALL CHECKS PASSED

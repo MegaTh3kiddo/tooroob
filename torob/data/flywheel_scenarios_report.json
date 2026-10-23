@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-10-23T17:08:13.168739+00:00",
+  "total_scenarios": 8,
+  "passed": 8,
+  "failed": 0,
+  "pass_rate_pct": 100.0,
+  "timing_breakdown": {
+    "catalog_and_db_setup_ms": 998.38,
+    "deterministic_scenarios_avg_ms": 78.48,
+    "conversational_agent_scenario_ms": 1134.69,
+    "sum_scenario_latencies_ms": 1684.07,
+    "overall_mean_scenario_latency_ms": 210.51,
+    "grand_total_wall_clock_ms": 2682.45
+  },
+  "scenarios": [
+    {
+      "index": 1,
+      "title": "Scenario A: Price Instability & Path Volatility VoI",
+      "status": "PASS",
+      "latency_ms": 0.1,
+      "detail": "Net change: +2.0%, Path movement: 1.38, Freq: 5",
+      "preview": "Realized Path Log Movement: 1.3796 | Sparsity: 0.14"
+    },
+    {
+      "index": 2,
+      "title": "Scenario B: Trusted Seller Prior During Market Shock",
+      "status": "PASS",
+      "latency_ms": 294.97,
+      "detail": "Shop trust: 0.79, Action under shock: enqueue_inquiry",
+      "preview": "Trigger: market_shock | VoI Benefit: 16.0 | Priority: high"
+    },
+    {
+      "index": 3,
+      "title": "Scenario C: Customer Feedback & Plan Propagation",
+      "status": "PASS",
+      "latency_ms": 54.97,
+      "detail": "Plan degraded: discrepancy_invalidated_replan_required, Score: 0.55",
+      "preview": "Warning: برنامه به علت گزارش تأییدشده مغایرت در فروشگاه (sh_c_target) نیازمند بازنگری است."
+    },
+    {
+      "index": 4,
+      "title": "Scenario D: Stock Depletion & Restock Restoration",
+      "status": "PASS",
+      "latency_ms": 189.26,
+      "detail": "Rejection replaced; Restock restored: seller_confirmed_in_store",
+      "preview": "Restocked Guarantee: seller_confirmed_in_store | Coverage: 1/1"
+    },
+    {
+      "index": 5,
+      "title": "Scenario E: Daily Interruption Fatigue Budget",
+      "status": "PASS",
+      "latency_ms": 7.64,
+      "detail": "Load=5: enqueue_inquiry | Load=15: decline_or_defer",
+      "preview": "Fatigue Capped: decline_or_defer (Reason: daily_budget_exhausted)"
+    },
+    {
+      "index": 6,
+      "title": "Scenario F: Single-Seller Peer Reference Protection",
+      "status": "PASS",
+      "latency_ms": 0.03,
+      "detail": "Single seller: is_single=True, peer_median=None",
+      "preview": "Warning: محصول تک‌فروشنده است. مقایسه قیمت با سایر فروشگاه‌ها امکان‌پذیر نیست و میانگین دسته به عنوان قیمت معتبر معرفی نمی‌گردد."
+    },
+    {
+      "index": 7,
+      "title": "Scenario G: Recommendation Negative Preference Learning",
+      "status": "PASS",
+      "latency_ms": 1134.69,
+      "detail": "Session sess_c43f2: Rejected product_36a9b57549568500a856eb37 preserved in constraints",
+      "preview": "Rejected Product IDs: ['product_36a9b57549568500a856eb37']"
+    },
+    {
+      "index": 8,
+      "title": "Scenario H: Snapshot Idempotency & 10x Currency Anomaly",
+      "status": "PASS",
+      "latency_ms": 2.41,
+      "detail": "10x Alert: currency_denomination_10x_error, Idempotent replay: 0 new",
+      "preview": "Alert Suspected Correct: 15,000,000 Toman"
+    }
+  ]
+}

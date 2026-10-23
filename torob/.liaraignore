@@ -1,0 +1,11 @@
+.venv
+**/__pycache__
+.pytest_cache
+tests
+docs
+llm-inspection-for-algo
+nearest-price-ui-example
+data/*.csv
+data/*.db*
+data/*.json
+.git

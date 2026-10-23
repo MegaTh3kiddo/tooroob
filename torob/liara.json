@@ -1,0 +1,8 @@
+{
+  "platform": "docker",
+  "app": "torobmap-api",
+  "port": 8080,
+  "build": {
+    "location": "germany"
+  }
+}
