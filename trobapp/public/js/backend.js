@@ -104,18 +104,65 @@
   var shown = {};
   function cardHTML(rec, i) {
     var key = 'bk' + Date.now() + '_' + i; shown[key] = rec;
-    var anomaly = rec.is_price_anomaly ? '<span class="bk-tag warn">قیمت غیرعادی</span>' : '';
-    var label = LABELS[rec.trade_off_label] ? '<span class="bk-tag">' + LABELS[rec.trade_off_label] + '</span>' : '';
-    return '<div class="ag-card bk-card">' +
-      '<div class="bk-head">' + label + anomaly + '</div>' +
-      '<b class="bk-title">' + esc(rec.product_title) + '</b>' +
-      '<div class="bk-shop">' + esc(rec.shop_name) + (rec.shop_address ? '<small>' + esc(rec.shop_address) + '</small>' : '') + '</div>' +
-      '<div class="bk-price"><b>' + fa(rec.price_toman) + '</b> <small>تومان</small>' +
-        (rec.reference_market_price ? '<span>میانهٔ بازار ' + fa(rec.reference_market_price) + '</span>' : '') + '</div>' +
-      '<div class="bk-meta"><span>اعتماد فروشگاه ' + pct(rec.shop_reliability_score) + '</span><span>احتمال موجودی ' + pct(rec.stock_survival_at_arrival) + '</span></div>' +
-      ((rec.uncertainty_warnings || []).length ? '<p class="bk-warn">' + esc(rec.uncertainty_warnings[0]) + '</p>' : '') +
-      '<button type="button" class="bk-inq" data-bk-inq="' + key + '">ترب برایم استعلام بگیرد</button>' +
-    '</div>';
+    var lbl = LABELS[rec.trade_off_label] || 'پیشنهاد ترب';
+    var isBest = rec.trade_off_label === 'best_overall' || rec.trade_off_label === 'budget_pick';
+    var badgeTag = '<span class="tag ' + (isBest ? 'best' : 'near') + '">' + lbl + '</span>';
+
+    // Store art/icon
+    var art = (NQ.StoreInfo && NQ.StoreInfo(rec.shop_id) && NQ.StoreInfo(rec.shop_id).art) ||
+      '<svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+
+    // Stock tag
+    var stockCls = (rec.stock_survival_at_arrival === null || rec.stock_survival_at_arrival >= 0.7) ? 'in' : 'unsure';
+    var stockTxt = stockCls === 'in' ? 'موجود' : 'نیازمند استعلام';
+    var stockTag = '<span class="stock ' + stockCls + '">' + stockTxt + '</span>';
+
+    // Open/Closed badge
+    var isOpen = rec.is_shop_open !== false;
+    var openTag = isOpen
+      ? '<span class="tag open">باز است</span>'
+      : '<span class="tag" style="background:var(--elevated);color:var(--muted);border:1px solid var(--line);">ساعات کاری ثبت‌شده</span>';
+
+    // Product-side highlight (specs, battery, audio quality, etc.)
+    var feat = '';
+    if (rec.pros && rec.pros.length) {
+      for (var p = 0; p < rec.pros.length; p++) {
+        var proText = rec.pros[p];
+        if (proText.indexOf('فروشگاه') === -1) {
+          feat = proText;
+          break;
+        }
+      }
+      if (!feat) feat = rec.pros[0];
+    }
+
+    var refHtml = rec.reference_market_price ? '<small class="bk-ref"> (میانه: ' + fa(rec.reference_market_price) + ')</small>' : '';
+
+    return '<article class="ag-card" data-sid="' + esc(rec.shop_id) + '">' +
+      '<div class="ag-c-top">' +
+        '<span class="ag-c-art" aria-hidden="true">' + art + '</span>' +
+        '<b class="ag-c-name" title="' + esc(rec.shop_name) + '">' + esc(rec.shop_name) + '</b>' +
+        stockTag +
+      '</div>' +
+      '<p class="ag-c-prod" title="' + esc(rec.product_title) + '">' + esc(rec.product_title) + '</p>' +
+      (feat ? '<p class="ag-c-feat">✨ ' + esc(feat) + '</p>' : '') +
+      '<p class="ag-c-price"><b>' + fa(rec.price_toman) + '</b> <small>تومان</small>' + refHtml + '</p>' +
+      '<p class="ag-c-meta">' +
+        badgeTag +
+        openTag +
+        (rec.shop_address ? '<span class="ag-c-addr" title="' + esc(rec.shop_address) + '">' + esc(rec.shop_address) + '</span>' : '') +
+      '</p>' +
+      '<div class="ag-c-acts">' +
+        '<button type="button" class="ag-pick" data-bk-inq="' + key + '">' +
+          '<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v10a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17h0A1.5 1.5 0 0 1 4 15.5z"/><path d="M9.8 8.6a2.3 2.3 0 0 1 4.4.9c0 1.5-2.2 1.7-2.2 3"/><path d="M12 14.6v.1"/></svg>' +
+          '<span>استعلام از فروشگاه</span>' +
+        '</button>' +
+        '<button type="button" class="ag-go" data-ag-store="' + esc(rec.shop_id) + '" title="جزئیات فروشگاه">جزئیات</button>' +
+        '<button type="button" class="ag-go" data-ag-smap="' + esc(rec.shop_id) + '" title="روی نقشه" aria-label="روی نقشه">' +
+          '<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>' +
+        '</button>' +
+      '</div>' +
+    '</article>';
   }
   /* مقایسه: بهترین پیشنهاد هر کالا کنار هم (فقط داده‌های واقعی کاتالوگ) */
   function compareHTML(recs) {

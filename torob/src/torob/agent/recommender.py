@@ -37,6 +37,7 @@ from torob.intelligence.shop_reliability import ShopReliabilityEngine
 from torob.routing.clustering import ShopClusterEngine
 from torob.routing.distance import DistanceRouter, haversine_km
 from torob.routing.feasibility import VisitFeasibilityEngine
+from torob.routing.hours import BusinessHoursEvaluator
 from torob.routing.on_route import OnRouteShoppingEngine
 from torob.storage.repository_catalog import CatalogRepository
 from torob.storage.repository_ledger import LedgerRepository
@@ -228,6 +229,9 @@ class ShoppingRecommender:
                 )
                 survival_at_arrival = stock_assess.survival_probability_at_arrival
 
+                # Check shop operating hours and open status
+                is_open_now, open_h, close_h, hours_desc = BusinessHoursEvaluator.evaluate_hours(shop.weekly_hours, now)
+
                 # Step 4: Scoring & Reasoning
                 pros: List[str] = []
                 cons: List[str] = []
@@ -243,6 +247,7 @@ class ShoppingRecommender:
                     pros=pros,
                     cons=cons,
                     warnings=uncertainty_warnings,
+                    is_open_now=is_open_now,
                 )
 
                 uncertainty_warnings.extend(feasibility_warnings)
@@ -264,6 +269,8 @@ class ShoppingRecommender:
                     pros=pros,
                     cons=cons,
                     uncertainty_warnings=uncertainty_warnings,
+                    is_shop_open=is_open_now,
+                    shop_hours_desc=hours_desc,
                 )
                 evaluated_recommendations.append(rec)
 
@@ -278,9 +285,14 @@ class ShoppingRecommender:
             )
 
         # Step 5: Ranking and Trade-off Assignment
-        # Sort primarily by suitability_score descending, secondarily by price ascending
-        evaluated_recommendations.sort(key=lambda r: (-r.suitability_score, r.price_toman))
-        # Prefer distinct products (best offer each) so the list is a real choice, then fill with extra offers
+        # Prioritize open shops: if an offer is from a closed shop, replace it with an open shop for the product!
+        has_any_open = any(r.is_shop_open for r in evaluated_recommendations)
+        if has_any_open:
+            evaluated_recommendations.sort(key=lambda r: (not r.is_shop_open, -r.suitability_score, r.price_toman))
+        else:
+            evaluated_recommendations.sort(key=lambda r: (-r.suitability_score, r.price_toman))
+
+        # Prefer distinct products (best offer each, open shop prioritized), then fill with extra offers
         seen_products: Set[str] = set()
         distinct, extra = [], []
         for r in evaluated_recommendations:
@@ -855,6 +867,7 @@ class ShoppingRecommender:
         pros: List[str],
         cons: List[str],
         warnings: List[str],
+        is_open_now: bool = True,
     ) -> float:
         """Computes deterministic suitability score in [0.0, 1.0]."""
         score = 0.55
@@ -889,13 +902,13 @@ class ShoppingRecommender:
                 cons.append("قیمت به طور مشکوکی پایین‌تر از میانه بازار است")
                 warnings.append("احتمال خطای قیمت‌گذاری یا ثبت اشتباه واحد پول (تومان/ریال)")
 
-        # 3. Shop reliability
-        if shop_reliability >= 0.60:
+        # 3. Store Open Status and Service Readiness
+        if is_open_now:
             score += 0.10
-            pros.append("فروشگاه دارای امتیاز اعتماد و ثبات عملکرد بالا")
-        elif shop_reliability < 0.40:
-            score -= 0.15
-            cons.append("سابقه آماری فروشگاه محدود یا دارای گزارش مغایرت است")
+            pros.append("فروشگاه در حال حاضر باز و آماده تحویل/استعلام است")
+        else:
+            score -= 0.10
+            cons.append("فروشگاه در حال حاضر خارج از ساعات کاری است")
 
         # 4. Color / Specs matching
         if constraints.color and extracted_attrs.get("color"):
@@ -903,7 +916,7 @@ class ShoppingRecommender:
                 score += 0.05
                 pros.append(f"رنگ درخواستی موجود: {constraints.color}")
 
-        # 5. Technical reasoning for laptops / devices
+        # 5. Technical and product-side feature highlights
         full_specs_text = f"{product.persian_title} {product.specs or {}} {offer.seller_title or ''}".lower()
         if constraints.preferred_specs.get("device_type") == "لپ‌تاپ" or (product.category_name and "لپ تاپ" in product.category_name):
             if any(cpu in full_specs_text for cpu in ["core i7", "i7", "core i9", "i9", "ryzen 7", "ryzen 9"]):
@@ -915,6 +928,33 @@ class ShoppingRecommender:
             if any(g in full_specs_text for g in ["rtx", "geforce", "radeon", "4060", "4050", "3050"]):
                 score += 0.06
                 pros.append("دارای پردازشگر گرافیکی مجزا مناسب کارهای تصویری و بازی")
+
+        # Audio / Headphone / Earbuds highlights
+        if any(w in full_specs_text for w in ["هدفون", "هندزفری", "ایربادز", "airpods", "earbuds", "headphone"]):
+            if any(w in full_specs_text for w in ["anc", "نویز کنسلینگ", "حذف نویز", "مکالمه"]):
+                score += 0.05
+                pros.append("مجهز به حذف نویز فعال و میکروفون باکیفیت برای مکالمه شفاف")
+            elif any(w in full_specs_text for w in ["ورزش", "ورزشی", "ipx", "ضد آب"]):
+                score += 0.05
+                pros.append("طراحی سبک، ارگونومیک و مقاوم در برابر تعریق مناسب ورزش")
+            elif any(w in full_specs_text for w in ["بی سیم", "بلوتوث", "wireless"]):
+                score += 0.05
+                pros.append("اتصال بلوتوث پایدار، کیفیت صدای تفکیک‌شده و بیس عمیق")
+            else:
+                pros.append("طراحی ارگونومیک و راحت برای استفاده مداوم روزمره")
+
+        # Charger / Adapter / Cable highlights
+        elif any(w in full_specs_text for w in ["شارژر", "آداپتور", "کلگی", "کابل", "charger", "adapter"]):
+            if any(w in full_specs_text for w in ["فست", "fast", "pd", "65w", "45w", "30w", "20w", "وات"]):
+                score += 0.05
+                pros.append("فناوری شارژ سریع ایمن با مدار محافظت از باتری")
+            else:
+                pros.append("کیفیت ساخت بادوام و ولتاژ استاندارد محافظ باتری")
+
+        # Powerbank highlights
+        elif any(w in full_specs_text for w in ["پاوربانک", "powerbank"]):
+            score += 0.05
+            pros.append("باتری با راندمان بالا و درگاه‌های خروجی استاندارد")
 
         # 6. Battery life preference
         if constraints.battery_preference == "high_battery_life":

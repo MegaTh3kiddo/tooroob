@@ -508,12 +508,16 @@ class ShoppingAgentOrchestrator:
                 loc_str = rec.shop_address or 'تهران'
                 lines.append(f"   • فروشگاه: {rec.shop_name} ({loc_str})")
                 lines.append(f"   • قیمت: **{rec.price_toman:,.0f} تومان**")
-                lines.append(f"   • نمره اعتماد فروشگاه: {int(rec.shop_reliability_score*100)}٪ | شایستگی: {int(rec.suitability_score*100)}٪")
+
+                if getattr(rec, "is_shop_open", True):
+                    lines.append("   • وضعیت فروشگاه: در حال حاضر باز است ✅")
+                elif getattr(rec, "shop_hours_desc", None):
+                    lines.append(f"   • ساعت کاری فروشگاه: {rec.shop_hours_desc}")
 
                 if rec.pros:
-                    lines.append(f"   • مزایا: {', '.join(rec.pros[:2])}")
+                    lines.append(f"   • مشخصات و مزایای محصول: {', '.join(rec.pros[:2])}")
                 if rec.uncertainty_warnings:
-                    lines.append(f"   ⚠️ نکته احتیاطی: {rec.uncertainty_warnings[0]}")
+                    lines.append(f"   ⚠️ نکته: {rec.uncertainty_warnings[0]}")
                 lines.append("")
         else:
             return rec_result.trade_off_summary or "متأسفانه با مشخصات درخواستی کالایی یافت نشد."

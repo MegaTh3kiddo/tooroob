@@ -115,6 +115,9 @@ class CandidateOfferRecommendation(BaseModel):
     cons: List[str] = Field(default_factory=list)
     uncertainty_warnings: List[str] = Field(default_factory=list)
     trade_off_label: Optional[str] = None  # "best_overall", "budget_pick", "verified_confidence", "pareto_alternative"
+    is_shop_open: bool = True
+    shop_hours_desc: Optional[str] = None
+    product_highlights: List[str] = Field(default_factory=list)
 
 
 class RecommendationResult(BaseModel):
