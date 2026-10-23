@@ -15,8 +15,10 @@ from torob.agent.llm import (
     DeterministicFallbackParser,
     LLMResponse,
     LLMToolOrchestrator,
+    deterministic_general_chat_reply,
     get_llm_client,
     llm_extract_constraints,
+    llm_generate_chat_reply,
     llm_polish_enabled,
     llm_polish_reply,
 )
@@ -178,6 +180,23 @@ class ShoppingAgentOrchestrator:
                 self.session_repo.save_session(session)
                 return session, reply
 
+        # Handle General Chat / Greetings / FAQs
+        if session.detected_intent == ShoppingIntent.GENERAL_CHAT:
+            reply = None
+            if self.llm_client is not None and llm_polish_enabled():
+                hist = [{"role": m.role, "content": m.content} for m in session.messages[-7:-1]]
+                reply = llm_generate_chat_reply(
+                    self.llm_client,
+                    user_message=user_message,
+                    draft_reply="",
+                    history=hist,
+                )
+            if not reply:
+                reply = deterministic_general_chat_reply(user_message)
+            session.messages.append(ChatMessage(role="assistant", content=reply))
+            self.session_repo.save_session(session)
+            return session, reply
+
         # Mark aspects as resolved based on user's statement
         if any(w in user_message for w in ["بودجه", "تومان", "تومن", "میلیون"]):
             session.clarification_state.resolved_aspects.append("budget")
@@ -249,7 +268,14 @@ class ShoppingAgentOrchestrator:
         # 6. Formulate grounded conversational reply
         reply = self._formulate_agent_reply(session, rec_result)
         if self.llm_client is not None and llm_polish_enabled() and rec_result.top_recommendations:
-            reply = llm_polish_reply(self.llm_client, reply) or reply
+            hist = [{"role": m.role, "content": m.content} for m in session.messages[-7:-1]]
+            polished = llm_generate_chat_reply(
+                self.llm_client,
+                user_message=user_message,
+                draft_reply=reply,
+                history=hist,
+            )
+            reply = polished or reply
         session.messages.append(ChatMessage(role="assistant", content=reply))
 
         # Check proposed actions

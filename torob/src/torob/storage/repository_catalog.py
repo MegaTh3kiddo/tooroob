@@ -26,6 +26,12 @@ CATALOG_SYNONYMS: Dict[str, List[str]] = {
     "hp": ["hp", "اچ پی", "اچ‌پی"],
     "sony": ["sony", "سونی"],
     "سونی": ["sony", "سونی"],
+    "anker": ["anker", "انکر"],
+    "انکر": ["anker", "انکر"],
+    "logitech": ["logitech", "لاجیتک"],
+    "لاجیتک": ["logitech", "لاجیتک"],
+    "huawei": ["huawei", "هواوی"],
+    "هواوی": ["huawei", "هواوی"],
 }
 
 

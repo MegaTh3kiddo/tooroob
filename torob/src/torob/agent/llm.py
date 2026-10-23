@@ -108,7 +108,7 @@ class OpenAICompatibleProvider(BaseLLMProvider):
             payload["tools"] = tools
 
         try:
-            with httpx.Client(timeout=self.timeout) as client:
+            with httpx.Client(timeout=self.timeout, trust_env=False) as client:
                 res = client.post(f"{self.base_url}/chat/completions", headers=headers, json=payload)
                 res.raise_for_status()
                 data = res.json()
@@ -454,10 +454,24 @@ class DeterministicFallbackParser:
             constraints.location_name = resolved_loc.canonical_name
 
         # 11. Intent Detection
+        has_specific_product = bool(
+            constraints.target_category
+            or constraints.preferred_specs.get("device_type")
+            or constraints.target_product_title
+            or constraints.target_brand
+        )
+        is_greeting_or_chat = any(w in lower_text for w in [
+            "سلام", "درود", "صبح بخیر", "عصر بخیر", "خسته نباشید", "چطوری", "خوبی",
+            "چیکار میتونی", "چیکار می‌تونی", "کمکم کن", "راهنماییم کن", "راهنمایی",
+            "استعلام چیه", "چطور استعلام", "چطوری استعلام", "درباره ترب", "کی هستی",
+            "چطور خرید کنم", "راهنما"
+        ])
         if constraints.preferred_specs.get("action") == "adaptive_replan":
             intent = ShoppingIntent.ADAPTIVE_REPLAN
         elif is_rejection or specific_index_rejection or any(w in lower_text for w in ["افزایش بده", "تغییر بده", "ترجیح میدم", "سبک‌تر", "رنگ دیگر", "نباشه", "معتبرتر", "مطمئنتر", "مطمئن‌تر", "دیگه", "مهم نیست", "عوض کن"]):
             intent = ShoppingIntent.REFINEMENT
+        elif is_greeting_or_chat and not has_specific_product and not constraints.budget_max_toman:
+            intent = ShoppingIntent.GENERAL_CHAT
         elif any(w in lower_text for w in ["توی راه", "در مسیر", "سر راه", "بین راه"]) or (constraints.origin_lat and constraints.destination_lat):
             intent = ShoppingIntent.ON_ROUTE_PURCHASE
         elif any(w in lower_text for w in ["کدوم برای من بهتره", "کدام برای من بهتر است", "کدوم برای من مناسب تره"]) or (
@@ -601,8 +615,12 @@ def get_llm_client() -> Optional[BaseLLMProvider]:
     if not api_key or api_key.startswith("mock") or api_key.startswith("dummy"):
         return None
 
-    base_url = os.environ.get("TOROB_LLM_BASE_URL", "https://api.openai.com/v1")
-    model = os.environ.get("TOROB_LLM_MODEL", "gpt-4o-mini")
+    base_url = os.environ.get("TOROB_LLM_BASE_URL") or (
+        "https://generativelanguage.googleapis.com/v1beta/openai" if os.environ.get("GEMINI_API_KEY") else "https://api.openai.com/v1"
+    )
+    model = os.environ.get("TOROB_LLM_MODEL") or (
+        "gemini-2.5-flash" if os.environ.get("GEMINI_API_KEY") else "gpt-4o-mini"
+    )
     try:
         timeout = float(os.environ.get("TOROB_LLM_TIMEOUT_SECONDS", "12"))
     except ValueError:
@@ -649,10 +667,21 @@ def llm_extract_constraints(client: BaseLLMProvider, user_message: str) -> Dict[
 
 
 _POLISH_PROMPT = (
-    "You are TorobChat, a friendly Persian shopping assistant. Rewrite the DRAFT answer below into short, warm, "
+    "You are TorobChat, a friendly Persian shopping assistant on TorobMap. Rewrite the DRAFT answer below into short, warm, "
     "natural Persian (max ~8 lines). STRICT RULES: use ONLY facts from the draft; do not add, change or round any "
     "price, number, shop name, stock or reliability figure; do not invent products or availability; keep the same "
     "order of items. Plain text with **bold** allowed."
+)
+
+_CHAT_SYSTEM_PROMPT = (
+    "شما «ترب‌چت» (TorobChat)، دستیار هوشمند، بسیار صمیمی، دانا و دقیق خرید در سامانه ترب‌مپ (TorobMap) هستید. "
+    "شما با کاربران فارسی‌زبان به شکلی صمیمی، محترمانه، روان، جذاب و راهنما گفتگو می‌کنید (نه رباتیک یا خشک). "
+    "وظیفه شما راهنمایی خرید، پاسخ به سوالات، مشاوره درباره محصولات، مقایسه تخصصی و راهنمایی درباره استعلام و خرید حضوری است.\n"
+    "قوانین مهم و غیرقابل تخطی:\n"
+    "۱. اگر اطلاعات کاتالوگ یا محصولات واقعی در پیام ارائه‌شده وجود دارد، فقط و فقط بر اساس همان مشخصات، قیمت‌ها و فروشگاه‌ها صحبت کنید. هرگز قیمت یا فروشگاه ساختگی یا تخمینی از خود ایجاد نکنید.\n"
+    "۲. اگر کاربر احوالپرسی یا سلام کرد، گرم و مشتاقانه پاسخ دهید و بپرسید چطور می‌توانید در خرید یا انتخاب کالا کمکش کنید.\n"
+    "۳. پاسخ‌ها منسجم، مفید، خوانا (با بولت‌پوینت‌های کوتاه و متون تفکیک‌شده و بولد) باشند.\n"
+    "۴. در انتهای پاسخ، در صورت لزوم یک سوال راهنما یا پیشنهاد مناسب مطرح کنید تا کاربر بتواند گفتگو را ادامه دهد."
 )
 
 
@@ -660,21 +689,110 @@ def _numbers(text: str) -> set:
     return set(re.findall(r"\d[\d,]*", normalize_digits(text or "")))
 
 
-def llm_polish_reply(client: BaseLLMProvider, draft: str) -> Optional[str]:
-    """Rephrases a grounded draft. Rejected (None) if the output contains any number not present in the draft,
-    so the LLM can never introduce a price, stock count or score of its own."""
+def _price_numbers(text: str) -> set:
+    """Extracts large numeric tokens (prices >= 10,000) to ensure groundedness without blocking list numbering or specs."""
+    nums = set()
+    for token in re.findall(r"\d[\d,]*", normalize_digits(text or "")):
+        clean = token.replace(",", "")
+        try:
+            val = float(clean)
+            if val >= 10_000:
+                nums.add(int(val))
+        except ValueError:
+            pass
+    return nums
+
+
+def llm_polish_reply(client: BaseLLMProvider, draft: str, user_message: str = "") -> Optional[str]:
+    """Rephrases a grounded draft. Guarded against introducing ungrounded prices."""
     try:
+        content = f"DRAFT:\n{draft}"
+        if user_message:
+            content = f"USER MESSAGE: {user_message}\n\n{content}"
         resp = client.chat_completion(
-            messages=[{"role": "user", "content": f"DRAFT:\n{draft}"}],
+            messages=[{"role": "user", "content": content}],
             system_prompt=_POLISH_PROMPT,
         )
         out = (resp.content or "").strip()
         if not out:
             return None
-        if not _numbers(out) <= _numbers(draft):
-            logger.warning("LLM reply rejected: introduced numbers not present in grounded draft.")
-            return None
+        # Verify price numbers if prices were in the draft
+        draft_prices = _price_numbers(draft) | _price_numbers(user_message)
+        if draft_prices:
+            out_prices = _price_numbers(out)
+            if not out_prices <= draft_prices:
+                logger.warning("LLM reply rejected: introduced price numbers not present in grounded draft.")
+                return None
         return out
     except Exception as e:
         logger.warning(f"LLM reply polishing skipped: {e}")
         return None
+
+
+def llm_generate_chat_reply(
+    client: BaseLLMProvider,
+    user_message: str,
+    draft_reply: str = "",
+    history: Optional[List[Dict[str, str]]] = None,
+) -> Optional[str]:
+    """Generates a warm, natural Persian conversational response grounded in catalog facts."""
+    try:
+        messages = []
+        if history:
+            for h in history[-6:]:  # last 3 turns
+                messages.append({"role": h["role"], "content": h["content"]})
+
+        user_content = f"پیام کاربر: {user_message}"
+        if draft_reply.strip():
+            user_content += f"\n\nداده‌های مستند کاتالوگ و نتایج ارزیابی:\n{draft_reply}"
+
+        messages.append({"role": "user", "content": user_content})
+
+        resp = client.chat_completion(
+            messages=messages,
+            system_prompt=_CHAT_SYSTEM_PROMPT,
+        )
+        out = (resp.content or "").strip()
+        if not out:
+            return None
+
+        # Verify price numbers if grounded draft had prices
+        draft_prices = _price_numbers(draft_reply) | _price_numbers(user_message)
+        if draft_prices:
+            out_prices = _price_numbers(out)
+            if not out_prices <= draft_prices:
+                logger.warning("LLM conversational reply rejected: introduced price numbers not present in grounded data.")
+                return None
+        return out
+    except Exception as e:
+        logger.warning(f"LLM conversational reply failed ({e}); falling back.")
+        return None
+
+
+def deterministic_general_chat_reply(user_message: str) -> str:
+    """Warm, friendly Persian responses for general chat/greetings when LLM is unavailable."""
+    msg = user_message.lower()
+    if any(w in msg for w in ["سلام", "درود", "صبح بخیر", "عصر بخیر", "خسته نباشید", "روز بخیر", "سلام خوبی", "سلام علیکم"]):
+        return (
+            "سلام! روزتون بخیر. به ترب‌چت خوش آمدید 👋\n\n"
+            "من دستیار هوشمند خرید ترب هستم. چطور می‌تونم کمکتون کنم؟\n"
+            "می‌تونید نام هر کالایی که مد نظرتونه رو بنویسید (مثلاً «هدفون ورزشی»، «گوشی سامسونگ تا ۲۰ میلیون»، «شارژر ۶۵ وات»)، تا بهترین قیمت‌ها و فروشگاه‌های مطمئن رو براتون پیدا کنم."
+        )
+    if any(w in msg for w in ["استعلام", "چطور استعلام", "چطوری استعلام"]):
+        return (
+            "برای استعلام قیمت و موجودی، کافیه روی هر کالایی که در چت یا فهرست می‌بینید دکمهٔ «ترب برایم استعلام بگیرد» رو بزنید.\n\n"
+            "سیستم به صورت خودکار با فروشنده تماس می‌گیره یا استعلام رو براش ارسال می‌کنه و نتیجه قطعی موجودی و قیمت ظرف چند دقیقه در بخش استعلام‌ها ثبت می‌شه."
+        )
+    if any(w in msg for w in ["کی هستی", "چیکار می‌تونی", "چیکار میکنی", "کمک", "راهنمایی", "درباره ترب"]):
+        return (
+            "من «ترب‌چت» هستم؛ دستیار هوشمند خرید شما در ترب‌مپ.\n\n"
+            "کارهایی که می‌تونم براتون انجام بدم:\n"
+            "• **جستجو و ارزیابی هوشمند:** پیدا کردن بهترین قیمت و فروشگاه با ارزیابی اعتماد و احتمال موجودی\n"
+            "• **مقایسه تخصصی:** مقایسه مدل‌های مختلف و تحلیل نقاط قوت و ضعف هر کدام\n"
+            "• **خرید حضوری روی نقشه:** یافتن فروشگاه‌های باز در نزدیکی شما در تهران\n"
+            "• **استعلام مستقیم:** استعلام لحظه‌ای موجودی کالا از فروشنده پیش از مراجعه حضوری\n\n"
+            "برای شروع، دنبال خرید چه چیزی هستید؟"
+        )
+    return (
+        "خوشحال می‌شم راهنماییتون کنم! لطفاً بفرمایید دنبال چه کالایی هستید یا چه نوع مشاوره‌ای مد نظرتونه (مثلاً با چه بودجه یا ویژگی‌هایی)، تا دقیق‌ترین پیشنهادها رو براتون آماده کنم."
+    )

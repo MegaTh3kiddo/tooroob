@@ -94,11 +94,17 @@ class ClarificationPolicy:
             )
 
         # 6. Critical Constraint: Missing Budget for Needs-Based Shopping when candidates are unconstrained
+        has_product_context = bool(
+            constraints.target_category
+            or constraints.preferred_specs.get("device_type")
+            or constraints.target_product_title
+        )
         if (
             constraints.budget_max_toman is None
             and "budget" not in c_state.resolved_aspects
             and "budget" not in c_state.asked_questions
-            and intent in (ShoppingIntent.NEEDS_BASED, ShoppingIntent.BUDGET_SEARCH, ShoppingIntent.GENERAL_CHAT)
+            and has_product_context
+            and intent in (ShoppingIntent.NEEDS_BASED, ShoppingIntent.BUDGET_SEARCH)
         ):
             category = constraints.target_category or ""
             if "لپ تاپ" in category or "laptop" in category.lower():
@@ -127,7 +133,7 @@ class ClarificationPolicy:
             and not constraints.preferred_specs.get("compared_brands")
             and "brand" not in c_state.resolved_aspects
             and "brand" not in c_state.asked_questions
-            and intent in (ShoppingIntent.NEEDS_BASED, ShoppingIntent.BUDGET_SEARCH, ShoppingIntent.GENERAL_CHAT)
+            and intent in (ShoppingIntent.NEEDS_BASED, ShoppingIntent.BUDGET_SEARCH)
         ):
             return (
                 "برند خاصی مد نظرتان هست؟",

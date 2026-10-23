@@ -20,7 +20,17 @@
       method: opt.method || 'GET',
       headers: { 'Content-Type': 'application/json', 'X-User-Role': 'customer', 'X-User-ID': CUSTOMER },
       body: opt.body ? JSON.stringify(opt.body) : undefined
-    }).then(function (r) { if (!r.ok) throw new Error(r.status); online = true; return r.json(); });
+    }).then(function (r) {
+      if (!r.ok) {
+        if (r.status >= 500) online = false;
+        throw new Error(r.status);
+      }
+      online = true;
+      return r.json();
+    }).catch(function (err) {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) online = false;
+      throw err;
+    });
   }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fa(n) { return Math.round(n).toLocaleString('fa-IR'); }
@@ -82,7 +92,13 @@
   }
   function send(sid, text) { return req('/assistant/sessions/' + sid + '/messages', { method: 'POST', body: { message: text } }); }
   function mdLite(t) {
-    return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+    if (!t) return '';
+    var safe = esc(t);
+    safe = safe.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    safe = safe.replace(/^[\s]*[•\*\-]\s+(.+)$/gm, '<div class="ag-bullet">• $1</div>');
+    safe = safe.replace(/^[\s]*(\d+)[.)]\s+(.+)$/gm, '<div class="ag-bullet"><b>$1.</b> $2</div>');
+    safe = safe.replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>');
+    return safe;
   }
   var LABELS = { best_overall: 'بهترین انتخاب', budget_pick: 'اقتصادی‌ترین', verified_confidence: 'مطمئن‌ترین فروشگاه', closest: 'نزدیک‌ترین', fastest: 'سریع‌ترین' };
   var shown = {};
@@ -130,26 +146,36 @@
       });
     }).then(function (d) {
       var recs = ((d.recommendations || {}).top_recommendations || []).slice(0, 6);
-      var h;
-      /* پاسخ سؤال تکمیلی دستیار (بودجه، برند، …) حتماً به همین گفتگو برمی‌گردد */
+      var h = '';
       NQ.Backend.awaitingAnswer = !!(d.active_clarification && d.active_clarification.question);
-      if (NQ.Backend.awaitingAnswer) recs = [];   // سؤال تکمیلی مقدم است؛ پیشنهادهای قبلی دوباره نشان داده نمی‌شوند
-      if (recs.length && d.detected_intent === 'product_comparison') {
-        h = compareHTML(recs) + '<div class="ag-group"><div class="ag-cards bk-cards">' + recs.map(cardHTML).join('') + '</div></div>' +
-          '<p class="bk-note">قیمت‌ها از آخرین دادهٔ کاتالوگ است؛ برای اطمینان از موجودی، استعلام بگیرید.</p>';
-      } else if (recs.length) {
-        var tot = (d.recommendations || {}).total_candidates_found;
-        h = '<p class="ag-t">از کاتالوگ ترب ' + (tot ? fa(tot) + ' پیشنهاد بررسی کردم؛ ' : '') + 'بهترین‌ها با ارزیابی قیمت، اعتماد فروشگاه و احتمال موجودی:</p>' +
-          '<div class="ag-group"><div class="ag-cards bk-cards">' + recs.map(cardHTML).join('') + '</div></div>' +
-          '<p class="bk-note">قیمت‌ها از آخرین دادهٔ کاتالوگ است؛ برای اطمینان از موجودی، استعلام بگیرید.</p>';
-      } else if (d.active_clarification && d.active_clarification.question) {
-        var c = d.active_clarification;
-        h = '<p class="ag-t">' + mdLite(c.question) + '</p>' + ((c.options || []).length ?
-          '<div class="ag-chips">' + c.options.map(function (o) { return '<button type="button" class="ag-chip" data-ag-ask="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>' : '');
-      } else {
-        h = '<p class="ag-t">' + mdLite(d.reply_text || '') + '</p>';
+      if (NQ.Backend.awaitingAnswer) recs = [];
+
+      // Primary conversational response from assistant
+      if (d.reply_text) {
+        h += '<p class="ag-t ag-chat-msg">' + mdLite(d.reply_text) + '</p>';
       }
-      return h;
+
+      // Comparison table if comparing products
+      if (recs.length && d.detected_intent === 'product_comparison') {
+        h += compareHTML(recs);
+      }
+
+      // Recommended product/store cards from real catalogue
+      if (recs.length) {
+        h += '<div class="ag-group"><div class="ag-cards bk-cards">' + recs.map(cardHTML).join('') + '</div></div>' +
+          '<p class="bk-note">قیمت‌ها از آخرین دادهٔ کاتالوگ است؛ برای اطمینان از موجودی، استعلام بگیرید.</p>';
+      }
+
+      // Clarification question options (chips)
+      if (d.active_clarification && (d.active_clarification.options || []).length) {
+        var c = d.active_clarification;
+        if (!d.reply_text && c.question) {
+          h = '<p class="ag-t ag-chat-msg">' + mdLite(c.question) + '</p>' + h;
+        }
+        h += '<div class="ag-chips">' + c.options.map(function (o) { return '<button type="button" class="ag-chip" data-ag-ask="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+      }
+
+      return h || '<p class="ag-t">در حال بررسی پاسخ شما هستم...</p>';
     }).catch(function () { return null; });
   }
 
@@ -170,5 +196,5 @@
     void q;
   });
 
-  NQ.Backend = { sendInquiry: sendInquiry, chat: chat, poll: poll, isOnline: function () { return online; }, active: false, awaitingAnswer: false };
+  NQ.Backend = { sendInquiry: sendInquiry, chat: chat, poll: poll, isOnline: function () { return online !== false; }, active: false, awaitingAnswer: false };
 })(window.NQ = window.NQ || {});

@@ -239,7 +239,7 @@
   var agentEl, logEl, inputEl, errands = [], seq = 0, busy = false;
   var CHAT_KEY = 'nq-chats-v1', MAX_CHATS = 40, chats = [], curId = null;
   var LOGO = '<img src="img/torobchat.png" alt="" width="30" height="30">';
-  var SUGGEST = ['هدفون بی‌سیم زیر ۲ میلیون', 'میوه بخرم، سر راه یه شارژر هم بگیرم', 'کیبورد مکانیکی و ماوس'];
+  var SUGGEST = ['سلام، کمکم کن چی بخرم', 'هدفون مناسب ورزش تا ۲ میلیون', 'مقایسه شارژر شیائومی و سامسونگ', 'پاوربانک با قیمت مناسب'];
 
   function esc(s) { return api.esc(s); }
   function scrollEnd() { requestAnimationFrame(function () { logEl.scrollTop = logEl.scrollHeight; }); }
@@ -706,15 +706,18 @@
     var typing = bubble('bot typing', '<span class="ag-dots"><i></i><i></i><i></i></span>');
     setTimeout(function () {
       var r = NQ.AgentBrain.respond(text, api);
-      /* درخواست خارج از کاتالوگ نمونه ← دستیار هوشمند بک‌اند ترب روی کاتالوگ واقعی */
-      /* پاسخ به سؤال تکمیلی دستیار بک‌اند (مثلاً بودجه) هم به همان گفتگو می‌رود */
-      var viaBk = NQ.Backend && (r.unknown || NQ.Backend.awaitingAnswer || (NQ.Backend.active && !api.findCat(text) && !api.findProducts(text).length));
-      if (NQ.Backend) NQ.Backend.active = !!viaBk;
+      /* ارتباط با دستیار هوشمند بک‌اند ترب روی کاتالوگ واقعی و هوش مصنوعی */
+      var viaBk = NQ.Backend && NQ.Backend.isOnline();
       if (viaBk) {
         NQ.Backend.chat(text).then(function (html) {
           typing.classList.remove('typing');
           typing.querySelector('.ag-b').innerHTML = html || replyHTML(r);
           if (!html) addErrands(r);
+          busy = false; syncSend(); scrollEnd(); saveCurrent();
+        }).catch(function () {
+          typing.classList.remove('typing');
+          typing.querySelector('.ag-b').innerHTML = replyHTML(r);
+          addErrands(r);
           busy = false; syncSend(); scrollEnd(); saveCurrent();
         });
         return;

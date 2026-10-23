@@ -617,8 +617,18 @@ class ShoppingRecommender:
         if compared_brands and len(compared_brands) > 1:
             multi_brand_products = []
             seen_ids = set()
+            brand_map = {
+                "Samsung": "سامسونگ", "Apple": "اپل", "Xiaomi": "شیائومی",
+                "Asus": "ایسوس", "Lenovo": "لنوو", "HP": "اچ پی",
+                "Sony": "سونی", "Anker": "انکر", "Logitech": "لاجیتک", "Huawei": "هواوی"
+            }
+            dev = constraints.preferred_specs.get("device_type") or ""
             for b in compared_brands:
-                b_prods, _ = self.catalog_repo.search_products(q=b, category=cat_filter, limit=10)
+                fa_b = brand_map.get(b, b)
+                b_query = f"{fa_b} {dev}".strip() if dev else fa_b
+                b_prods, _ = self.catalog_repo.search_products(q=b_query, category=cat_filter, limit=8)
+                if not b_prods and dev:
+                    b_prods, _ = self.catalog_repo.search_products(q=fa_b, category=cat_filter, limit=8)
                 for bp in b_prods:
                     if bp.product_id not in seen_ids:
                         seen_ids.add(bp.product_id)
