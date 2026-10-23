@@ -81,7 +81,10 @@
     return d.charAt(0)==='0' ? '+98'+d.slice(1) : '+'+d;
   }
   function isMobileNo(p){ return /^[0۰][9۹]/.test(String(p).trim()); }
-  function waNumber(st){ return toTel(st.phones.filter(isMobileNo)[0] || st.phones[0]).replace('+',''); }
+  function waNumber(st){
+    var list = (st && st.phones) || (st && st.phone ? [st.phone] : []);
+    return toTel(list.filter(isMobileNo)[0] || list[0] || '').replace('+','');
+  }
   var GMODE = {walk:'walking', bike:'bicycling', transit:'transit', car:'driving', moto:'two-wheeler'};
   function routeURL(st, mode){
     return 'https://www.google.com/maps/dir/?api=1&origin='+state.origin.lat+','+state.origin.lng+'&destination='+st.lat+','+st.lng+'&travelmode='+(GMODE[mode]||'driving');
@@ -100,7 +103,8 @@
   function catById(id){return CATS.filter(function(c){return c.id===id})[0]||null}
   function mk(r, cat){
     cat = cat || state.cat;
-    var st = STORES[r[0]], cols = [].concat(r[2]||[]);   // یک فروشگاه ممکن است چند رنگ از یک محصول داشته باشد (کالای خوراکی: بدون رنگ)
+    var st = STORES[r[0]] || { name: 'فروشگاه کاتالوگ', lat: (state.origin ? state.origin.lat : 35.7), lng: (state.origin ? state.origin.lng : 51.4), addr: 'تهران', hours: '۹ تا ۲۱', openH: 9, closeH: 21, phones: [], installments: [], rating: null };
+    var cols = [].concat(r[2]||[]);   // یک فروشگاه ممکن است چند رنگ از یک محصول داشته باشد (کالای خوراکی: بدون رنگ)
     return {sid:r[0],cat:cat,title:r[1],brand:NQ.brandOf(cat,r[1]),color:cols[0],colors:cols,price:r[3],stock:r[4],hrs:r[5],extra:r[6]||null,warranty:r[6]||'',store:st,km:roadKm(state.origin,st),ad:isAd(r[0],cat)};
   }
   /* آگهی ترب: فروشگاهی که در این دسته آگهی داده است */
@@ -418,8 +422,8 @@
   function storeDetHTML(sid, st, km, opt){
     opt = opt || {};
     return '<dl class="det'+(opt.plan?' pdet':'')+'"><dt>نشانی</dt><dd>'+addrHTML(st.addr)+'</dd>' +
-      '<dt>ساعت کار</dt><dd>'+st.hours+' '+statusHTML(st,true)+'</dd>' +
-      '<dt>تلفن</dt><dd class="tels">'+st.phones.map(function(p){return '<a class="tel" href="tel:'+toTel(p)+'" dir="ltr" aria-label="تماس با '+p+'">'+p+'</a>'}).join('<i class="rsep">·</i>')+'</dd>' +
+      '<dt>ساعت کار</dt><dd>'+(st.hours||'')+' '+statusHTML(st,true)+'</dd>' +
+      '<dt>تلفن</dt><dd class="tels">'+(st.phones||[]).map(function(p){return '<a class="tel" href="tel:'+toTel(p)+'" dir="ltr" aria-label="تماس با '+p+'">'+p+'</a>'}).join('<i class="rsep">·</i>')+'</dd>' +
       (opt.extraRow||'') +
       (st.fast ? '<dt>ارسال</dt><dd class="fastv">'+IC.truck+st.fast+'</dd>' : '') +
       linksRowHTML(st, opt.buy) +
@@ -1213,6 +1217,7 @@
     } else {
       var sp = pickBarEl.querySelector('.sp'); if(sp) sp.focus({preventScroll:true});
     }
+    if(NQ.Catalog && NQ.Catalog.onProductSelect) NQ.Catalog.onProductSelect(id, sid);
   }
   function clearProduct(){
     state.product = null; state.info = false; state.picks = {A:null,B:null}; state.selected = null;
@@ -1637,7 +1642,22 @@
       storeDetHTML(sid, st, km, {extraRow: o ? extraRowHTML(sdlg.cat, o.extra) : '', buy: o && st.website ? st.website.replace(/\/$/,'')+'/search?q='+encodeURIComponent(o.title) : ''});
   }
   function openStoreDlg(sid, cat, title){
-    if(!STORES[sid]) return;
+    if(NQ.Catalog && NQ.Catalog.onOpenStoreDlg) NQ.Catalog.onOpenStoreDlg(sid, cat, title);
+    if(!STORES[sid]) {
+      STORES[sid] = {
+        name: 'فروشگاه کاتالوگ',
+        lat: (state.origin ? state.origin.lat : 35.7),
+        lng: (state.origin ? state.origin.lng : 51.4),
+        addr: 'تهران',
+        hours: '۹ تا ۲۱',
+        openH: 9,
+        closeH: 21,
+        phones: [],
+        phone: '',
+        installments: [],
+        rating: null
+      };
+    }
     sdlg = {sid: sid, cat: cat || null, title: title || ''};
     $('#storeDlgTitle').textContent = 'اطلاعات فروشگاه';
     $('#storeDlgBody').innerHTML = storeDlgHTML();
@@ -1671,7 +1691,7 @@
   var callDlg = $('#callDlg');
   function openCallDlg(){ if(callDlg.open) return; if(typeof callDlg.showModal==='function') callDlg.showModal(); else callDlg.setAttribute('open',''); }
   function phonesHTML(st){
-    return st.phones.map(function(p){
+    return (st.phones||[]).map(function(p){
       return '<a class="call-opt" href="tel:'+toTel(p)+'"><span class="co-ic">'+IC.phone+'</span>' +
         '<span class="co-t"><b dir="ltr">'+p+'</b><small>'+(isMobileNo(p)?'همراه':'ثابت')+'</small></span><span class="co-go">تماس</span></a>';
     }).join('');
@@ -1679,7 +1699,9 @@
   /* تماس مستقیم: یک شماره = همان لحظه تماس؛ چند شماره = انتخاب شماره */
   function callStore(sid, back){
     var st = STORES[sid]; if(!st) return;
-    if(st.phones.length<2){ if(callDlg.open) callDlg.close(); window.location.href = 'tel:'+toTel(st.phones[0]); return; }
+    var list = st.phones && st.phones.length ? st.phones : (st.phone ? [st.phone] : []);
+    if(!list.length) return;
+    if(list.length<2){ if(callDlg.open) callDlg.close(); window.location.href = 'tel:'+toTel(list[0]); return; }
     $('#callTitle').textContent = 'با کدام شماره تماس می‌گیرید؟';
     $('#callStore').textContent = st.name;
     $('#callList').innerHTML = phonesHTML(st) +
@@ -1766,6 +1788,7 @@
     if(changed) setSheet(autoSheet());
     renderAll();
     if(changed) fitResults();
+    if(NQ.Catalog && NQ.Catalog.onCatChange) NQ.Catalog.onCatChange(id);
   }
   function togglePick(sid){
     var p = state.picks;
@@ -1877,9 +1900,20 @@
     qEl.value = c.name; setCat(c.id);
     if(isMobile()) setTopMin(true);
   });
-  qEl.addEventListener('input',function(){ if(view==='agent') goView('list'); var c=findCat(qEl.value);setCat(c?c.id:null)});
+  qEl.addEventListener('input',function(){
+    if(view==='agent') goView('list');
+    var c=findCat(qEl.value);
+    if(c){ setCat(c.id); }
+    else if(NQ.Catalog && NQ.Catalog.onSearchInput){ NQ.Catalog.onSearchInput(qEl.value); }
+    else { setCat(null); }
+  });
   qEl.addEventListener('focus',function(){ if(topMin) setTopMin(false); });
-  $('#searchForm').addEventListener('submit',function(e){e.preventDefault();qEl.blur(); if(isMobile()) setTopMin(true);});
+  $('#searchForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    qEl.blur();
+    if(isMobile()) setTopMin(true);
+    if(NQ.Catalog && NQ.Catalog.search) NQ.Catalog.search(qEl.value);
+  });
   $('#clearQ').addEventListener('click',function(){qEl.value='';setCat(null);qEl.focus()});
   $('#sort').addEventListener('click',function(e){
     var b = e.target.closest('button'); if(!b) return;
@@ -2830,6 +2864,26 @@
     onTravel: afterFilterChange,
     clearChats: function(){ NQ.AgentUI.clearAll(); }
   });
+
+  NQ.App = {
+    state: state,
+    setCat: setCat,
+    selectProduct: selectProduct,
+    clearProduct: clearProduct,
+    renderAll: renderAll,
+    fitResults: fitResults,
+    openStoreDlg: openStoreDlg,
+    goView: goView,
+    catById: catById,
+    curProd: curProd,
+    prodById: prodById,
+    prodsOf: prodsOf,
+    norm: norm,
+    toast: toast,
+    refreshStoreDlg: function() {
+      if (storeDlg && storeDlg.open) $('#storeDlgBody').innerHTML = storeDlgHTML();
+    }
+  };
 
   /* ---------- boot ---------- */
   MapView.init($('#lmap'), {

@@ -15,6 +15,7 @@ const SCRIPTS = [
   '/js/agent.js',
   '/js/account.js',
   '/js/app.js',
+  '/js/catalog.js',
   '/js/backend.js',
 ];
 

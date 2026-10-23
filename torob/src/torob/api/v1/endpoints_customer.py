@@ -658,6 +658,28 @@ def compare_stores_side_by_side(payload: CompareStoresRequest):
         row = cursor.fetchone()
 
         if not row:
+            # Fallback to DuckDB catalog if shop is not in SQLite
+            try:
+                duck = db_manager.get_duckdb()
+                drow = duck.execute("SELECT shop_id, name, address, phone, lat, lon FROM shops WHERE shop_id = ?", (sid,)).fetchone()
+                if drow:
+                    items.append(CompareStoreItemDto(
+                        shop_id=drow[0] or sid,
+                        shop_name=drow[1] or "فروشگاه",
+                        address=drow[2] or "تهران",
+                        phone=drow[3],
+                        lat=drow[4],
+                        lon=drow[5],
+                        price_toman=None,
+                        stock_confidence=0.80,
+                        travel_minutes=None,
+                        distance_km=None,
+                        reliability_score=0.85,
+                        is_open=False,
+                        badges=[]
+                    ))
+            except Exception:
+                pass
             continue
 
         eff_open, _, _ = is_shop_effectively_open(
@@ -686,7 +708,7 @@ def compare_stores_side_by_side(payload: CompareStoresRequest):
             badges.append("دسترسی سریع")
 
         items.append(CompareStoreItemDto(
-            shop_id=row["shop_id"],
+            shop_id=row["shop_id"] or sid or str(row[0]),
             shop_name=row["shop_name"] or "فروشگاه",
             address=row["address"] or "تهران",
             phone=row["phone"],

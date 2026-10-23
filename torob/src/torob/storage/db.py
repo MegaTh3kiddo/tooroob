@@ -454,34 +454,48 @@ def _apply_migrations(conn: sqlite3.Connection):
     conn.commit()
 
 
+import threading
+
+
 class DatabaseManager:
     def __init__(self, duckdb_path: Optional[str] = None, sqlite_path: Optional[Path] = None):
         self.duckdb_path = duckdb_path or settings.duckdb_path
         self.sqlite_path = sqlite_path or settings.sqlite_path
         self._duckdb_conn: Optional[duckdb.DuckDBPyConnection] = None
         self._sqlite_conn: Optional[sqlite3.Connection] = None
+        self._local = threading.local()
+        self._init_lock = threading.Lock()
 
     def get_duckdb(self) -> duckdb.DuckDBPyConnection:
         if self._duckdb_conn is None:
             self._duckdb_conn = duckdb.connect(self.duckdb_path)
-        return self._duckdb_conn
+        return self._duckdb_conn.cursor()
 
     def get_sqlite(self) -> sqlite3.Connection:
-        if self._sqlite_conn is None:
-            # Ensure parent dir exists
+        if str(self.sqlite_path) == ":memory:":
+            with self._init_lock:
+                if self._sqlite_conn is None:
+                    self._sqlite_conn = sqlite3.connect(":memory:", check_same_thread=False)
+                    self._sqlite_conn.row_factory = sqlite3.Row
+                    self._sqlite_conn.executescript(SQLITE_SCHEMA)
+                    _apply_migrations(self._sqlite_conn)
+                    self._sqlite_conn.commit()
+                return self._sqlite_conn
+
+        conn = getattr(self._local, "conn", None)
+        if conn is None:
             if self.sqlite_path != ":memory:":
                 self.sqlite_path.parent.mkdir(parents=True, exist_ok=True)
-            self._sqlite_conn = sqlite3.connect(
-                str(self.sqlite_path), check_same_thread=False
-            )
-            self._sqlite_conn.row_factory = sqlite3.Row
-            # Enable WAL mode for high concurrency
-            if self.sqlite_path != ":memory:":
-                self._sqlite_conn.execute("PRAGMA journal_mode=WAL;")
-            self._sqlite_conn.executescript(SQLITE_SCHEMA)
-            _apply_migrations(self._sqlite_conn)
-            self._sqlite_conn.commit()
-        return self._sqlite_conn
+            conn = sqlite3.connect(str(self.sqlite_path), check_same_thread=False, timeout=30.0)
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA journal_mode=WAL;")
+            conn.execute("PRAGMA synchronous=NORMAL;")
+            with self._init_lock:
+                conn.executescript(SQLITE_SCHEMA)
+                _apply_migrations(conn)
+                conn.commit()
+            self._local.conn = conn
+        return conn
 
     def close(self):
         if self._duckdb_conn:
