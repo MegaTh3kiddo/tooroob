@@ -523,18 +523,22 @@
   /* ظاهر خوشه: تعداد فروشگاه + ارزان‌ترین قیمت (یا نام مدل در مرحلهٔ انتخاب محصول) */
   function clusterView(items) {
     var os = items.map(function (i) { return i.data; }), n = os.length;
-    if (stage() === 'none' || stage() === 'dir') return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">فروشگاه</span></span>', label: fa(n) + ' فروشگاه. برای بزرگ‌نمایی بزنید'};
+    if (stage() === 'none' || stage() === 'dir') return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">فروشگاه</span></span>', label: fa(n) + ' فروشگاه. برای مشاهده بزنید'};
     if (stage() === 'pick') {
-      return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + esc(modelOf(os[0].title)) + '</span></span>',
-              label: fa(n) + ' فروشگاه با ' + os[0].title + '. برای بزرگ‌نمایی بزنید'};
+      var same = os.every(function(o){ return o && os[0] && o.title === os[0].title; });
+      var t = (same && os[0] && os[0].title) ? esc(modelOf(os[0].title)) : 'فروشگاه';
+      return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + t + '</span></span>',
+              label: fa(n) + ' فروشگاه. برای مشاهده بزنید'};
     }
-    var m = meta(), live = os.filter(function (o) { return o.stock !== 'out'; });
+    var m = meta(), live = os.filter(function (o) { return o && o.stock !== 'out'; });
     var min = live.length ? Math.min.apply(null, live.map(function (o) { return o.price; })) : 0;
-    var best = os.some(function (o) { return o.sid === m.best; }), saved = os.some(function (o) { return Plan.has(o.sid, state.cat); });
+    var best = os.some(function (o) { return o && o.sid === m.best; });
+    var saved = os.some(function (o) { return o && Plan.has(o.sid, state.cat); });
+    var sel = os.some(function (o) { return o && o.sid === state.selected; });
     return {
-      cls: (best ? 'best ' : '') + (live.length ? '' : 'out ') + (saved ? 'saved' : ''),
+      cls: (sel ? 'sel ' : '') + (best ? 'best ' : '') + (live.length ? '' : 'out ') + (saved ? 'saved' : ''),
       html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + (min ? '<small>از</small> ' + fa(Math.round(min / 1000)) : 'ناموجود') + '</span></span>',
-      label: fa(n) + ' فروشگاه' + (min ? '، از ' + fa(min) + ' تومان' : '') + '. برای بزرگ‌نمایی بزنید'
+      label: fa(n) + ' فروشگاه' + (min ? '، از ' + fa(min) + ' تومان' : '') + '. برای مشاهده بزنید'
     };
   }
   var CLUSTER_SPEC = {cluster: clusterView};
@@ -1663,6 +1667,74 @@
     $('#storeDlgBody').innerHTML = storeDlgHTML();
     if(!storeDlg.open){ if(typeof storeDlg.showModal==='function') storeDlg.showModal(); else storeDlg.setAttribute('open',''); }
     $('#storeDlgBody').scrollTop = 0;
+  }
+  function openMultiStoreDlg(sids){
+    var valid = sids.filter(function(s){ return STORES[s]; });
+    if(!valid.length) return;
+    if(valid.length === 1) { openStoreDlg(valid[0]); return; }
+    $('#storeDlgTitle').textContent = 'فروشگاه‌های این موقعیت (' + fa(valid.length) + ' فروشگاه)';
+    var h = '<div class="ms-list" style="padding:10px 14px;display:grid;gap:8px;max-height:60vh;overflow-y:auto">';
+    valid.forEach(function(sid) {
+      var st = STORES[sid];
+      h += '<div class="card dcard" style="margin:0;cursor:pointer;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface)" data-ms-sid="' + sid + '">' +
+        '<div class="card-main" style="display:flex;align-items:center;gap:12px">' +
+          '<span class="d-art" aria-hidden="true" style="flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--canvas)">' + storeArtHTML(sid) + '</span>' +
+          '<div class="c-info" style="flex:1;min-width:0">' +
+            '<div class="c-nm" style="font-size:14px;font-weight:700"><b>' + esc(st.name) + '</b></div>' +
+            '<div class="c-meta" style="font-size:12px;color:var(--muted);margin-top:2px">' + statusHTML(st) + ' · <span>' + esc(st.addr || 'تهران') + '</span></div>' +
+          '</div>' +
+          '<button type="button" class="btn sm" style="flex:none;height:30px;padding:0 10px;font-size:12px">اطلاعات</button>' +
+        '</div>' +
+      '</div>';
+    });
+    h += '</div>';
+    $('#storeDlgBody').innerHTML = h;
+    var msList = $('#storeDlgBody .ms-list');
+    if (msList) {
+      msList.addEventListener('click', function(e) {
+        var c = e.target.closest('[data-ms-sid]');
+        if (c) openStoreDlg(c.getAttribute('data-ms-sid'));
+      });
+    }
+    if(!storeDlg.open){ if(typeof storeDlg.showModal==='function') storeDlg.showModal(); else storeDlg.setAttribute('open',''); }
+    $('#storeDlgBody').scrollTop = 0;
+  }
+  function handleSuperCloseCluster(c){
+    if (!c || !c.members || !c.members.length) return false;
+    var st0 = stage();
+
+    if (st0 === 'results') {
+      var os = c.members.map(function (m) { return m.ref && m.ref.data; }).filter(Boolean);
+      if (!os.length) return false;
+      var best = os.slice().sort(function (a, b) { return (a.price || 0) - (b.price || 0); })[0];
+      if (best) {
+        activate(best.sid, 'pin');
+        if (os.length > 1) {
+          toast(fa(os.length) + ' فروشگاه در این موقعیت موجود است.', 'info');
+        }
+        return true;
+      }
+      return false;
+    }
+
+    if (st0 === 'pick') {
+      var pOffers = c.members.map(function (m) { return m.ref && m.ref.data; }).filter(Boolean);
+      if (pOffers.length && pOffers[0].sid) {
+        pickFromPin(pOffers[0].sid);
+        return true;
+      }
+      return false;
+    }
+
+    // stage === 'none' or 'dir'
+    var sids = c.members.map(function (m) { return m.id; }).filter(Boolean);
+    if (!sids.length) return false;
+    if (sids.length === 1) {
+      openStoreDlg(sids[0]);
+      return true;
+    }
+    openMultiStoreDlg(sids);
+    return true;
   }
   $('#storeDlgClose').addEventListener('click', function(){ storeDlg.close(); });
   storeDlg.addEventListener('click', function(e){
@@ -2888,6 +2960,7 @@
   /* ---------- boot ---------- */
   MapView.init($('#lmap'), {
     onPinClick: function (sid) { activate(sid, 'pin'); },
+    onSuperCloseClusterClick: function (c) { return handleSuperCloseCluster(c); },
     onBackgroundClick: function () {
       if (state.tab === 'plan') { if (state.planSel) { state.planSel = null; renderAll(); } return; }
       if (state.selected) { state.selected = null; renderAll(); }

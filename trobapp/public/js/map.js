@@ -40,6 +40,10 @@
   function zoomToCluster(c) {
     var b = L.latLngBounds(c.members.map(function (m) { return [m.lat, m.lng]; }));
     var size = map.getSize(), cur = map.getZoom();
+    var spanKm = NQ.geo.distanceKm(b.getNorthEast(), b.getSouthWest());
+    if (spanKm <= 0.04 || cur >= 16) {
+      if (handlers.onSuperCloseClusterClick && handlers.onSuperCloseClusterClick(c)) return;
+    }
     var z = map.getBoundsZoom(b, false, L.point(Math.min(120, size.x * .24), Math.min(170, size.y * .4)));
     z = Math.min(map.getMaxZoom(), Math.max(z, cur + 1));   // حداقل یک پله نزدیک‌تر، تا خوشه حتماً باز شود
     map.setView(b.getCenter(), z, { animate: !reduced });
@@ -58,8 +62,10 @@
       list = res.map(function (c) {
         if (c.count === 1) return c.members[0].ref;
         var refs = c.members.map(function (m) { return m.ref; }), v = spec0.cluster(refs);
+        var anyFixed = c.hasFixed || refs.some(function (r) { return r && r.fixed; });
         return { sid: 'c:' + c.members.map(function (m) { return m.id; }).join(','), lat: c.lat, lng: c.lng,
-                 cls: 'cluster ' + (v.cls || ''), html: v.html, label: v.label, z: 600, cluster: c };
+                 cls: 'cluster ' + (v.cls || '') + (anyFixed ? ' sel' : ''), html: v.html, label: v.label,
+                 z: anyFixed ? 4000 : 600, cluster: c };
       });
     }
 
@@ -111,11 +117,14 @@
     var placed = [], g = 3;
     /* از top شروع می‌کند و تا وقتی با برچسب‌های قبلی برخورد دارد، در جهت dir (۱- بالا، ۱ پایین) جابه‌جا می‌شود */
     function slide(a, top, dir) {
-      for (var guard = 0, hit = true; hit && guard < 12; guard++) {
+      for (var guard = 0, hit = true; hit && guard < 5; guard++) {
         hit = false;
         for (var i = 0; i < placed.length; i++) {
           var p = placed[i];
-          if (a.r > p.l + g && a.l < p.r - g && top + a.h > p.t + g && top < p.b - g) { top = dir < 0 ? p.t - 4 - a.h : p.b + 4; hit = true; }
+          if (a.r > p.l + g && a.l < p.r - g && top + a.h > p.t + g && top < p.b - g) {
+            top = dir < 0 ? Math.max(a.t - 45, p.t - 4 - a.h) : Math.min(a.t + 45, p.b + 4);
+            hit = true;
+          }
         }
       }
       return top;
