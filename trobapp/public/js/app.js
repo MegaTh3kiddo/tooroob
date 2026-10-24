@@ -225,7 +225,11 @@
     var pts = [state.origin].concat(Plan.stops.map(function (s) { return STORES[s.sid]; }));
     if (pts.length < 2) fitResults(); else fitPoints(pts);
   }
-  function fitCurrent() { if (state.tab === 'plan') fitPlan(); else fitResults(); }
+  function fitCurrent() {
+    if (state.tab === 'plan') fitPlan();
+    else if (state.tab === 'store' && state.selected && STORES[state.selected]) revealStore(state.selected);
+    else fitResults();
+  }
   /* توست: آیکون بر اساس نوع، دکمهٔ بستن، نوار زمان (با hover/focus متوقف می‌شود)، بستن با Esc */
   var toastTimer = 0, toastLeave = 0;
   var TOAST_ICONS = {
@@ -758,14 +762,164 @@
     cmp: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3l4 4-4 4"/><path d="M20 7H8"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h12"/></svg>',
     info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/></svg>'
   };
+  function ensureStoreTabDOM() {
+    var tabs = $('.tabs');
+    if (tabs && !$('#tabStore')) {
+      var btn = document.createElement('button');
+      btn.className = 'tab';
+      btn.id = 'tabStore';
+      btn.type = 'button';
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', 'false');
+      btn.hidden = true;
+      btn.innerHTML = '<span class="tab-ic" id="tabStoreIc" aria-hidden="true"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span id="tabStoreLabel">فروشگاه</span>';
+      btn.addEventListener('click', function(){ setTab('store'); });
+      var planTab = $('#tabPlan');
+      if (planTab) tabs.insertBefore(btn, planTab);
+      else tabs.appendChild(btn);
+    }
+    var listSec = $('#list');
+    if (listSec && !$('#storeScroll')) {
+      var sDiv = document.createElement('div');
+      sDiv.className = 'scroll store-scroll';
+      sDiv.id = 'storeScroll';
+      sDiv.hidden = true;
+      sDiv.innerHTML = '<div class="store-pane" id="storePane"></div>';
+      var planScroll = $('#planScroll');
+      if (planScroll && planScroll.nextSibling) listSec.insertBefore(sDiv, planScroll.nextSibling);
+      else listSec.appendChild(sDiv);
+    }
+    var storePaneEl = $('#storePane');
+    if (storePaneEl && !storePaneEl._wired) {
+      storePaneEl._wired = true;
+      storePaneEl.addEventListener('click', function(e) {
+        var g = e.target.closest('[data-guide]');
+        if(g){ goView('agent'); NQ.AgentUI.askGuide(g.getAttribute('data-guide')); return; }
+        var closeBtn = e.target.closest('[data-act="closestore"]');
+        if(closeBtn){ state.selected = null; state.tab = 'results'; renderAll(); fitResults(); return; }
+        if(storeAction(e, storePaneEl)) {
+          if(state.tab === 'store' && state.selected) renderStorePane(state.selected);
+          return;
+        }
+      });
+    }
+  }
+
+  function renderStorePane(sid) {
+    var storePaneEl = $('#storePane');
+    if (!storePaneEl) return;
+    var st = STORES[sid];
+    if (!st) { storePaneEl.innerHTML = ''; return; }
+    if (!st._fullLoaded && !st._loadingFull && NQ.Catalog && NQ.Catalog.onOpenStoreDlg) {
+      st._loadingFull = true;
+      NQ.Catalog.onOpenStoreDlg(sid);
+    }
+    var km = roadKm(state.origin, st);
+    var h = '<div class="store-pane-inner" style="display:flex;flex-direction:column;gap:12px">';
+    
+    // Top Bar with close action
+    h += '<div class="sp-top-bar">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<span style="color:var(--brand-500);display:inline-grid;place-items:center">' +
+          '<svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+        '</span>' +
+        '<span style="font-size:13.5px;font-weight:700">اطلاعات فروشگاه</span>' +
+      '</div>' +
+      '<button type="button" class="btn sm outline" data-act="closestore" style="height:28px;padding:0 10px;font-size:12px;border-radius:8px">بستن انتخاب</button>' +
+    '</div>';
+
+    // Store Identity Banner
+    h += '<div class="card" style="margin:0;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface)">' +
+      '<div class="sd-top" style="padding:0">' +
+        '<span class="sd-art" aria-hidden="true">' + storeArtHTML(sid) + '</span>' +
+        '<div class="sd-info">' +
+          '<div class="c-nm">' + badgeHTML(st) + '<b class="sd-name" style="font-size:16px">' + esc(st.name) + '</b>' + payIcons(st) + (st.fast ? '<span class="tag fast">' + IC.truck + 'ارسال فوری</span>' : '') + '</div>' +
+          '<div class="c-var"><span>' + KIND_NAME[storeKind(sid)] + '</span>' + rateHTML(st) + '</div>' +
+          '<div class="c-meta">' + statusHTML(st, true) + '<span>' + fa1(km) + ' کیلومتر</span>' + etaHTML(km, sid) + '</div>' +
+          '<button type="button" class="sd-guide" data-guide="' + sid + '">' + IC.route + 'راهنمای رسیدن به فروشگاه</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+    // Store Full Details (contacts, hours, delivery, scores, payments, modes, report)
+    h += '<div class="card" style="margin:0;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:var(--surface)">' +
+      storeDetHTML(sid, st, km, {}) +
+    '</div>';
+
+    // Store Catalog Offers (if available)
+    var shopOffers = [];
+    if (NQ.OFFERS) {
+      Object.keys(NQ.OFFERS).forEach(function(cid) {
+        (NQ.OFFERS[cid] || []).forEach(function(r) {
+          if (r[0] === sid) {
+            shopOffers.push({ cat: cid, title: r[1], colors: r[2], price: r[3], stock: r[4], hrs: r[5], prodId: r._prodId });
+          }
+        });
+      });
+    }
+    if (shopOffers.length) {
+      h += '<div class="card" style="margin:0;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface)">' +
+        '<div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">' +
+          '<span>کالاهای موجود در این فروشگاه</span>' +
+          '<span style="font-size:12px;color:var(--muted)">' + fa(shopOffers.length) + ' کالا</span>' +
+        '</div>' +
+        '<ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">';
+      shopOffers.slice(0, 10).forEach(function(item) {
+        h += '<li style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--canvas);border-radius:12px;border:1px solid var(--line)">' +
+          '<div style="min-width:0;flex:1">' +
+            '<div style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(item.title) + '</div>' +
+            '<div style="font-size:11.5px;color:var(--muted);margin-top:2px">' +
+              '<span class="stock ' + item.stock + '">' + STOCK[item.stock] + '</span>' +
+              ' · <span>بروزرسانی ' + ago(item.hrs) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="flex:none;text-align:left">' +
+            '<div style="font-size:13.5px;font-weight:800;color:var(--fg)">' + fa(item.price) + ' <small style="font-size:10px;font-weight:normal">تومان</small></div>' +
+          '</div>' +
+        '</li>';
+      });
+      h += '</ul></div>';
+    }
+
+    h += '</div>';
+    storePaneEl.innerHTML = h;
+  }
+
   function renderTabs() {
-    var plan = state.tab === 'plan', st = stage();
+    ensureStoreTabDOM();
+    var hasStore = !state.cat && !!(state.selected && STORES[state.selected]);
+    if (state.tab === 'store' && !hasStore) {
+      state.tab = 'results';
+    }
+    var plan = state.tab === 'plan', store = state.tab === 'store', st = stage();
     var rc = $('#resCount'), n = st==='none' ? 0 : st==='dir' ? dirRows().length : st==='pick' ? pickList().length : offerRows().length;
     rc.hidden = st==='none'; rc.textContent = fa(n);
-    $('#toolbar').hidden = plan; $('#scroll').hidden = plan;
-    $('#planbar').hidden = !plan; $('#planScroll').hidden = !plan;
-    $('#tabResults').setAttribute('aria-selected', String(!plan));
+
+    $('#toolbar').hidden = plan || store;
+    $('#scroll').hidden = plan || store;
+    $('#planbar').hidden = !plan;
+    $('#planScroll').hidden = !plan;
+    var storeScroll = $('#storeScroll');
+    if (storeScroll) storeScroll.hidden = !store;
+
+    $('#tabResults').setAttribute('aria-selected', String(!plan && !store));
     $('#tabPlan').setAttribute('aria-selected', String(plan));
+
+    var tabStore = $('#tabStore');
+    if (tabStore) {
+      tabStore.hidden = !hasStore;
+      if (hasStore) {
+        var sName = STORES[state.selected].name;
+        var sLabel = $('#tabStoreLabel');
+        if (sLabel) sLabel.textContent = sName.length > 18 ? sName.slice(0, 16) + '…' : sName;
+        tabStore.setAttribute('title', sName);
+        tabStore.setAttribute('aria-selected', String(store));
+      }
+    }
+
+    if (store && hasStore) {
+      renderStorePane(state.selected);
+    }
   }
   function renderPlan() {
     var n = Plan.count();
@@ -1634,7 +1788,8 @@
   function storeOnMap(sid){
     if(state.cat && !(OFFERS[state.cat]||[]).some(function(r){return r[0]===sid})){ qEl.value = ''; setCat(null); }
     if(state.dir && dirRows().indexOf(sid)<0) state.dir = null;
-    state.tab = 'results'; state.compare = false; state.selected = sid;
+    state.compare = false; state.selected = sid;
+    if(!state.cat) state.tab = 'store'; else state.tab = 'results';
     goView('map', {noFit: true}); setSheet('peek'); renderAll(); revealStore(sid);
   }
   /* کارت فروشگاه در فهرست (منطقه / بدون کالا): مثل کارت نتایج، با عکس فروشگاه به‌جای قیمت */
@@ -2063,7 +2218,19 @@
   function activate(sid,from){
     if(state.tab==='plan'){ if(state.planCmp) planPick(sid); else planFocus(sid); return; }
     if(stage()==='pick'){ pickFromPin(sid); return; }
-    if(stage()==='none'){ openStoreDlg(sid); return; }   // بدون جستجو: پنجرهٔ اطلاعات فروشگاه
+    if(stage()==='none' || stage()==='dir'){
+      if(state.selected === sid && state.tab === 'store') {
+        state.selected = null;
+        state.tab = 'results';
+      } else {
+        state.selected = sid;
+        state.tab = 'store';
+      }
+      setSheet(from==='pin' ? 'half' : 'full', from==='pin');
+      renderAll();
+      if(state.selected) revealStore(sid);
+      return;
+    }
     if(state.compare && stage()!=='dir') togglePick(sid);
     else {
       state.selected = state.selected===sid ? null : sid;
@@ -2184,6 +2351,8 @@
   });
   $('#tabResults').addEventListener('click',function(){setTab('results')});
   $('#tabPlan').addEventListener('click',function(){setTab('plan')});
+  var tStore = $('#tabStore');
+  if (tStore) tStore.addEventListener('click', function(){ setTab('store'); });
   $('#planSort').addEventListener('click',function(e){
     var b = e.target.closest('button'); if(!b) return;
     Plan.setMode(b.getAttribute('data-pmode'), state.origin); renderAll(); fitPlan();
@@ -2388,6 +2557,10 @@
 
   /* آیکون‌های تب‌ها و راهنمای «پیشنهادی» */
   $('#tabResIc').innerHTML = IC.list; $('#tabPlanIc').innerHTML = IC.bookmark;
+  var tabStoreIc = $('#tabStoreIc');
+  if (tabStoreIc) {
+    tabStoreIc.innerHTML = '<svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
+  }
   var smartBtn = document.querySelector('#sort [data-sort="smart"]');
   smartBtn.insertAdjacentHTML('beforeend', '<span class="qtip" role="img" aria-label="'+esc(TIPS.smart)+'" data-tip="'+esc(TIPS.smart)+'">'+IC.info+'</span>');
 
@@ -2550,9 +2723,10 @@
   var sheet = 'full', peekH = 96, gripEl = $('#sheetGrip'), peekEl = $('#sheetPeek'), toastEl = $('#toast');
   function autoSheet(){
     if(state.tab==='plan') return state.planSel ? 'full' : 'half';
+    if(state.tab==='store') return 'half';
     var st0 = stage();
     if(st0==='dir') return state.selected ? 'full' : 'half';
-    if(st0==='none') return 'peek';
+    if(st0==='none') return state.selected ? 'half' : 'peek';
     if(st0!=='stores') return 'full';
     return state.selected ? 'full' : 'half';
   }
@@ -3124,8 +3298,13 @@
     prodsOf: prodsOf,
     norm: norm,
     toast: toast,
+    setTab: setTab,
+    activate: activate,
     openMultiStoreDlg: openMultiStoreDlg,
     refreshStoreDlg: function() {
+      if (state.tab === 'store' && state.selected) {
+        renderStorePane(state.selected);
+      }
       if (storeDlg && storeDlg.open) {
         if (multiStoreContext && (!sdlg || !sdlg.sid)) {
           renderMultiStoreDlgBody();
@@ -3142,7 +3321,11 @@
     onSuperCloseClusterClick: function (c) { return handleSuperCloseCluster(c); },
     onBackgroundClick: function () {
       if (state.tab === 'plan') { if (state.planSel) { state.planSel = null; renderAll(); } return; }
-      if (state.selected) { state.selected = null; renderAll(); }
+      if (state.selected) {
+        state.selected = null;
+        if (state.tab === 'store') state.tab = 'results';
+        renderAll();
+      }
     },
     onMoveEnd: onMapMoved,
     /* موبایل: کاربر نقشه را جابه‌جا می‌کند ← فهرست پایین می‌رود تا فقط نوار خلاصه (نام فروشگاه انتخاب‌شده) بماند */

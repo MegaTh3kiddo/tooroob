@@ -2126,6 +2126,13 @@ path.area-box{stroke:var(--brand-500);fill:var(--brand-500)}
 .ms-list .dcard.sel{border-color:var(--brand-500);background:var(--brand-tint)}
 .sd-back-btn:hover{background:var(--brand-tint);border-color:var(--brand-300);color:var(--brand-text)}
 
+/* ---- تب و نمای اطلاعات فروشگاه در ستون کناری ---- */
+.store-scroll{display:flex;flex-direction:column;gap:12px;padding:8px 4px 16px}
+.store-pane{display:flex;flex-direction:column;gap:12px}
+.store-pane .sd-top{background:var(--surface);border-radius:18px;border:1px solid var(--line);padding:14px 16px}
+.store-pane .det{border-radius:18px;border:1px solid var(--line);background:var(--surface);margin-top:0}
+.store-pane .sp-top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+
 /* ---- کارت فروشگاه در فهرست (منطقه / بدون کالا) ---- */
 .dcard .card-main{align-items:center}
 .d-art{flex:none;width:64px;height:64px;border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--fg)}
