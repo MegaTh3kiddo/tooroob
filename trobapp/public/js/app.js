@@ -65,10 +65,19 @@
     return {stock:{in:true,unsure:true,out:true}, pmin:null, pmax:null, colors:[], brands:[], maxMin:0, torobpay:false, installment:false, openNow:false,
             warranty:false, kalabarg:false, fast:false, guarantee:false, minRate:0, maxKm:0, area:null, near:null};
   }
-  function isOpenNow(st){var d=new Date(), h=d.getHours()+d.getMinutes()/60; return h>=st.openH && h<st.closeH}
+  function isOpenNow(st){
+    if(!st) return false;
+    var d = new Date(), h = d.getHours() + d.getMinutes() / 60;
+    var openH = (typeof st.openH === 'number' && !isNaN(st.openH)) ? st.openH : 9;
+    var closeH = (typeof st.closeH === 'number' && !isNaN(st.closeH)) ? st.closeH : 21;
+    return h >= openH && h < closeH;
+  }
   /* وضعیت باز/بسته بودن فروشگاه در همین لحظه (k: open | soon | closed) */
   function storeStatus(st){
-    var d = new Date(), m = d.getHours()*60+d.getMinutes(), o = st.openH*60, c = st.closeH*60;
+    if (!st) return {k: 'open', short: 'نامشخص', text: 'اطلاعات ساعات ثبت نشده'};
+    var openH = (typeof st.openH === 'number' && !isNaN(st.openH)) ? st.openH : 9;
+    var closeH = (typeof st.closeH === 'number' && !isNaN(st.closeH)) ? st.closeH : 21;
+    var d = new Date(), m = d.getHours()*60+d.getMinutes(), o = openH*60, c = closeH*60;
     if(m<o) return {k:'closed', short:'بسته است', text:'بسته است · امروز ساعت '+hm(o)+' باز می‌شود'};
     if(m>=c) return {k:'closed', short:'بسته است', text:'بسته است · فردا ساعت '+hm(o)+' باز می‌شود'};
     if(c-m<=60) return {k:'soon', short:'به‌زودی بسته می‌شود', text:'باز است · '+fa(c-m)+' دقیقه تا بسته شدن'};
@@ -1647,11 +1656,25 @@
   }
 
   /* ---------- پنجرهٔ اطلاعات فروشگاه (از تربچت، نقشهٔ بدون جستجو، ...) ---------- */
-  var storeDlg = $('#storeDlg'), sdlg = null;
+  var storeDlg = $('#storeDlg'), sdlg = null, multiStoreContext = null;
+
   function storeDlgHTML(){
-    var sid = sdlg.sid, st = STORES[sid], km = roadKm(state.origin, st), o = null;
+    if (!sdlg || !sdlg.sid) return '';
+    var sid = sdlg.sid, st = STORES[sid] || { name: 'فروشگاه کاتالوگ', lat: (state.origin ? state.origin.lat : 35.7), lng: (state.origin ? state.origin.lng : 51.4), addr: 'تهران', hours: '۹ تا ۲۱', openH: 9, closeH: 21, phones: [], installments: [], rating: null }, km = roadKm(state.origin, st), o = null;
     if(sdlg.cat){ var r = (OFFERS[sdlg.cat]||[]).filter(function(x){ return x[0]===sid && (!sdlg.title || x[1]===sdlg.title); })[0]; if(r) o = mk(r, sdlg.cat); }
-    return '<div class="sd-top"><span class="sd-art" aria-hidden="true">'+storeArtHTML(sid)+'</span><div class="sd-info">' +
+    
+    var backBar = '';
+    if (multiStoreContext && multiStoreContext.sids && multiStoreContext.sids.length > 1) {
+      backBar = '<div class="sd-back-bar" style="padding:10px 18px 6px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:6px">' +
+        '<button type="button" class="btn sm" id="storeDlgBack" style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:6px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);cursor:pointer;color:var(--fg);font-family:inherit;font-weight:600">' +
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
+          '<span>بازگشت به فهرست (' + fa(multiStoreContext.sids.length) + ' فروشگاه)</span>' +
+        '</button>' +
+        '<span style="font-size:12px;color:var(--muted)">موقعیت تجمیع‌شده</span>' +
+      '</div>';
+    }
+
+    return backBar + '<div class="sd-top"><span class="sd-art" aria-hidden="true">'+storeArtHTML(sid)+'</span><div class="sd-info">' +
         '<div class="c-nm">'+badgeHTML(st)+'<b class="sd-name">'+esc(st.name)+'</b>'+payIcons(st)+'</div>' +
         '<div class="c-var"><span>'+KIND_NAME[storeKind(sid)]+'</span>'+rateHTML(st)+'</div>' +
         '<div class="c-meta">'+statusHTML(st)+'<span>'+fa1(km)+' کیلومتر</span>'+etaHTML(km, sid)+'</div>' +
@@ -1660,6 +1683,7 @@
         '<div class="sd-o-p"><span class="sd-price"><b>'+fa(o.price)+'</b> تومان</span><span class="stock '+o.stock+'">'+STOCK[o.stock]+'</span>'+updHTML(o.hrs)+'</div></div>' : '') +
       storeDetHTML(sid, st, km, {extraRow: o ? extraRowHTML(sdlg.cat, o.extra) : '', buy: o && st.website ? st.website.replace(/\/$/,'')+'/search?q='+encodeURIComponent(o.title) : ''});
   }
+
   function openStoreDlg(sid, cat, title){
     if(NQ.Catalog && NQ.Catalog.onOpenStoreDlg) NQ.Catalog.onOpenStoreDlg(sid, cat, title);
     if(!STORES[sid]) {
@@ -1683,37 +1707,91 @@
     if(!storeDlg.open){ if(typeof storeDlg.showModal==='function') storeDlg.showModal(); else storeDlg.setAttribute('open',''); }
     $('#storeDlgBody').scrollTop = 0;
   }
-  function openMultiStoreDlg(sids){
-    var valid = sids.filter(function(s){ return STORES[s]; });
-    if(!valid.length) return;
-    if(valid.length === 1) { openStoreDlg(valid[0]); return; }
-    $('#storeDlgTitle').textContent = 'فروشگاه‌های این موقعیت (' + fa(valid.length) + ' فروشگاه)';
-    var h = '<div class="ms-list" style="padding:10px 14px;display:grid;gap:8px;max-height:60vh;overflow-y:auto">';
+
+  function renderMultiStoreDlgBody(){
+    if(!multiStoreContext || !multiStoreContext.sids || !multiStoreContext.sids.length) return;
+    var valid = multiStoreContext.sids;
+    $('#storeDlgTitle').textContent = multiStoreContext.title || ('فروشگاه‌های این موقعیت (' + fa(valid.length) + ' فروشگاه)');
+    var h = '<div class="ms-list" style="padding:12px 16px;display:grid;gap:10px">';
     valid.forEach(function(sid) {
-      var st = STORES[sid];
-      h += '<div class="card dcard" style="margin:0;cursor:pointer;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface)" data-ms-sid="' + sid + '">' +
+      var st = STORES[sid] || {
+        name: 'فروشگاه کاتالوگ',
+        lat: (state.origin ? state.origin.lat : 35.7),
+        lng: (state.origin ? state.origin.lng : 51.4),
+        addr: 'تهران',
+        hours: '۹ تا ۲۱',
+        openH: 9,
+        closeH: 21,
+        phones: [],
+        installments: [],
+        rating: null
+      };
+      var km = roadKm(state.origin, st);
+      var offer = (state.cat && OFFERS[state.cat]) ? (OFFERS[state.cat] || []).filter(function(r){ return r[0] === sid; })[0] : null;
+      var o = offer ? mk(offer, state.cat) : null;
+      var isSel = (state.selected === sid);
+
+      h += '<div class="card dcard' + (isSel ? ' sel' : '') + '" style="margin:0;cursor:pointer;border:1px solid ' + (isSel ? 'var(--brand-500)' : 'var(--line)') + ';border-radius:14px;padding:12px 14px;background:var(--surface);transition:all .18s ease" data-ms-sid="' + sid + '">' +
         '<div class="card-main" style="display:flex;align-items:center;gap:12px">' +
-          '<span class="d-art" aria-hidden="true" style="flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--canvas)">' + storeArtHTML(sid) + '</span>' +
+          '<span class="d-art" aria-hidden="true" style="flex:none;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:var(--canvas)">' + storeArtHTML(sid) + '</span>' +
           '<div class="c-info" style="flex:1;min-width:0">' +
-            '<div class="c-nm" style="font-size:14px;font-weight:700"><b>' + esc(st.name) + '</b></div>' +
-            '<div class="c-meta" style="font-size:12px;color:var(--muted);margin-top:2px">' + statusHTML(st) + ' · <span>' + esc(st.addr || 'تهران') + '</span></div>' +
+            '<div class="c-row" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
+              badgeHTML(st) +
+              '<span class="c-name" style="font-size:14px;font-weight:700"><b>' + esc(st.name) + '</b></span>' +
+              payIcons(st) +
+              (st.fast ? '<span class="tag fast" style="font-size:11px">' + IC.truck + 'ارسال فوری</span>' : '') +
+            '</div>' +
+            '<div class="c-var" style="font-size:12px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">' +
+              '<span>' + KIND_NAME[storeKind(sid)] + '</span>' +
+              rateHTML(st) +
+              '<span>' + fa1(km) + ' کیلومتر</span>' +
+            '</div>' +
+            (o ? '<div class="c-offer-brief" style="font-size:12.5px;color:var(--brand-500);font-weight:700;margin-top:4px">' +
+              fa(o.price) + ' تومان · <span class="stock ' + o.stock + '" style="font-size:11px;font-weight:normal">' + STOCK[o.stock] + '</span>' +
+            '</div>' : '') +
+            '<div class="c-meta" style="font-size:12px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
+              statusHTML(st) +
+              ' · <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">' + esc(st.addr || 'تهران') + '</span>' +
+            '</div>' +
           '</div>' +
-          '<button type="button" class="btn sm" style="flex:none;height:30px;padding:0 10px;font-size:12px">اطلاعات</button>' +
+          '<div style="flex:none;display:flex;flex-direction:column;gap:6px">' +
+            '<button type="button" class="btn sm" data-ms-info="' + sid + '" style="height:32px;padding:0 12px;font-size:12px;font-weight:600">اطلاعات</button>' +
+            '<button type="button" class="btn sm outline" data-ms-map="' + sid + '" style="height:32px;padding:0 8px;font-size:11.5px;color:var(--muted)">نقشه</button>' +
+          '</div>' +
         '</div>' +
       '</div>';
     });
     h += '</div>';
     $('#storeDlgBody').innerHTML = h;
-    var msList = $('#storeDlgBody .ms-list');
-    if (msList) {
-      msList.addEventListener('click', function(e) {
-        var c = e.target.closest('[data-ms-sid]');
-        if (c) openStoreDlg(c.getAttribute('data-ms-sid'));
-      });
+  }
+
+  function openMultiStoreDlg(sids){
+    var seen = {};
+    var valid = (sids || []).filter(function(s){
+      if (!s || seen[s]) return false;
+      seen[s] = true;
+      return true;
+    });
+    if(!valid.length) return;
+    if(valid.length === 1) {
+      multiStoreContext = null;
+      openStoreDlg(valid[0]);
+      return;
     }
-    if(!storeDlg.open){ if(typeof storeDlg.showModal==='function') storeDlg.showModal(); else storeDlg.setAttribute('open',''); }
+    multiStoreContext = {
+      sids: valid,
+      title: 'فروشگاه‌های این موقعیت (' + fa(valid.length) + ' فروشگاه)'
+    };
+    sdlg = null;
+    renderMultiStoreDlgBody();
+
+    if(!storeDlg.open){
+      if(typeof storeDlg.showModal==='function') storeDlg.showModal();
+      else storeDlg.setAttribute('open','');
+    }
     $('#storeDlgBody').scrollTop = 0;
   }
+
   function handleSuperCloseCluster(c){
     if (!c || !c.members || !c.members.length) return false;
     var st0 = stage();
@@ -1724,6 +1802,11 @@
       var best = os.slice().sort(function (a, b) { return (a.price || 0) - (b.price || 0); })[0];
       if (best) {
         activate(best.sid, 'pin');
+        var sids = os.map(function(o){ return o.sid; }).filter(Boolean);
+        if (sids.length > 1) {
+          openMultiStoreDlg(sids);
+          return true;
+        }
         if (os.length > 1) {
           toast(fa(os.length) + ' فروشگاه در این موقعیت موجود است.', 'info');
         }
@@ -1735,6 +1818,11 @@
     if (st0 === 'pick') {
       var pOffers = c.members.map(function (m) { return m.ref && m.ref.data; }).filter(Boolean);
       if (pOffers.length && pOffers[0].sid) {
+        var sids = pOffers.map(function(o){ return o.sid; }).filter(Boolean);
+        if (sids.length > 1) {
+          openMultiStoreDlg(sids);
+          return true;
+        }
         pickFromPin(pOffers[0].sid);
         return true;
       }
@@ -1751,15 +1839,82 @@
     openMultiStoreDlg(sids);
     return true;
   }
-  $('#storeDlgClose').addEventListener('click', function(){ storeDlg.close(); });
+
+  $('#storeDlgClose').addEventListener('click', function(){
+    storeDlg.close();
+    multiStoreContext = null;
+    sdlg = null;
+  });
+  storeDlg.addEventListener('close', function(){
+    multiStoreContext = null;
+    sdlg = null;
+  });
   storeDlg.addEventListener('click', function(e){
-    if(e.target===storeDlg){ storeDlg.close(); return; }
+    if(e.target===storeDlg){
+      storeDlg.close();
+      multiStoreContext = null;
+      sdlg = null;
+      return;
+    }
+    var bck = e.target.closest('#storeDlgBack');
+    if (bck && multiStoreContext && multiStoreContext.sids) {
+      sdlg = null;
+      renderMultiStoreDlgBody();
+      $('#storeDlgBody').scrollTop = 0;
+      return;
+    }
+    var msMap = e.target.closest('[data-ms-map]');
+    if (msMap) {
+      var msSid = msMap.getAttribute('data-ms-map');
+      storeDlg.close();
+      multiStoreContext = null;
+      sdlg = null;
+      storeOnMap(msSid);
+      return;
+    }
+    var msCard = e.target.closest('[data-ms-sid]');
+    if (msCard && (!e.target.closest('[data-ms-map]'))) {
+      var sid = msCard.getAttribute('data-ms-sid');
+      if (sid) {
+        openStoreDlg(sid, state.cat || null);
+        return;
+      }
+    }
     var g = e.target.closest('[data-guide]');
-    if(g){ storeDlg.close(); goView('agent'); NQ.AgentUI.askGuide(g.getAttribute('data-guide')); return; }
+    if(g){
+      storeDlg.close();
+      multiStoreContext = null;
+      sdlg = null;
+      goView('agent');
+      NQ.AgentUI.askGuide(g.getAttribute('data-guide'));
+      return;
+    }
     var t = e.target.closest('[data-showmap]');
-    if(t){ storeDlg.close(); if(sdlg.cat) openStoreFrom(sdlg.cat, sdlg.sid, sdlg.title, 'map'); else storeOnMap(sdlg.sid); return; }
+    if(t){
+      var mapSid = (sdlg && sdlg.sid) || null;
+      var mapCat = (sdlg && sdlg.cat) || null;
+      var mapTitle = (sdlg && sdlg.title) || '';
+      storeDlg.close();
+      multiStoreContext = null;
+      sdlg = null;
+      if (mapSid) {
+        if(mapCat) openStoreFrom(mapCat, mapSid, mapTitle, 'map');
+        else storeOnMap(mapSid);
+      }
+      return;
+    }
     var body = $('#storeDlgBody'), y = body.scrollTop;
-    if(storeAction(e, body)){ if(storeDlg.open){ body.innerHTML = storeDlgHTML(); body.scrollTop = y; } }
+    if(storeAction(e, body)){
+      if(storeDlg.open){
+        if (sdlg && sdlg.sid) {
+          body.innerHTML = storeDlgHTML();
+          body.scrollTop = y;
+        } else if (multiStoreContext) {
+          renderMultiStoreDlgBody();
+          body.scrollTop = y;
+        }
+      }
+    }
   });
   document.addEventListener('click', function(e){
     var t = e.target.closest && e.target.closest('[data-act="nearme"],[data-act="allmap"],[data-act="cleardir"],[data-act="clearnear"]');
@@ -2969,8 +3124,15 @@
     prodsOf: prodsOf,
     norm: norm,
     toast: toast,
+    openMultiStoreDlg: openMultiStoreDlg,
     refreshStoreDlg: function() {
-      if (storeDlg && storeDlg.open) $('#storeDlgBody').innerHTML = storeDlgHTML();
+      if (storeDlg && storeDlg.open) {
+        if (multiStoreContext && (!sdlg || !sdlg.sid)) {
+          renderMultiStoreDlgBody();
+        } else if (sdlg && sdlg.sid) {
+          $('#storeDlgBody').innerHTML = storeDlgHTML();
+        }
+      }
     }
   };
 

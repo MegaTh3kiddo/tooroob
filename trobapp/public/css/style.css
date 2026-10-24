@@ -2121,6 +2121,10 @@ path.area-box{stroke:var(--brand-500);fill:var(--brand-500)}
 .sd-o-p{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:12.5px;color:var(--muted)}
 .sd-price b{font-size:18px;font-weight:800;color:var(--fg)}
 .storedlg .det{animation:none}
+.ms-list .dcard{transition:border-color .15s, background .15s}
+.ms-list .dcard:hover{border-color:var(--brand-300);background:var(--canvas)}
+.ms-list .dcard.sel{border-color:var(--brand-500);background:var(--brand-tint)}
+.sd-back-btn:hover{background:var(--brand-tint);border-color:var(--brand-300);color:var(--brand-text)}
 
 /* ---- کارت فروشگاه در فهرست (منطقه / بدون کالا) ---- */
 .dcard .card-main{align-items:center}
