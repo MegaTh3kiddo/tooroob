@@ -32,6 +32,8 @@ class CreateSessionRequest(BaseModel):
 class SendMessageRequest(BaseModel):
     message: str = Field(min_length=1, max_length=1000, description="Customer shopping query or response")
     user_id: Optional[str] = None
+    user_lat: Optional[float] = None
+    user_lon: Optional[float] = None
 
 
 class AgentInteractionResponse(BaseModel):
@@ -89,6 +91,8 @@ def send_assistant_message(
         session_id=session_id,
         user_message=body.message,
         user_id=user_id or existing.user_id,
+        user_lat=body.user_lat,
+        user_lon=body.user_lon,
     )
 
     clarification_dict = None

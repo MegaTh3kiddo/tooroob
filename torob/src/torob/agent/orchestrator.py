@@ -77,9 +77,15 @@ class ShoppingAgentOrchestrator:
         session_id: str,
         user_message: str,
         user_id: Optional[str] = None,
+        user_lat: Optional[float] = None,
+        user_lon: Optional[float] = None,
     ) -> Tuple[ShoppingSession, str]:
         """Main multi-turn agent entry point."""
         session = self.get_or_create_session(session_id=session_id, user_id=user_id)
+
+        if user_lat is not None and user_lon is not None:
+            session.constraints.user_lat = user_lat
+            session.constraints.user_lon = user_lon
 
         # 1. Record incoming user message
         session.messages.append(ChatMessage(role="user", content=user_message))
@@ -90,6 +96,9 @@ class ShoppingAgentOrchestrator:
         detected_intent, extracted_constraints = DeterministicFallbackParser.parse_message(
             user_message, current_constraints=session.constraints
         )
+        if user_lat is not None and user_lon is not None:
+            extracted_constraints.user_lat = user_lat
+            extracted_constraints.user_lon = user_lon
 
         # 2b. Optional LLM assist: fill only what the deterministic parser missed (never overrides it)
         if self.llm_client is not None:
@@ -228,9 +237,8 @@ class ShoppingAgentOrchestrator:
             session.clarification_state.active_clarification_question = question_text
             session.clarification_state.clarification_options = options
 
-            # Response is the targeted clarification
-            options_formatted = "\n".join([f"• {opt}" for opt in options]) if options else ""
-            reply = f"{question_text}\n\n{options_formatted}".strip()
+            # Response is the targeted clarification question (options are structured in active_clarification)
+            reply = question_text.strip()
 
             session.messages.append(ChatMessage(role="assistant", content=reply))
             self.session_repo.save_session(session)
@@ -503,11 +511,15 @@ class ShoppingAgentOrchestrator:
                     tag = " 💰 [گزینه اقتصادی‌تر]"
                 elif rec.trade_off_label == "verified_confidence":
                     tag = " 🛡️ [بالاترین اتکای فروشگاه]"
+                elif rec.trade_off_label == "closest":
+                    tag = " 📍 [نزدیک‌ترین فروشگاه]"
 
                 lines.append(f"{idx}. **{rec.product_title}**{tag}")
                 loc_str = rec.shop_address or 'تهران'
                 lines.append(f"   • فروشگاه: {rec.shop_name} ({loc_str})")
                 lines.append(f"   • قیمت: **{rec.price_toman:,.0f} تومان**")
+                if getattr(rec, "distance_km", None) is not None:
+                    lines.append(f"   • فاصله تا شما: حدود {rec.distance_km:.1f} کیلومتر")
 
                 if getattr(rec, "is_shop_open", True):
                     lines.append("   • وضعیت فروشگاه: در حال حاضر باز است ✅")

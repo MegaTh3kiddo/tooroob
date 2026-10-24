@@ -104,6 +104,9 @@ class CandidateOfferRecommendation(BaseModel):
     shop_id: str
     shop_name: str
     shop_address: Optional[str] = None
+    shop_lat: Optional[float] = None
+    shop_lon: Optional[float] = None
+    distance_km: Optional[float] = None
     price_toman: float
     reference_market_price: Optional[float] = None
     is_price_anomaly: bool = False

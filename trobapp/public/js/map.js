@@ -62,10 +62,12 @@
       list = res.map(function (c) {
         if (c.count === 1) return c.members[0].ref;
         var refs = c.members.map(function (m) { return m.ref; }), v = spec0.cluster(refs);
-        var anyFixed = c.hasFixed || refs.some(function (r) { return r && r.fixed; });
+        var anyFixed = c.hasFixed || refs.some(function (r) { return r && (r.fixed || (r.cls && r.cls.indexOf('sel') > -1)); });
+        var isSel = anyFixed || (v.cls && v.cls.indexOf('sel') > -1);
+        var clsStr = 'cluster ' + (v.cls || '') + (isSel && (v.cls || '').indexOf('sel') === -1 ? ' sel' : '');
         return { sid: 'c:' + c.members.map(function (m) { return m.id; }).join(','), lat: c.lat, lng: c.lng,
-                 cls: 'cluster ' + (v.cls || '') + (anyFixed ? ' sel' : ''), html: v.html, label: v.label,
-                 z: anyFixed ? 4000 : 600, cluster: c };
+                 cls: clsStr.trim(), html: v.html, label: v.label,
+                 z: isSel ? 4000 : 600, cluster: c };
       });
     }
 

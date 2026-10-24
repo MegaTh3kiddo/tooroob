@@ -202,19 +202,28 @@ class ShoppingRecommender:
 
                 # Stock & Travel feasibility
                 travel_mins = 0.0
+                dist_km = None
                 survival_at_arrival = None
                 feasibility_warnings: List[str] = []
 
-                if constraints.user_lat is not None and constraints.user_lon is not None and shop.lat and shop.lon:
-                    _, travel_mins, _ = self.router.estimate_travel(
-                        constraints.user_lat, constraints.user_lon, shop.lat, shop.lon
+                eff_user_lat = constraints.user_lat or (35.70450 if constraints.optimization_priority == "minimum_travel" else None)
+                eff_user_lon = constraints.user_lon or (51.39447 if constraints.optimization_priority == "minimum_travel" else None)
+
+                if eff_user_lat is not None and eff_user_lon is not None and shop.lat and shop.lon:
+                    dist_km, travel_mins, _ = self.router.estimate_travel(
+                        eff_user_lat, eff_user_lon, shop.lat, shop.lon
                     )
+                    if dist_km is None:
+                        dist_km = round(haversine_km(eff_user_lat, eff_user_lon, shop.lat, shop.lon), 2)
+                    else:
+                        dist_km = round(dist_km, 2)
+
                     if constraints.max_travel_minutes and travel_mins > constraints.max_travel_minutes:
                         continue  # Exceeded travel distance
 
                     feasibility = self.feasibility_engine.assess_visit_feasibility(
-                        origin_lat=constraints.user_lat,
-                        origin_lon=constraints.user_lon,
+                        origin_lat=eff_user_lat,
+                        origin_lon=eff_user_lon,
                         shop=shop,
                         offer=offer,
                         now=now,
@@ -259,6 +268,9 @@ class ShoppingRecommender:
                     shop_id=shop.shop_id,
                     shop_name=shop.name,
                     shop_address=shop.address,
+                    shop_lat=shop.lat,
+                    shop_lon=shop.lon,
+                    distance_km=dist_km,
                     price_toman=offer.price_toman,
                     reference_market_price=price_assess.reference_peer_price,
                     is_price_anomaly=(price_assess.risk_band in (RiskBand.HIGH, RiskBand.CRITICAL)),
@@ -285,12 +297,40 @@ class ShoppingRecommender:
             )
 
         # Step 5: Ranking and Trade-off Assignment
-        # Prioritize open shops: if an offer is from a closed shop, replace it with an open shop for the product!
         has_any_open = any(r.is_shop_open for r in evaluated_recommendations)
-        if has_any_open:
-            evaluated_recommendations.sort(key=lambda r: (not r.is_shop_open, -r.suitability_score, r.price_toman))
+        if constraints.optimization_priority == "minimum_travel":
+            if has_any_open:
+                evaluated_recommendations.sort(
+                    key=lambda r: (
+                        not r.is_shop_open,
+                        r.distance_km if r.distance_km is not None else 999.0,
+                        -r.suitability_score,
+                        r.price_toman,
+                    )
+                )
+            else:
+                evaluated_recommendations.sort(
+                    key=lambda r: (
+                        r.distance_km if r.distance_km is not None else 999.0,
+                        -r.suitability_score,
+                        r.price_toman,
+                    )
+                )
+        elif constraints.optimization_priority == "cheapest":
+            if has_any_open:
+                evaluated_recommendations.sort(key=lambda r: (not r.is_shop_open, r.price_toman, -r.suitability_score))
+            else:
+                evaluated_recommendations.sort(key=lambda r: (r.price_toman, -r.suitability_score))
+        elif constraints.optimization_priority == "highest_trust":
+            if has_any_open:
+                evaluated_recommendations.sort(key=lambda r: (not r.is_shop_open, -r.shop_reliability_score, r.price_toman))
+            else:
+                evaluated_recommendations.sort(key=lambda r: (-r.shop_reliability_score, r.price_toman))
         else:
-            evaluated_recommendations.sort(key=lambda r: (-r.suitability_score, r.price_toman))
+            if has_any_open:
+                evaluated_recommendations.sort(key=lambda r: (not r.is_shop_open, -r.suitability_score, r.price_toman))
+            else:
+                evaluated_recommendations.sort(key=lambda r: (-r.suitability_score, r.price_toman))
 
         # Prefer distinct products (best offer each, open shop prioritized), then fill with extra offers
         seen_products: Set[str] = set()
@@ -300,7 +340,7 @@ class ShoppingRecommender:
             seen_products.add(r.product_id)
         top_candidates = (distinct + extra)[:limit]
 
-        self._assign_trade_off_labels(top_candidates)
+        self._assign_trade_off_labels(top_candidates, priority=constraints.optimization_priority)
         summary = self._generate_trade_off_summary(top_candidates, constraints)
 
         # Check PC basket / multi-product compatibility
@@ -971,9 +1011,24 @@ class ShoppingRecommender:
         # Bounded between 0.05 and 0.98
         return float(np.clip(score, 0.05, 0.98))
 
-    def _assign_trade_off_labels(self, candidates: List[CandidateOfferRecommendation]) -> None:
-        """Assigns labels: best_overall, budget_pick, verified_confidence."""
+    def _assign_trade_off_labels(
+        self, candidates: List[CandidateOfferRecommendation], priority: str = "balanced"
+    ) -> None:
+        """Assigns labels: best_overall, budget_pick, verified_confidence, closest."""
         if not candidates:
+            return
+
+        if priority == "minimum_travel":
+            candidates[0].trade_off_label = "closest"
+            if len(candidates) > 1:
+                cheapest = min(candidates[1:], key=lambda c: c.price_toman)
+                if cheapest.price_toman < candidates[0].price_toman:
+                    cheapest.trade_off_label = "budget_pick"
+            remaining = [c for c in candidates if c.trade_off_label is None]
+            if remaining:
+                most_trusted = max(remaining, key=lambda c: c.shop_reliability_score)
+                if most_trusted.shop_reliability_score > 0.50:
+                    most_trusted.trade_off_label = "verified_confidence"
             return
 
         # 1. Best overall: top suitability score
@@ -997,6 +1052,11 @@ class ShoppingRecommender:
     ) -> str:
         if not candidates:
             return ""
+
+        if constraints.optimization_priority == "minimum_travel":
+            first = candidates[0]
+            dist_str = f" با فاصله حدود {first.distance_km:.1f} کیلومتر" if first.distance_km is not None else ""
+            return f"فروشگاه‌ها بر اساس نزدیک‌ترین موقعیت به شما مرتب شدند. نزدیک‌ترین گزینه: «{first.product_title}» از فروشگاه «{first.shop_name}»{dist_str}."
 
         if constraints.preferred_specs.get("compared_brands") or "مقایسه" in (constraints.target_product_title or ""):
             if len(candidates) >= 2:

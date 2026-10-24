@@ -798,6 +798,9 @@ body{text-rendering:optimizeLegibility}
 .pin.cluster.best .cl{background:var(--success);color:var(--on-success)}
 .pin.cluster.best .cl::before{background:var(--success)}
 .pin.cluster.best .cl-n{background:var(--on-success);color:var(--success)}
+.pin.cluster.sel .cl, .pin.sel .cl {background:var(--brand-500) !important;border-color:var(--brand-500) !important;color:var(--on-brand) !important;transform:scale(1.14) !important;box-shadow:0 0 0 4px var(--brand-ring),var(--shadow-lg) !important;z-index:10}
+.pin.cluster.sel .cl::before, .pin.sel .cl::before {background:var(--brand-500) !important;opacity:.4}
+.pin.cluster.sel .cl-n, .pin.sel .cl-n {background:var(--on-brand) !important;color:var(--brand-500) !important}
 .pin.cluster.out .cl{opacity:.8}
 .pin.cluster.saved .cl-t::after{content:" ★";font-size:10px}
 .pin.fresh .pp,.pin.fresh .cl{animation:pin-pop .24s var(--ease) backwards}

@@ -502,8 +502,9 @@
     }
     if (stage() === 'pick') {   // پین خنثی: نام مدلی که هر فروشگاه دارد؛ کلیک = انتخاب همان مدل
       MapView.renderPins(offerRows().map(function (o) {
-        return {sid: o.sid, lat: o.store.lat, lng: o.store.lng, cls: '', html: '<span class="pp"><span class="pt">' + esc(modelOf(o.title)) + '</span></span>',
-                label: o.store.name + '، ' + o.title, z: 0, group: o.title, data: o};
+        var sel = state.selected === o.sid;
+        return {sid: o.sid, lat: o.store.lat, lng: o.store.lng, cls: sel ? 'sel' : '', html: '<span class="pp"><span class="pt">' + esc(modelOf(o.title)) + '</span></span>',
+                label: o.store.name + '، ' + o.title, z: sel ? 4000 : 0, group: o.title, fixed: sel, data: o};
       }), CLUSTER_SPEC);
       return;
     }
@@ -523,20 +524,34 @@
   /* ظاهر خوشه: تعداد فروشگاه + ارزان‌ترین قیمت (یا نام مدل در مرحلهٔ انتخاب محصول) */
   function clusterView(items) {
     var os = items.map(function (i) { return i.data; }), n = os.length;
-    if (stage() === 'none' || stage() === 'dir') return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">فروشگاه</span></span>', label: fa(n) + ' فروشگاه. برای مشاهده بزنید'};
+    var hasSel = items.some(function (i) {
+      return (i.sid && i.sid === state.selected) ||
+             (i.data && (i.data.sid === state.selected || i.data.id === state.selected)) ||
+             (i.fixed);
+    });
+    var selCls = hasSel ? 'sel ' : '';
+    if (stage() === 'none' || stage() === 'dir') {
+      return {
+        cls: selCls,
+        html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">فروشگاه</span></span>',
+        label: fa(n) + ' فروشگاه' + (hasSel ? ' (شامل فروشگاه انتخاب‌شده)' : '') + '. برای مشاهده بزنید'
+      };
+    }
     if (stage() === 'pick') {
       var same = os.every(function(o){ return o && os[0] && o.title === os[0].title; });
       var t = (same && os[0] && os[0].title) ? esc(modelOf(os[0].title)) : 'فروشگاه';
-      return {cls: '', html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + t + '</span></span>',
-              label: fa(n) + ' فروشگاه. برای مشاهده بزنید'};
+      return {
+        cls: selCls,
+        html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + t + '</span></span>',
+        label: fa(n) + ' فروشگاه' + (hasSel ? ' (شامل فروشگاه انتخاب‌شده)' : '') + '. برای مشاهده بزنید'
+      };
     }
     var m = meta(), live = os.filter(function (o) { return o && o.stock !== 'out'; });
     var min = live.length ? Math.min.apply(null, live.map(function (o) { return o.price; })) : 0;
     var best = os.some(function (o) { return o && o.sid === m.best; });
     var saved = os.some(function (o) { return o && Plan.has(o.sid, state.cat); });
-    var sel = os.some(function (o) { return o && o.sid === state.selected; });
     return {
-      cls: (sel ? 'sel ' : '') + (best ? 'best ' : '') + (live.length ? '' : 'out ') + (saved ? 'saved' : ''),
+      cls: selCls + (best ? 'best ' : '') + (live.length ? '' : 'out ') + (saved ? 'saved' : ''),
       html: '<span class="cl"><b class="cl-n">' + fa(n) + '</b><span class="cl-t">' + (min ? '<small>از</small> ' + fa(Math.round(min / 1000)) : 'ناموجود') + '</span></span>',
       label: fa(n) + ' فروشگاه' + (min ? '، از ' + fa(min) + ' تومان' : '') + '. برای مشاهده بزنید'
     };
@@ -2945,6 +2960,8 @@
     renderAll: renderAll,
     fitResults: fitResults,
     openStoreDlg: openStoreDlg,
+    storeDialog: openStoreDlg,
+    storeOnMap: storeOnMap,
     goView: goView,
     catById: catById,
     curProd: curProd,

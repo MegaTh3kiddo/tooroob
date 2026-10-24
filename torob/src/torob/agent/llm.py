@@ -427,7 +427,11 @@ class DeterministicFallbackParser:
         elif any(w in lower_text for w in ["فروشگاه مطمئن‌تر", "فروشگاه مطمئنتر", "معتبرترین", "بالاترین اعتبار", "مطمئن تر", "مطمئنتر"]):
             constraints.optimization_priority = "highest_trust"
             constraints.min_shop_reliability = 0.70
-        elif any(w in lower_text for w in ["نزدیک‌ترین", "کمترین مسافت", "کمترین انحراف", "مسیر کوتاه"]):
+        elif any(w in lower_text for w in [
+            "نزدیک‌ترین", "نزدیک ترین", "نزدیکترین", "نزدیک باشه", "نزدیک بهم", "نزدیک به من",
+            "نزدیک بم باشه", "نزدیک ترین باشه", "نزدیک‌ترین باشه", "نزدیکتر باشه", "نزدیک‌تر باشه",
+            "نزدیکتر", "نزدیک‌تر", "کمترین مسافت", "کمترین انحراف", "مسیر کوتاه"
+        ]):
             constraints.optimization_priority = "minimum_travel"
         elif any(w in lower_text for w in ["کمترین توقف", "یکجا", "تعداد مغازه کمتر"]):
             constraints.optimization_priority = "fewest_stops"
