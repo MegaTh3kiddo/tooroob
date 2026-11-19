@@ -101,7 +101,7 @@ flowchart TB
             Catalog[(کاتالوگ ترب<br/>225k کالا · 6.4k فروشگاه)]
         end
 
-        InquiryLadder["نردبان SLA استعلام<br/>Push → زنگ اضطراری → تماس صوتی → انقضا"]
+        InquiryLadder["نردبان SLA استعلام<br/>Push / زنگ اضطراری / تماس صوتی / انقضا"]
     end
 
     Shopper -->|۱. جستجو، بررسی یا گفتگو| API
@@ -114,7 +114,7 @@ flowchart TB
     InquiryLadder -->|Push Notification| MerchantApp
     InquiryLadder -->|تماس صوتی پشتیبان به خط ثابت| MerchantPhone
     
-    MerchantApp -->|پاسخ به استعلام (موجودی/قیمت)| API
+    MerchantApp -->|پاسخ به استعلام: موجودی و قیمت| API
     API -->|ثبت شواهد جدید| Ledger
     Ledger -->|به‌روزرسانی امتیاز اعتماد و بقا| Intel
     API -->|اعلان زنده پاسخ به خریدار| Shopper

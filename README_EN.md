@@ -103,7 +103,7 @@ flowchart TB
             Catalog[(Torob Catalog Store<br/>225k Products · 6.4k Shops)]
         end
 
-        InquiryLadder["SLA Escalation Ladder<br/>Push → Urgent Call → Voice Call → Timeout"]
+        InquiryLadder["SLA Escalation Ladder<br/>Push / Urgent Call / Voice Call / Timeout"]
     end
 
     Shopper -->|1. Search, Compare, or Chat| API
