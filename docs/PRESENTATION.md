@@ -1,6 +1,12 @@
 # 🎬 اسلایدهای ارائه هکاتون و دموی تعاملی (Interactive Pitch Deck)
 
-> این سند مشخصات و نحوه مشاهده و اجرای دک ارائه ۱۷ اسلایدی موجود در ماژول [`presentation/`](../presentation/) را توضیح می‌دهد.
+<p align="center">
+  <b>🌐 زبان / Language:</b>
+  <a href="PRESENTATION.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="PRESENTATION_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
+---
 
 ---
 

@@ -1,5 +1,13 @@
 # 🏛️ معماری کلان و سیستم تصمیم‌گیری ترب‌مپ (System Architecture)
 
+<p align="center">
+  <b>🌐 زبان / Language:</b>
+  <a href="ARCHITECTURE.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="ARCHITECTURE_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
+---
+
 > این سند تشریح‌کنندهٔ معماری سیستم، جریان انتها-به-انتها داده‌ها، موتورهای استنتاج آماری، و نردبان تشدید تعهدات (SLA) در سامانه **ترب‌مپ (TorobMap)** است.
 
 ---
@@ -24,7 +32,7 @@ flowchart TB
     subgraph Intelligence["موتورهای هوش و تصمیم‌گیری آماری"]
         VoIEngine["سیاست ارزش اطلاعات (VoI)<br/>محاسبه سود کاهش ابهام در برابر هزینه مزاحمت"]
         PriceEngine["ارزیابی معقولیت قیمت<br/>Leave-One-Out Peer Median و تشخیص ریال/تومان"]
-        StockHazard["مدل بقای موجودی کالا<br/>S(t) = exp(-λ · t) با ورودی ETA کاربر"]
+        StockHazard["مدل بقای موجودی کالا<br/>ETA Hazard Model با ورودی زمان رسیدن"]
         BayesTrust["اعتماد بیزی فروشگاه<br/>توزیع بتا-دوپمله‌ای با اثر زوال زمانی"]
         TorobChatRAG["ترب‌چت (TorobChat)<br/>RAG روی ۲۲۵k کالا و ۶.۴k فروشگاه فیزیکی"]
     end
@@ -64,26 +72,55 @@ flowchart TB
 ## ۲. موتورهای استنتاج و الگوریتم‌های هوش مصنوعی
 
 ### الف) مدل معقولیت قیمت (Price Reasonableness)
-برای جلوگیری از ثبت قیمت‌های اشتباه یا گمراه‌کننده (مثلاً ثبت نرخ به ریال به‌جای تومان):
-- از میانه همتایان بدون خود فروشگاه (**Leave-One-Out Peer Median**) استفاده می‌شود.
-- در صورتی که قیمت ثبت‌شده نسبت به میانه بازار مضرب یا کسری از توان‌های ۱۰ باشد، خطای واحد ریال/تومان به‌صورت خودکار تشخیص داده شده و هشدار داده می‌شود.
+برای اینکه قیمت یک فروشگاه با قیمت‌های معتبر بازار ارزیابی شود و خود آن فروشگاه در میانه انحراف ایجاد نکند، از میانه همتایان بدون خود فروشگاه (**Leave-One-Out Peer Median**) استفاده می‌شود:
+
+```math
+\tilde{P}_{-i} = \operatorname{Median}\left(\{P_j : j \in \mathcal{S}_{\mathrm{peer}}, j \neq i\}\right)
+```
+
+- در صورتی که $|P_i - \tilde{P}\_{-i}| \approx 9 \times P_i$ یا نسبت $P_i / \tilde{P}\_{-i} \in [9.5, 10.5]$ یا $[0.095, 0.105]$ باشد، خطای واحد ریال/تومان به‌صورت خودکار تشخیص داده شده و هشدار داده می‌شود.
 
 ### ب) مدل بقای موجودی کالا (Stock Arrival Hazard Model)
 احتمال اینکه کالا تا زمان رسیدن خریدار به فروشگاه همچنان در انبار موجود بماند طبق تابع بقا مدل‌سازی می‌شود:
-$$S(t) = \exp(-\lambda \cdot t_{\text{ETA}})$$
+
+```math
+S(t_{\mathrm{ETA}}) = \exp(-\lambda \cdot t_{\mathrm{ETA}})
+```
+
 که در آن:
-- $t_{\text{ETA}}$ زمان تخمینی رسیدن خریدار با توجه به فاصله و ترافیک تهران است.
-- $\lambda$ نرخ خروج یا ریسک اتمام کالا است که بر اساس محبوبیت کالا و رفتار تاریخی فروشگاه تعدیل می‌گردد.
+- $t\_{\mathrm{ETA}}$ زمان تخمینی رسیدن خریدار با توجه به فاصله و ترافیک شهری تهران است.
+- $\lambda$ نرخ خروج کالا از انبار مغازه است که به محبوبیت کالا و سرعت فروش تاریخی فروشگاه بستگی دارد:
+
+```math
+\lambda = \lambda_0 \cdot \gamma_{\mathrm{popularity}} \cdot \gamma_{\mathrm{store\_velocity}}
+```
 
 ### ج) مدل اعتماد بیزی فروشگاه (Bayesian Shop Trust Model)
-امتیاز اعتماد هر فروشگاه بر اساس توزیع پسین بتا-دوپمله‌ای (**Beta-Binomial Conjugate**) با انقباض بیزی (Bayesian Shrinkage) به‌روز می‌شود:
+امتیاز اعتماد هر فروشگاه بر اساس توزیع پسین بتا-دوپمله‌ای (**Beta-Binomial Conjugate**) با توزیع پیشین $\operatorname{Beta}(\alpha\_0, \beta\_0)$ و انقباض بیزی (Bayesian Shrinkage) به‌روز می‌شود:
+
+```math
+\alpha_{\mathrm{new}} = \alpha_{\mathrm{old}} \cdot e^{-\Delta t / \tau} + k
+```
+
+```math
+\beta_{\mathrm{new}} = \beta_{\mathrm{old}} \cdot e^{-\Delta t / \tau} + (n - k)
+```
+
+```math
+\hat{\theta} = \frac{\alpha_{\mathrm{new}}}{\alpha_{\mathrm{new}} + \beta_{\mathrm{new}}}
+```
+
 - فروشگاه‌های جدید با توزیع پیشین محافظه‌کارانه شروع می‌کنند.
 - هر پاسخ مثبت، رد مستند با دلیل مشخص، یا پاسخ سریع وزن مثبت می‌گیرد.
 - انقضای مکرر استعلام‌ها یا عدم پاسخ‌گویی به تماس‌ها امتیاز اعتماد فروشگاه را کاهش داده و اولویت ارسال استعلام‌های آینده را به فروشندگان متعهدتر می‌دهد.
 
 ### د) سیاست ارزش اطلاعات (Value of Information - VoI)
-ارسال نوتیفیکیشن یا تماس صوتی با فروشنده دارای هزینهٔ مزاحمت (**Nuisance Cost**) است. سیستم تنها زمانی استعلام جدید صادر می‌کند که:
-$$\text{VoI} = \Delta \text{Certainty} \times \text{Transaction Value} - \text{Interruption Cost} > 0$$
+ارسال نوتیفیکیشن یا تماس صوتی با فروشنده دارای هزینهٔ مزاحمت (**Nuisance Cost**) است. سیستم تنها زمانی استعلام جدید صادر می‌کند که ارزش رفع ابهام از هزینه ایجاد مزاحمت بیشتر باشد:
+
+```math
+\mathrm{VoI} = \Delta \mathrm{Certainty} \times \mathrm{TransactionValue} - \mathrm{InterruptionCost} > 0
+```
+
 برای کالاهای ارزان‌قیمت سوپرمارکتی استعلام فرستاده نمی‌شود، اما برای کالاهای گران‌قیمت یا کالاهایی با موجودی حساس، استعلام در اولویت بالا قرار می‌گیرد.
 
 ---
@@ -105,3 +142,4 @@ $$\text{VoI} = \Delta \text{Certainty} \times \text{Transaction Value} - \text{I
 - 📱 [راهنمای اپلیکیشن اندروید فروشنده](MERCHANT_APP.md)
 - 🧠 [راهنمای موتور هوش و بک‌اند](INTELLIGENCE_ENGINE.md)
 - 📸 [کاتالوگ تصاویر و اسکرین‌شات‌ها](../screenshots/README.md)
+- 🇬🇧 [English Version of Architecture Document](ARCHITECTURE_EN.md)

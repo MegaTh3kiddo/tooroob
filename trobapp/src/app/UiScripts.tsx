@@ -17,6 +17,7 @@ const SCRIPTS = [
   '/js/app.js',
   '/js/catalog.js',
   '/js/backend.js',
+  '/js/i18n.js',
 ];
 
 let started = false;

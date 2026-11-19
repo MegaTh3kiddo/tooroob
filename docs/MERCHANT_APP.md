@@ -1,6 +1,12 @@
 # 📱 راهنمای پلتفرم و اپلیکیشن موبایل فروشنده (Torob Merchant Platform & Android App)
 
-> این سند مشخصات فنی، معماری نرم‌افزاری، الگوهای تعاملی و راهنمای اپلیکیشن بومی اندروید فروشندگان **ترب‌مپ** (`torob_merchant_app`) را ارائه می‌دهد.
+<p align="center">
+  <b>🌐 زبان / Language:</b>
+  <a href="MERCHANT_APP.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="MERCHANT_APP_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
+---
 
 ---
 

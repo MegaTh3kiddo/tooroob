@@ -1,6 +1,12 @@
 # 🚀 راهنمای جامع راه‌اندازی و استقرار محلی و ابری (Deployment Guide)
 
-> این سند راهنمای گام‌به‌گام راه‌اندازی کل اجزای سامانه **ترب‌مپ** به‌صورت محلی (Local Development) و استقرار روی بستر ابری (Liara Cloud) را ارائه می‌دهد.
+<p align="center">
+  <b>🌐 زبان / Language:</b>
+  <a href="DEPLOYMENT_GUIDE.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="DEPLOYMENT_GUIDE_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
+---
 
 ---
 

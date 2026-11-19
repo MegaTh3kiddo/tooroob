@@ -1,6 +1,12 @@
 # ترب مپ · سامانه هوشمند خرید حضوری (TorobMap)
 ### Starcoach AI Hackathon — Unified Monorepo
 
+<p align="center">
+  <b>🌐 انتخاب زبان / Select Language:</b>
+  <a href="README.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="README_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2+-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org)
 [![Android](https://img.shields.io/badge/Android-Jetpack%20Compose-3DDC84?style=flat-square&logo=android&logoColor=white)](https://developer.android.com/jetpack/compose)

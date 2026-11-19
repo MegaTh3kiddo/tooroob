@@ -1,5 +1,13 @@
 # 🧠 موتور هوش، تصمیم‌گیری آماری و بک‌اند مرکزی (Torob Intelligence Backend)
 
+<p align="center">
+  <b>🌐 زبان / Language:</b>
+  <a href="INTELLIGENCE_ENGINE.md"><b> 🇮🇷 فارسی (پیش‌فرض)</b></a> |
+  <a href="INTELLIGENCE_ENGINE_EN.md"><b> 🇬🇧 English</b></a>
+</p>
+
+---
+
 > این سند مشخصات فنی، معماری سرویس‌های هوش مصنوعی، مدل‌های احتمالاتی و APIهای موجود در ماژول [`torob/`](../torob/) را تبیین می‌کند.
 
 ---
@@ -20,22 +28,51 @@
 
 ### الف) مدل میانه همتایان بدون خود فروشگاه (Leave-One-Out Peer Median)
 برای اینکه قیمت یک فروشگاه با قیمت‌های معتبر بازار ارزیابی شود و خود آن فروشگاه در میانه انحراف ایجاد نکند:
-$$\tilde{P}_{-i} = \operatorname{Median}\left(\{P_j : j \in \mathcal{S}_{\text{peer}}, j \neq i\}\right)$$
-- چنانچه $|P_i - \tilde{P}_{-i}| \approx 9 \times P_i$ یا نسبت $P_i / \tilde{P}_{-i} \in [9.5, 10.5]$ یا $[0.095, 0.105]$ باشد، خطای سیستماتیک ۱۰ برابری واحد پولی (ریال به جای تومان) شناسایی می‌شود.
+
+```math
+\tilde{P}_{-i} = \operatorname{Median}\left(\{P_j : j \in \mathcal{S}_{\mathrm{peer}}, j \neq i\}\right)
+```
+
+- چنانچه $|P_i - \tilde{P}\_{-i}| \approx 9 \times P_i$ یا نسبت $P_i / \tilde{P}\_{-i} \in [9.5, 10.5]$ یا $[0.095, 0.105]$ باشد، خطای سیستماتیک ۱۰ برابری واحد پولی (ریال به جای تومان) شناسایی می‌شود.
 
 ### ب) مدل مخاطره بقای موجودی کالا (Stock Survival Hazard Model)
 خریدار برای خرید حضوری در سفر شهری است. بقای کالای موجود در انبار طبق توزیع نمایی برآورد می‌شود:
-$$S(t_{\text{ETA}}) = P(T > t_{\text{ETA}}) = \exp(-\lambda \cdot t_{\text{ETA}})$$
+
+```math
+S(t_{\mathrm{ETA}}) = P(T > t_{\mathrm{ETA}}) = \exp(-\lambda \cdot t_{\mathrm{ETA}})
+```
+
 که در آن:
-- $t_{\text{ETA}}$ زمان رسیدن به دقیقه است.
-- $\lambda = \lambda_0 \cdot \gamma_{\text{popularity}} \cdot \gamma_{\text{store\_velocity}}$ نرخ خروج کالا از مغازه است.
+- $t\_{\mathrm{ETA}}$ زمان رسیدن خریدار به دقیقه است.
+- نرخ خروج کالا $\lambda$ با ترکیب ویژگی‌های کالا و فروشگاه محاسبه می‌شود:
+
+```math
+\lambda = \lambda_0 \cdot \gamma_{\mathrm{popularity}} \cdot \gamma_{\mathrm{store\_velocity}}
+```
 
 ### ج) به‌روزرسانی بیزی اعتماد فروشگاه (Bayesian Beta-Binomial Trust)
-اعتماد به فروشگاه $\theta$ با توزیع پیشین $\operatorname{Beta}(\alpha_0, \beta_0)$ مدل می‌شود. پس از دریافت $n$ شواهد جدید با $k$ پاسخ موفق:
-$$\alpha_{\text{new}} = \alpha_{\text{old}} \cdot e^{-\Delta t / \tau} + k$$
-$$\beta_{\text{new}} = \beta_{\text{old}} \cdot e^{-\Delta t / \tau} + (n - k)$$
-$$\hat{\theta} = \frac{\alpha_{\text{new}}}{\alpha_{\text{new}} + \beta_{\text{new}}}$$
+اعتماد به فروشگاه $\theta$ با توزیع پیشین $\operatorname{Beta}(\alpha\_0, \beta\_0)$ مدل می‌شود. پس از دریافت $n$ شواهد جدید با $k$ پاسخ موفق:
+
+```math
+\alpha_{\mathrm{new}} = \alpha_{\mathrm{old}} \cdot e^{-\Delta t / \tau} + k
+```
+
+```math
+\beta_{\mathrm{new}} = \beta_{\mathrm{old}} \cdot e^{-\Delta t / \tau} + (n - k)
+```
+
+```math
+\hat{\theta} = \frac{\alpha_{\mathrm{new}}}{\alpha_{\mathrm{new}} + \beta_{\mathrm{new}}}
+```
+
 ضریب $e^{-\Delta t / \tau}$ اثر زوال زمانی (Time Decay) است که باعث می‌شود رفتارهای اخیر فروشگاه تاثیر پررنگ‌تری در مقایسه با گذشته داشته باشند.
+
+### د) سیاست ارزش اطلاعات (Value of Information - VoI)
+ارسال نوتیفیکیشن یا تماس صوتی با فروشنده دارای هزینهٔ مزاحمت است. سیستم تنها زمانی استعلام جدید صادر می‌کند که:
+
+```math
+\mathrm{VoI} = \Delta \mathrm{Certainty} \times \mathrm{TransactionValue} - \mathrm{InterruptionCost} > 0
+```
 
 ---
 
@@ -89,3 +126,4 @@ uvicorn torob.api.main:app --host 0.0.0.0 --port 8080 --reload
 - 🏛️ [معماری سیستم و جریان استعلام](ARCHITECTURE.md)
 - 🌐 [راهنمای وب‌اپلیکیشن مشتری](WEB_APP.md)
 - 📱 [راهنمای اپلیکیشن اندروید فروشنده](MERCHANT_APP.md)
+- 🇬🇧 [English Version of Intelligence Backend Document](INTELLIGENCE_ENGINE_EN.md)
