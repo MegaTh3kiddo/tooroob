@@ -1,29 +1,75 @@
 # ترب مپ · سامانه هوشمند خرید حضوری (TorobMap)
 ### Starcoach AI Hackathon — Unified Monorepo
 
-> **English Summary**: Traditional price-comparison platforms answer *"who sells cheapest online?"*. But a buyer preparing to navigate city traffic needs a much harder question answered:  
-> **"If I travel to this store right now, will the product still be in stock, at the stated price, and can this merchant be trusted?"**  
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2+-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org)
+[![Android](https://img.shields.io/badge/Android-Jetpack%20Compose-3DDC84?style=flat-square&logo=android&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![DuckDB](https://img.shields.io/badge/DuckDB-Analytical%20Engine-FFF000?style=flat-square&logo=duckdb&logoColor=black)](https://duckdb.org)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](#)
+
+> **خلاصه ایده**: در خریدهای سنتی اینترنتی، پاسخ به سوال «کجا ارزان‌تر می‌فروشد؟» کافی است؛ اما برای خریدار حضوری در ترافیک شهر تهران، پاسخ به این سوال بسیار حیاتی‌تر و دشوارتر است:  
+> **«اگر همین الان به این فروشگاه مراجعه کنم، آیا کالا با همین قیمت موجود است و آیا این فروشگاه قابل اعتماد است؟»**  
 > 
-> **TorobMap (ترب مپ)** solves this using an evidence-driven, probabilistic intelligence engine combined with real-time merchant inquiry routing, an offline-resilient Android merchant app, an interactive customer web experience, and an AI shopping assistant.
+> **ترب‌مپ (TorobMap)** با ترکیب یک موتور استنتاج احتمالاتی و شواهد-محور، چرخه استعلام بلادرنگ فروشندگان با زنگ اضطراری، اپلیکیشن بومی اندروید فروشنده با عملکرد پایدار آفلاین، وب‌اپلیکیشن تعاملی خریدار با نقشه زنده، و دستیار هوشمند ترب‌چت (TorobChat)، این چالش را حل می‌کند.
 
 ---
 
-## 🗂️ اجزای ریپازیتوری (What Are Those?)
+## 📸 گالری تصویری سامانه (Visual Showcase)
 
-این ریپازیتوری شامل چهار مؤلفهٔ اصلی پروژه به‌همراه دارایی‌های طراحی و دمو است:
+> کلیه تصاویر و اسکرین‌شات‌های سیستم در پوشه [`screenshots/`](screenshots/) نگهداری شده و شرح تفصیلی تمام المان‌ها در [کاتالوگ تصاویر](screenshots/README.md) درج شده است.
 
-| پوشه (Folder) | مؤلفه | فناوری‌ها | نقش و وظیفه |
+### ۱. وب‌اپلیکیشن خریدار (Customer Web App)
+
+| دستیار هوشمند ترب‌چت و برنامه‌ریزی سرزدن‌ها | نمای دسکتاپ دوپَنِله نقشه و فروشگاه‌های فیزیکی ⭐ |
+|:---:|:---:|
+| [![دستیار تربچت](screenshots/web-1.jpg)](docs/WEB_APP.md) | [![نمای دسکتاپ دوپنله](screenshots/web-3.png)](docs/WEB_APP.md) |
+| *رابط کاربری خریدار، مشاوره RAG خرید و برنامه‌ریزی مسیر (`web-1.jpg`)* | *تلفیق نقشه تعاملی Leaflet با فیلتر قیمت و لیست مغازه‌ها (`web-3.png`)* |
+
+| کارت مشخصات فروشگاه و راهنمای ترانزیت | مقایسه پهلوبه‌پهلو محصولات در بازار حضوری | برگه مشخصات فنی کامل کالا | نتایج جستجو و نقشه موبایل |
+|:---:|:---:|:---:|:---:|
+| [![کارت فروشگاه](screenshots/web-4.png)](docs/WEB_APP.md) | [![مقایسه محصولات](screenshots/web-5.png)](docs/WEB_APP.md) | [![مشخصات فنی](screenshots/web-6.png)](docs/WEB_APP.md) | [![جستجوی موبایل](screenshots/web-2.jpg)](docs/WEB_APP.md) |
+| *نشانی، ساعات کار، تلفن و پیشنهاد وسیله سفر (`web-4.png`)* | *مقایسه قیمت، فاصله و تعداد مغازه‌های موجود (`web-5.png`)* | *جستجو در مشخصات، استاندارد ضدآب و کدک‌ها (`web-6.png`)* | *مقایسه سریع قیمت و فاصله روی نقشه (`web-2.jpg`)* |
+
+### ۲. اپلیکیشن موبایل فروشنده (Android Merchant App)
+
+| زنگ اضطراری استعلام فوری ⭐ | تاریخچه و ردگیری استعلام‌ها | کارنامه عملکرد فروشگاه | دلیل ساختاریافته رد استعلام |
+|:---:|:---:|:---:|:---:|
+| [![زنگ اضطراری](screenshots/androidapp-4.png)](docs/MERCHANT_APP.md) | [![تاریخچه](screenshots/androidapp-2.png)](docs/MERCHANT_APP.md) | [![کارنامه](screenshots/androidapp-3.png)](docs/MERCHANT_APP.md) | [![دلیل رد استعلام](screenshots/androidapp-5.png)](docs/MERCHANT_APP.md) |
+| *پنجره ۲ دقیقه‌ای تمام‌صفحه `URGENT_CALL`* | *پیگیری کدهای رهگیری TRB و قیمت‌ها* | *نرخ پاسخگویی و شاخص‌های SLA* | *ثبت شواهد برای مدل اعتماد بیزی* |
+
+| ورود به پنل فروشندگان ترب | اعلان سیستمی اندروید | پوستر ترکیبی قابلیت‌های اپ فروشنده |
+|:---:|:---:|:---:|
+| [![ورود](screenshots/androidapp-1.png)](docs/MERCHANT_APP.md) | [![نوتیفیکیشن](screenshots/androidapp-6.png)](docs/MERCHANT_APP.md) | [![پوستر اپ](screenshots/androidapp-7.jpg)](docs/MERCHANT_APP.md) |
+| *ورود با موبایل یا خط ثابت مغازه* | *نوتیفیکیشن شناور با اولویت بالا* | *نمای کامل اکوسیستم فروشنده* |
+
+---
+
+## 📚 ساختار اسناد و صفحات تخصصی (Documentation Map)
+
+- 🏛️ [**معماری کلان و سیستم تصمیم‌گیری (docs/ARCHITECTURE.md)**](docs/ARCHITECTURE.md): تشریح جریان انتها-به-انتها داده، مدل‌های ریاضی و نردبان تشدید استعلام (SLA Ladder).
+- 🌐 [**راهنمای وب‌اپلیکیشن خریدار (docs/WEB_APP.md)**](docs/WEB_APP.md): جزئیات رابط کاربری خریدار، Next.js 14، نقشه تعاملی Leaflet، دستیار RAG ترب‌چت و برنامه‌ریزی سرزدن‌ها.
+- 📱 [**راهنمای اپلیکیشن اندروید فروشنده (docs/MERCHANT_APP.md)**](docs/MERCHANT_APP.md): راهنمای فنی اپلیکیشن Jetpack Compose، سرویس پیش‌زمینه زنگ اضطراری، صف آفلاین Room و تماس صوتی Poshteyar.
+- 🧠 [**موتور هوش و بک‌اند مرکزی (docs/INTELLIGENCE_ENGINE.md)**](docs/INTELLIGENCE_ENGINE.md): فرمولاسیون مدل مخاطره بقای موجودی $S(t)$، میانه همتایان Leave-One-Out، به‌روزرسانی اعتماد بیزی و سیاست VoI.
+- 🎬 [**راهنمای اسلایدهای ارائه هکاتون (docs/PRESENTATION.md)**](docs/PRESENTATION.md): دک ارائه ۱۷ اسلایدی تعاملی و خودکفا، ویدیوی همگام دو گوشی و سناریوی گفتار.
+- 📸 [**کاتالوگ کامل تصاویر و اسکرین‌شات‌ها (screenshots/README.md)**](screenshots/README.md): جدول نگاشت تصاویر، بررسی تفصیلی هر اسکرین‌شات و راهنمای ثبت تصاویر جدید.
+- 🚀 [**راهنمای راه‌اندازی و استقرار محلی و ابری (docs/DEPLOYMENT_GUIDE.md)**](docs/DEPLOYMENT_GUIDE.md): دستورالعمل گام‌به‌گام راه‌اندازی محلی با Docker/Node/Python و دیپلوی روی لیارا.
+
+---
+
+## 🗂️ اجزای ریپازیتوری (Repository Components)
+
+| پوشه (Directory) | مؤلفه | استک و فناوری‌ها | نقش و وظیفه |
 |---|---|---|---|
-| [`torob/`](torob/) | **موتور هوش و بک‌اند مرکزی**<br/>*(Intelligence Backend)* | FastAPI · Python 3.11+ · DuckDB · SQLite WAL · Pydantic | هستهٔ محاسباتی و تصمیم‌گیری: ارزیابی معقولیت قیمت، تخمین بقای موجودی تا رسیدن خریدار، اعتماد چندبعدی فروشگاه با مدل بیزی، الگوریتم ارزش اطلاعات (VoI) برای ارسال استعلام، دستیار هوشمند تربچت (RAG روی کاتالوگ ۲۲۵ هزار کالا و ۶۴۰۰ فروشگاه)، و برنامه‌ریزی بهینهٔ مسیر خرید حضوری. |
-| [`trobapp/`](trobapp/) | **وب‌اپلیکیشن مشتری**<br/>*(Customer Web App)* | Next.js 14 · React · TypeScript · Tailwind CSS · Leaflet | رابط کاربری خریدار: نمایش نقشهٔ زندهٔ تهران با خوشه‌بندی قیمت‌ها، فیلتر و مقایسهٔ فروشگاه‌ها، چرخهٔ زندهٔ استعلام قیمت/موجودی از فروشنده با شمارش معکوس SLA، گفتگوی هوشمند تربچت با فیلترهای تعاملی، و بهینه‌سازی مسیر مراجعه. |
-| [`torob_merchant_app/`](torob_merchant_app/) | **پلتفرم و اپلیکیشن اندروید فروشنده**<br/>*(Merchant Platform & Android App)* | Kotlin · Jetpack Compose · Room DB · Retrofit · Poshteyar TTS | اپلیکیشن موبایل بومی فروشندگان: دریافت آنی استعلام‌ها با Push Notification، پنجرهٔ هشدار اضطراری ۲ دقیقه‌ای (`URGENT_CALL` با سرویس پیش‌زمینه و رابط شبیه تماس تلفنی)، صف آفلاین با شناسهٔ یکتا (Idempotent Sync)، پشتیبان صوتی خودکار با تماس تلفنی به خطوط ثابت مغازه‌ها، و داشبورد مدیریت وب. |
-| [`presentation/`](presentation/) | **ارائهٔ تعاملی و ضبط دمو**<br/>*(Interactive Pitch Deck)* | HTML5 · CSS3 / Tailwind · JavaScript · MP4 Assets | دک ارائهٔ ۱۷ اسلایدی تعاملی و خودکفا (بدون نیاز به اینترنت): ویدیوی هم‌زمان خریدار و زنگ‌خوردن گوشی فروشنده، متن گفتار ارائه (`SCRIPT.md`)، و ابزارهای خودکار ضبط اسلایدها و ویدیوها. |
-| [`trb-ui/`](trb-ui/) | **نمونه اولیه رابط کاربری**<br/>*(Design Prototype)* | HTML / CSS / Vanilla JS | مرجع و منبع حقیقت طراحی ظاهر و استایل‌های رابط کاربری. |
-| [`merchentappimages/`](merchentappimages/) | **اسکرین‌شات‌های اپ فروشنده**<br/>*(Merchant Screenshots)* | PNG Images · Markdown Notes | اسکرین‌شات‌های کامل مراحل اپلیکیشن فروشنده (ورود، استعلام فعال، زنگ اضطراری، دلایل رد و تاریخچه). |
+| [`torob/`](torob/) | **موتور هوش و بک‌اند مرکزی** | FastAPI · Python 3.11+ · DuckDB · SQLite WAL | هسته محاسباتی: ارزیابی معقولیت قیمت، تخمین بقای موجودی تا رسیدن خریدار، اعتماد چندبعدی فروشگاه با مدل بیزی، الگوریتم ارزش اطلاعات (VoI) و دستیار هوشمند ترب‌چت. |
+| [`trobapp/`](trobapp/) | **وب‌اپلیکیشن مشتری** | Next.js 14 · React 18 · TypeScript · Leaflet | رابط کاربری خریدار: نقشه تعاملی فروشگاه‌های فیزیکی تهران، فیلتر و مقایسه هوشمند، گفتگوی طبیعی با ترب‌چت، بهینه‌سازی مسیر مراجعه حضوری و چرخه زنده استعلام. |
+| [`torob_merchant_app/`](torob_merchant_app/) | **پلتفرم و اپلیکیشن اندروید فروشنده** | Kotlin · Jetpack Compose · Room DB · Poshteyar TTS | اپلیکیشن موبایل بومی مغازه‌داران: پنجره اضطراری ۲ دقیقه‌ای (`URGENT_CALL`) با شبیه‌سازی زنگ تلفن، پاسخ‌های سریع تک‌لمسی، صف آفلاین و پشتیبان صوتی تلفن ثابت. |
+| [`presentation/`](presentation/) | **ارائه تعاملی و دموی هکاتون** | HTML5 · CSS3 / Tailwind · JavaScript · MP4 Assets | دک ارائهٔ ۱۷ اسلایدی آفلاین و خودکفا به همراه ویدیوی هم‌زمان دموی خریدار و فروشنده و سناریوی سخنرانی (`SCRIPT.md`). |
+| [`screenshots/`](screenshots/) | **گالری و اسکرین‌شات‌های سامانه** | PNG · JPG · Markdown Catalog | کلیه تصاویر ثبت‌شده از اپلیکیشن اندروید و وب‌اپلیکیشن به همراه مستندات تفصیلی هر اسکرین‌شات. |
+| [`trb-ui/`](trb-ui/) | **نمونه اولیه رابط کاربری** | HTML / CSS / Vanilla JS | مرجع و منبع حقیقت طراحی اولیه ظاهر و المان‌های تعاملی. |
 
 ---
 
-## 🏛️ معماری کلان و جریان داده (Architecture & Data Flow)
+## 🏛️ معماری کلان و جریان داده (Architecture Flow)
 
 ```mermaid
 flowchart TB
@@ -41,7 +87,7 @@ flowchart TB
             StockHazard["مدل بقای موجودی<br/>ETA Hazard Model"]
             TrustBayes["اعتماد بیزی فروشگاه<br/>Beta-Binomial Shrinkage"]
             VoIPolicy["سیاست ارزش اطلاعات (VoI)<br/>هزینه مزاحمت vs رفع ابهام"]
-            TorobChat["تربچت<br/>RAG روی کاتالوگ و ارزیابی"]
+            TorobChat["ترب‌چت<br/>RAG روی کاتالوگ و ارزیابی"]
         end
 
         subgraph CoreData["پایگاه داده و شواهد"]
@@ -70,42 +116,17 @@ flowchart TB
 
 ---
 
-## 🔍 جزئیات مؤلفه‌ها (Component Breakdown)
+## 🚀 راهنمای سریع اجرا (Quick Start)
 
-### ۱. موتور بک‌اند ترب (`torob/`)
-- **هوش قیمت**: تشخیص خطاهای واحد (۱۰ برابر شدن به دلیل ریال/تومان)، میانهٔ همتا بدون خود فروشگاه (Leave-One-Out Peer Median)، و تشخیص نوسان مشکوک.
-- **احتمال بقای موجودی**: مدل مخاطره زمانی $S(t) = \exp(-\lambda \cdot t)$ که زمان رسیدن خریدار (ETA) بر اساس فاصله جغرافیایی و سرعت حرکت را در نظر می‌گیرد.
-- **اعتماد چندبعدی فروشگاه**: به‌روزرسانی بیزی توزیع بتا-دوپمله‌ای با اثر زوال زمانی برای تفکیک فروشندگان متعهد از فروشگاه‌های دارای ادعای کاذب.
-- **استعلام هوشمند با سیاست ارزش اطلاعات (VoI)**: عدم ارسال استعلام برای کالاهای ارزان با هزینهٔ مزاحمت بالا؛ اعمال سقف روزانه و رعایت ساعات کاری فروشگاه.
-- **تربچت (TorobChat)**: دستیار هوشمند با توانایی تفسیر مقصود کاربر، فیلتر بودجه، برند، فروشگاه‌های نزدیک و پیشنهاد کالاهای جایگزین.
-- **استقرار ابری**: مستقر در لیارا به آدرس `https://torobmap-api.liara.run` (مستندات Swagger در `/docs`).
+### ۱. اجرای وب‌اپلیکیشن مشتری (`trobapp`)
+```bash
+cd trobapp
+npm install
+npm run dev
+```
+👉 برنامه در آدرس **`http://localhost:3000`** در دسترس خواهد بود.
 
-### ۲. وب‌اپلیکیشن مشتری (`trobapp/`)
-- پیاده‌سازی شده با **Next.js 14 App Router**.
-- رندر کامل و دقیق پروتوتایپ طراحی بدون افت کیفیت یا نقص در چیدمان RTL.
-- نقشه تعاملی با کتابخانه Leaflet، پین‌های هوشمند قیمت و تفکیک موجودی قطعی از نامشخص.
-- فرم مودال و کارت‌های زنده برای ارسال استعلام، با قابلیت Polling هوشمند و دریافت پاسخ فوری فروشنده.
-- پراکسی خودکار درخواست‌ها به بک‌اند از طریق `next.config.mjs` جهت رفع محدودیت‌های CORS.
-- استقرار ابری: مستقر در لیارا به آدرس `https://torobmap.liara.run`.
-
-### ۳. اپلیکیشن موبایل فروشنده (`torob_merchant_app/`)
-- توسعه‌یافته با **Kotlin** و معماری مدرن **Jetpack Compose**.
-- ذخیره‌سازی محلی با **Room Database** جهت عملکرد پایدار در قطعی اینترنت.
-- **پنجره ۲ دقیقه‌ای هشدار اضطراری (`URGENT_CALL`)**: اجرای Foreground Service اختصاصی با صدای زنگ مداوم و ویبره حتی در صورت قفل بودن صفحه.
-- پاسخ‌دهی سریع با گزینه‌های پیش‌فرض: تایید موجودی و قیمت قبلی، اعلام قیمت جدید، اتمام موجودی، یا عدم امکان پاسخ‌گویی با ذکر دلیل.
-- **پشتیبان صوتی اختصاصی**: ادغام با سرویس پشت‌یار (Poshteyar) برای برقراری تماس خودکار صوتی و بازخوانی کد یا یادآوری استعلام‌های معوق فروشگاه‌های پرتأخیر.
-
-### ۴. اسلایدهای ارائه هکاتون (`presentation/`)
-- ارائهٔ تعاملی مبتنی بر وب (HTML5/Tailwind) بدون وابستگی خارجی.
-- دربرگیرنده ۱۷ اسلاید جامع شامل بخش اول (آنچه ساخته‌ایم و دموی واقعی) و بخش دوم (معماری، فرمول‌ها و طراحی سیستم).
-- دموی ضبط‌شدهٔ هماهنگ دو گوشی خریدار و فروشنده در لحظهٔ ارسال و پاسخ استعلام.
-- سناریوی کامل سخنرانی ارائه در فایل `SCRIPT.md`.
-
----
-
-## 🚀 راهنمای اجرا و توسعه (Getting Started)
-
-### ۱. اجرای بک‌اند (`torob`)
+### ۲. اجرای بک‌اند مرکزی (`torob`)
 ```bash
 cd torob
 python3 -m venv .venv
@@ -113,36 +134,24 @@ source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn torob.api.main:app --host 0.0.0.0 --port 8080 --reload
 ```
-دسترسی به API: `http://localhost:8080`  
-مستندات سواگر: `http://localhost:8080/docs`
+👉 درگاه API در **`http://localhost:8080`** و مستندات Swagger در **`http://localhost:8080/docs`**.
 
-### ۲. اجرای فرانت‌اند مشتری (`trobapp`)
-```bash
-cd trobapp
-npm install
-npm run dev
-```
-دسترسی به وب‌اپلیکیشن: `http://localhost:3000`
-
-### ۳. ساخت و اجرای اپلیکیشن اندروید (`torob_merchant_app`)
-پروژه را در Android Studio باز کرده یا از خط فرمان با Gradle بیلد کنید:
+### ۳. بیلد نسخه اندروید فروشنده (`torob_merchant_app`)
 ```bash
 cd torob_merchant_app/android
 ./gradlew assembleDebug
 ```
-فایل APK تولیدی در مسیر `app/build/outputs/apk/debug/` قرار می‌گیرد.
+👉 فایل APK در مسیر `app/build/outputs/apk/debug/app-debug.apk` ساخته می‌شود.
 
-### ۴. مشاهده ارائه هکاتون (`presentation`)
-کافی است فایل `presentation/index.html` را در مرورگر کروم یا اج باز کنید:
+### ۴. مشاهده اسلایدهای ارائه (`presentation`)
 ```bash
-# از طریق مرورگر یا وب‌سرور سبک:
 cd presentation && python3 -m http.server 8000
 ```
-آدرس: `http://localhost:8000`
+👉 مشاهده اسلایدها در مرورگر در آدرس **`http://localhost:8000`**.
 
 ---
 
-## 🌐 لینک‌های استقرار آنلاین (Live Deployments)
+## 🌐 پیوندهای استقرار آنلاین (Deployments)
 
 - 📱 **وب‌اپلیکیشن مشتری (TrobApp)**: [https://torobmap.liara.run](https://torobmap.liara.run)
 - ⚙️ **سرویس بک‌اند و هوش (Torob Intelligence API)**: [https://torobmap-api.liara.run](https://torobmap-api.liara.run)
