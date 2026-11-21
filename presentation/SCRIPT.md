@@ -1,39 +1,39 @@
-# متن گفتار ویدئوی دمو (حدود ۵ دقیقه)
+# Demo Video Narration Script (About 5 Minutes)
 
-> ریتم: بخش ۱ حدود ۳٫۵ دقیقه، بخش ۲ حدود ۱٫۵ دقیقه. هر بند = یک اسلاید.
+> Pacing: Part 1 about 3.5 minutes, Part 2 about 1.5 minutes. Each paragraph = one slide.
 
-**۱ · عنوان (۱۵ ثانیه)** — «ما ترب مپ را ساختیم: دستیار خرید حضوری در تهران. از "کجا ارزان‌تر است؟" تا "مطمئنم الان موجود است". یک وب‌اپ موبایل، دستیار تربچت، و اپ اندروید فروشنده.»
+**1 · Title (15 seconds)** — "We built TorobMap: an in-person shopping assistant in Tehran. From 'Where is it cheaper?' to 'I'm sure it's in stock right now.' A mobile web app, the TorobChat assistant, and the seller Android app."
 
-**۲ · مسئله (۲۰ ثانیه)** — «در خرید حضوری چهار درد داریم: قیمت فرق می‌کند، موجودی معلوم نیست، مغازه ممکن است بسته باشد، و پیگیری دستی سخت است.»
+**2 · Problem (20 seconds)** — "In in-person shopping we have four pain points: prices vary, stock is unclear, the shop might be closed, and manual follow-up is hard."
 
-**۳ · چهار گام (۱۵ ثانیه)** — «چالش چهار گام داشت: جستجو، مقایسه، فروشندهٔ نزدیک، پیگیری. هر چهار را پوشش داده‌ایم و همه‌چیز لازم نیست از چت بگذرد.»
+**3 · Four Steps (15 seconds)** — "The challenge had four steps: search, comparison, nearby seller, follow-up. We covered all four, and not everything has to go through chat."
 
-**۴ · تربچت (۳۰ ثانیه)** — «تربچت نیاز را می‌فهمد، فقط سؤال لازم را می‌پرسد، مثلاً بودجه، با دکمه. بعد پیشنهاد می‌دهد و برای هر کارت دلیل دارد: قیمت نسبت به بازار، اعتماد فروشگاه، احتمال موجودی.»
+**4 · TorobChat (30 seconds)** — "TorobChat understands the need, asks only the necessary question—like budget—with buttons. Then it gives recommendations and has a reason for each card: price relative to the market, store trust, and probability of stock."
 
-**۵ · فهرست و مقایسه (۲۰ ثانیه)** — «بدون گفتگو هم می‌شود: جستجو، فیلتر، مقایسهٔ دو فروشگاه، ارزان‌ترین یا نزدیک‌ترین.»
+**5 · List & Comparison (20 seconds)** — "You can do it without chat too: search, filter, compare two stores, cheapest or nearest."
 
-**۶ · نقشه (۲۰ ثانیه)** — «روی نقشه فروشندهٔ نزدیک را می‌بینید، با فاصله و زمان سفر، و برنامهٔ سر زدن چندمغازه‌ای که قبل از بسته‌شدن مغازه هشدار می‌دهد.»
+**6 · Map (20 seconds)** — "On the map you see nearby sellers, with distance and travel time, and a multi-shop visit plan that warns you before the shop closes."
 
-**۷ · شفافیت (۲۵ ثانیه)** — «قیمت ثبت‌شده، زمان تغییر قیمت و موجودی تأییدشده را یکی نمی‌گیریم. آنچه نامشخص است صریح می‌گوییم نامشخص؛ و هیچ پاسخ فروشنده‌ای ساخته نمی‌شود.»
+**7 · Transparency (25 seconds)** — "We don't treat recorded price, time of price change, and verified stock as the same thing. Whatever is unclear we explicitly call unclear; and no seller response is ever fabricated."
 
-**۸ · سیستم استعلام (۳۰ ثانیه)** — «قلب محصول: "ترب برایم استعلام بگیرد". اول یک دروازه حساب می‌کند که پرسیدن می‌ارزد یا نه. بعد پوش به اپ فروشنده می‌رود، با یادآوری و تماس فوری، و پاسخ واقعی برمی‌گردد.»
+**8 · Inquiry System (30 seconds)** — "The heart of the product: 'Have Torob inquire for me.' First a gate calculates whether asking is worth it. Then a push goes to the seller app, with reminders and urgent call, and a real response comes back."
 
-**۹ · یک استعلام، دو گوشی (۲۰ ثانیه)** — «این چهار قدم است: مشتری می‌زند، گوشی فروشنده زنگ می‌خورد، فروشنده قیمت و تعداد دقیق را می‌زند، و مشتری پاسخ را با کد پیگیری می‌بیند.»
+**9 · One Inquiry, Two Phones (20 seconds)** — "These are the four steps: the customer taps, the seller's phone rings, the seller enters the exact price and quantity, and the customer sees the response with a tracking code."
 
-**۱۰ · اپ فروشنده (۲۰ ثانیه)** — «فروشنده صفحهٔ تماس تمام‌صفحه با شمارندهٔ فرصت می‌بیند و با یک لمس جواب می‌دهد. رد کردن فقط با دلیل است، تا نه‌گفتن هم شاهد باشد. پاسخ آفلاین هم صف می‌شود.»
+**10 · Seller App (20 seconds)** — "The seller sees a full-screen call screen with a response countdown and answers with one tap. Declining requires a reason, so even saying no has evidence. Offline responses are queued too."
 
-**۱۱ · نمایش زنده (۴۰ ثانیه، ویدئو را پخش کنید)** — «همین حالا روی دو گوشی: سمت راست مشتری، سمت چپ فروشنده. چت، فهرست، نقشه، استعلام… گوشی فروشنده زنگ می‌خورد… فروشنده جواب می‌دهد… و پاسخ زنده روی گوشی مشتری می‌نشیند.»
+**11 · Live Demo (40 seconds, play the video)** — "Right now on two phones: customer on the right, seller on the left. Chat, list, map, inquiry… the seller's phone rings… the seller answers… and the response lands live on the customer's phone."
 
-**۱۲ · جیمبو و استقرار (۱۵ ثانیه)** — «فروشگاه آزمایشی جیمبو با ۱۷ کالای واقعی به اپ فروشنده وصل است. وب‌اپ و API دو اپلیکیشن مستقل روی لیارا هستند.»
+**12 · Jimbo & Deployment (15 seconds)** — "The Jimbo test store with 17 real items is connected to the seller app. The web app and API are two independent apps on Liara."
 
-— بخش ۲: طراحی سیستم —
+— Part 2: System Design —
 
-**۱۳ · معماری (۲۵ ثانیه)** — «وب‌اپ به FastAPI می‌رسد؛ کاتالوگ در DuckDB و دفتر شواهد در SQLite است. هر پاسخ فروشنده یک رویداد شاهد است که اعتماد فروشگاه و احتمال موجودی را به‌روز می‌کند.»
+**13 · Architecture (25 seconds)** — "The web app reaches FastAPI; the catalog is in DuckDB and the evidence ledger is in SQLite. Every seller response is an evidence event that updates store trust and stock probability."
 
-**۱۴ · الگوریتم موجودی (۲۵ ثانیه)** — «موجود بودن بله/خیر نیست؛ احتمالی است که با زمان می‌ریزد: S برابر exp منفی لامبدا ضرب‌در تعداد و زمان. با یک عدد زودتر می‌ریزد تا با بیش از پنج عدد. اگر فروشنده ناموجود بگوید صفر می‌شود.»
+**14 · Inventory Algorithm (25 seconds)** — "Being in stock isn't yes/no; it's a probability that decays over time: S equals exp of negative lambda times quantity and time. With a quantity of one it decays faster than with more than five. If the seller says out of stock it becomes zero."
 
-**۱۵ · روش استعلام (۲۵ ثانیه)** — «فروشنده را فقط وقتی اذیت می‌کنیم که ارزش داشته باشد: ساعت سکوت، سقف روزانه، دورهٔ خنک‌سازی، و فرمول ارزش اطلاعات. پاسخ‌ها idempotent‌اند و صفر همان صفر می‌ماند.»
+**15 · Inquiry Method (25 seconds)** — "We only bother the seller when it's worth it: quiet hours, daily cap, cooldown period, and the value-of-information formula. Responses are idempotent and zero stays zero."
 
-**۱۶ · قیمت و اعتماد (۲۰ ثانیه)** — «قیمت‌های پوچ حذف می‌شود، با میانهٔ همتایان مقایسه می‌کنیم، و اعتماد فروشگاه چندبعدی و بیزی است، پس مغازهٔ تازه به ناحق جریمه نمی‌شود.»
+**16 · Pricing & Trust (20 seconds)** — "Absurd prices are filtered out, we compare against the peer median, and store trust is multidimensional and Bayesian, so a new shop isn't unfairly penalized."
 
-**۱۷ · جمع‌بندی (۲۰ ثانیه)** — «۲۲۵ هزار محصول، ۳۳۱ هزار آفر، ۶٫۵ هزار فروشگاه و ۱۵۷ آزمون. صادق با داده، سخاوتمند با کاربر. ممنون.»
+**17 · Summary (20 seconds)** — "225 thousand products, 331 thousand offers, 6.5 thousand stores, and 157 tests. Honest with data, generous with the user. Thanks."

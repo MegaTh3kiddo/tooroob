@@ -1,38 +1,47 @@
-# ارائهٔ ترب مپ (هکاتون)
+# TorobMap Presentation (Hackathon)
 
-یک ارائهٔ تک‌صفحه‌ای HTML، بدون نیاز به نصب و بدون اینترنت (فونت و ویدئو داخل پوشه‌اند).
+A single-page HTML presentation with no installation required and no internet access needed (fonts and video are inside the folder).
 
-## اجرا
-فایل `index.html` را در Chrome/Edge باز کنید (دوبار کلیک کافی است).
+## Running It
 
-| کلید | کار |
-|---|---|
-| `←` / فاصله / Enter | اسلاید بعد |
-| `→` / Backspace | اسلاید قبل |
-| `F` | تمام‌صفحه |
-| `Home` / `End` | اول / آخر |
-| لمس / کلیک روی دو نیمهٔ صفحه | بعد / قبل |
+Open `index.html` in Chrome/Edge (double-clicking is enough).
 
-صفحه روی هر اندازهٔ نمایشگری خودکار مقیاس می‌گیرد (۱۹۲۰×۱۰۸۰). برای ویدئوی دمو، مرورگر را تمام‌صفحه کنید و صفحه را ضبط کنید.
+| Key                                         | Action          |
+| ------------------------------------------- | --------------- |
+| `←` / Space / Enter                         | Next slide      |
+| `→` / Backspace                             | Previous slide  |
+| `F`                                         | Fullscreen      |
+| `Home` / `End`                              | First / Last    |
+| Tap / Click on the two halves of the screen | Next / Previous |
 
-## ساختار (۱۷ اسلاید)
-**بخش ۱ · آنچه ساختیم (۱۲ اسلاید، مهم‌تر):** عنوان ← مسئله ← چهار گام چالش ← تربچت ← فهرست و مقایسه ← نقشه ← شفافیت اطلاعات ← سیستم استعلام (نمودار) ← «یک استعلام، دو گوشی» ← اپ فروشنده (گوشی زنگ می‌خورد) ← **نمایش زنده روی دو گوشی** ← جیمبو و استقرار.
-**بخش ۲ · طراحی سیستم (۵ اسلاید، خلاصه):** معماری ← الگوریتم موجودی ← روش استعلام ← قیمت و اعتماد ← جمع‌بندی.
+The page automatically scales to any screen size (1920×1080). For the demo video, put the browser in fullscreen and record the screen.
 
-متن گفتار برای ضبط ویدئو: [`SCRIPT.md`](SCRIPT.md)
+## Structure (17 Slides)
 
-## نمایش زنده (اسلاید ۱۱)
-ویدئوی گوشی مشتری (`assets/mobile/app-demo.mp4`) و گوشی فروشنده هم‌زمان‌اند: مارک‌های زمانی در `assets/mobile/timeline.json` است و گوشی فروشنده در لحظهٔ استعلام زنگ می‌خورد، سپس فرم پاسخ و در پایان «پاسخ ارسال شد» را نشان می‌دهد. ویدئو با سرور واقعی ضبط شده؛ پاسخ فروشنده با همان API اپ اندروید ثبت شده است (تصویر گوشی فروشنده، عکس واقعی اپ است).
+**Part 1 · What We Built (12 slides, more important):** Title ← Problem ← Four Challenge Steps ← TorobChat ← List & Comparison ← Map ← Information Transparency ← Inquiry System (Diagram) ← "One Inquiry, Two Phones" ← Seller App (Phone Rings) ← **Live Demo on Two Phones** ← Jimbo & Deployment.
+**Part 2 · System Design (5 slides, summary):** Architecture ← Inventory Algorithm ← Inquiry Method ← Pricing & Trust ← Summary.
 
-## ساخت دوبارهٔ فیلم و تصاویر (اختیاری)
-با اجرای بک‌اند (پورت ۸۰۸۰) و وب‌اپ (پورت ۳۰۰۰):
+Narration script for video recording: [`SCRIPT.md`](SCRIPT.md)
+
+## Live Demo (Slide 11)
+
+The customer's phone video (`assets/mobile/app-demo.mp4`) and the seller's phone are synchronized: timestamps are in `assets/mobile/timeline.json`, and the seller's phone rings at the moment of the inquiry, then shows the response form and at the end displays "Response Sent". The video was recorded with a real server; the seller's response was submitted using the same Android app API (the seller's phone image is a real photo of the app).
+
+## Rebuilding Video and Images (Optional)
+
+With the backend (port 8080) and web app (port 3000) running:
+
 ```bash
 cd tools && npm install
-node record-mobile.js ../assets/mobile    # ضبط جریان موبایل + اسکرین‌شات‌ها + timeline.json
-node deckshots.js                         # عکس همهٔ اسلایدها در assets/deck
-```
-ویدئو را سپس برش و به MP4 تبدیل کنید (دستور در تاریخچهٔ کار: `crop=390:844:0:0,scale=780:1688`).
+node record-mobile.js ../assets/mobile    # record mobile flow + screenshots + timeline.json
+node deckshots.js                         # capture all slides in assets/deck
 
-## تصاویر اپ فروشنده
-از `../merchentappimages/NOTES.md` — مهم‌ترین‌ها: صفحهٔ «گوشی زنگ می‌خورد» (`12-URGENT-CALL-incoming`)، دلیل رد، فرم پاسخ.
-> قبل از ارائه: عکس‌های `05/07/08` نام و شمارهٔ واقعی دارند و در اسلایدها **استفاده نشده‌اند**.
+```
+
+Then crop the video and convert it to MP4 (command from work history: `crop=390:844:0:0,scale=780:1688`).
+
+## Seller App Images
+
+From `../merchentappimages/NOTES.md` — most important ones: the "Phone Rings" screen (`12-URGENT-CALL-incoming`), rejection reason, response form.
+
+> Before presenting: images `05/07/08` have real names and numbers and are **not used** in the slides.
